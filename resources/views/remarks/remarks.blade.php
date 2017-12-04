@@ -6,11 +6,16 @@
             Remarques
         </div>
         @foreach($remarks as $remark)
-            <p>{{ $remark->getTimestamp() }} {{ $remark->getPerson() }} {{ $remark->getText() }}</p>
+            <p>{{ $remark->remarkDate }} {{ $remark->author }} {{ $remark->remarkText }}</p>
         @endforeach
         <div class="text-center links">
             <a href="/">Home</a>
         </div>
+        <form method="post" action="/remarks/filter">
+            {{ csrf_field() }}
+            <input type="text" name="needle" />
+            <input type="submit" value="Ok" />
+        </form>
     </div>
 @stop
 

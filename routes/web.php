@@ -18,3 +18,4 @@ Route::get('/', function () {
 
 Route::get('/remarks', 'RemarksController@index');
 
+Route::post('/remarks/filter','RemarksController@filter');
