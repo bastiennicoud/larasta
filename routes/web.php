@@ -19,3 +19,11 @@ Route::get('/', function () {
 Route::get('/remarks', 'RemarksController@index');
 
 Route::post('/remarks/filter','RemarksController@filter');
+
+Route::post('/remarks/add','RemarksController@create');
+
+Route::get('/remarks/{rid}/edit','RemarksController@edit');
+
+Route::post('/remarks/delete','RemarksController@delete');
+
+Route::post('/remarks/update','RemarksController@update');
