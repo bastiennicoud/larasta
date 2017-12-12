@@ -28,4 +28,8 @@ Route::post('/remarks/delete','RemarksController@delete');
 
 Route::post('/remarks/update','RemarksController@update');
 
+// Kevin
 Route::get('/traveltime', 'TravelTimeController@index');
+
+// Bastien - Grille d'évaluation
+Route::get('/evalgrid', 'EvalController@index');
