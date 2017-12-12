@@ -28,6 +28,9 @@ Route::post('/remarks/delete','RemarksController@delete');
 
 Route::post('/remarks/update','RemarksController@update');
 
+// Add by Benjamin Delacombaz 12.12.2017 10:40
+Route::get('/wishesMatrix', 'WishesMatrixController@index');
+
 // Kevin
 Route::get('/traveltime', 'TravelTimeController@index');
 
