@@ -8,5 +8,8 @@
         <div>
             <a href="/remarks">Remarques</a>
         </div>
+        <div>
+            <a href="/synchro">Synchro</a>
+        </div>
     </div>
 @stop
