@@ -164,10 +164,6 @@ Reproduire (et améliorer) l'existant. Les points importants sont:
   - Bleu -> postulation effectuée. Le MC a reçu copie de la postulation
 - Amélioration souhaitée: regroupement des stages similaires (HEIG-VD, IMD, KSA, ...)
 
-## 11. Matrice des distances/temps de déplacement
-
-Sur la base de présentation de la matrice des souhaits, afficher au choix soit la distance en km, soit le temps en transports publics
-
 ## 12. Génération du contrat
 
 Reproduire le mécanisme existant de génération de contrat:
@@ -176,3 +172,8 @@ Reproduire le mécanisme existant de génération de contrat:
 - Sélection de termes masculins ou féminins selon le choix de genre fait. Les sélections sont signalées par  {{ }} , séparés par un | . Par exemple « l’entreprise versera {{ au | à la }} stagiaire »
 - Insertion de données provenant de la db. Les champs d’insertion sont signalés entre {}, par exemple « Sainte-Croix, le {date} », ou «  Nom de l’{{ apprenti | apprentie }} : {PrenomPersonne} {NomPersonne} »
 - Possibilité de marquer le contrat comme généré (commentaire automatique)
+
+## 11. Matrice des distances/temps de déplacement
+
+Sur la base de présentation de la matrice des souhaits, afficher au choix soit la distance en km, soit le temps en transports publics
+
