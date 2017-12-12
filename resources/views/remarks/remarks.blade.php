@@ -40,6 +40,3 @@
     </div>
 @stop
 
-@section ('about')
-    <p>Me</p>
-@stop
