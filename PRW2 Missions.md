@@ -2,7 +2,7 @@
 
  Liste de stages (Home)
 
-## 1. Listes de personnes
+## 1. Listes de personnes (Davide)
 
 Gérer la liste de personnes impliquées.
 Possibilité de filtrer par role:
@@ -20,7 +20,7 @@ Une personne peut être 'désactivée': elle reste dans la db mais elle dispara�
 
 Dans les détails d'une personne, on trouve la liste des stages auxquels elle est liée.
 
-## 2. Liste d'entreprises
+## 2. Liste d'entreprises (Antonio)
 
 Gérer la liste de entreprises et établissements partenaires.
 Possibilité de filtrer par type.
@@ -35,7 +35,7 @@ Une entreprise peut être 'désactivée': elle reste dans la db mais elle dispar
 
 Dans les détails d'une entreprise, on trouve la liste des stages passés et à venir.
 
-### 3a. Reconduction des stages en cours
+### 3a. Reconduction des stages en cours (Nicolas)
 
 La page permet de voir les stages qui sont en cours. L'utilisateur peut cocher/décocher les stages individuellement ou tous d'un coup.
 
@@ -45,11 +45,11 @@ Il clique ensuite sur 'Reconduire', l'application:
 2. Attribue des dates cohérentes (à la suite du stage actuel)
 3. Détermine le salaire
 
-### 3b. Gestion documentaire
+### 3b. Gestion documentaire (Nicolas)
 
 Reconstruire la page 'Documents' de l'application
 
-## 4. Planification des visites
+## 4. Planification des visites (Quentin R)
 
 Cette page n'est accessible que pour un prof ayant des élèves en stage, ou un superuser.
 
@@ -60,7 +60,7 @@ L'utilisateur introduit des plages horaires de disponibilité. L'application cal
 ### Ajustement
 Une page permet de déplacer une visite. Tout déplacement réinitialise ses paramètres de suivi (confirmations, email)
 
-## 5. Organisation des visites
+## 5. Organisation des visites (Jean-Yves)
 
 Cette page aide à finaliser la confirmation des dates/heures de visite
 Elle n'est accessible que pour un prof ayant des élèves en stage, ou un superuser.
@@ -103,7 +103,7 @@ Si mode édition: Bouton 'Evaluer'
 
 Si mode édition: Bouton Suppression
 
-## 6. Grille d'évaluation - Remplissage
+## 6. Grille d'évaluation - Remplissage (Bastien)
 
 Lors de visites, le travail de l'élève est évalué au moyen d'une grille (actuellement une feuille Excel).
 
@@ -113,11 +113,11 @@ Il doit être possible de faire remplir la grille en mode déconnecté (exportat
 
 Durant la visite, on valide les entrées point par point. La note est calculée, un pdf généré et envoyé à l'élève et au responsable de stage.
 
-## 7. Grille d'évaluation - Modélisation
+## 7. Grille d'évaluation - Modélisation (Julien)
 
 Il s'agit ici de permettre à un superuser de modifier la structure de la grille d'évaluation.
 
-## 8. Système de news
+## 8. Système de news (Xavier)
 
 Une page permet à chaque utilisateur de consulter les commentaires enregistrés dans le système.
 
@@ -134,7 +134,7 @@ Possibilités de filtrage:
 
 Un bouton permet de mettre dmaj à maintenant
 
-## 9. Administration - Synchro intranet
+## 9. Administration - Synchro intranet (Steven)
 
 Accessible uniquement à un superuser, cette page permet de synchroniser les informations de personnes du CPNV entre l'intranet et la Db de l'application.
 
@@ -151,7 +151,7 @@ La synchronisation se fait en 3 phases:
 3. Exécution. Un commentaire automatique est généré
 
 
-## 10. Matrice de souhaits
+## 10. Matrice de souhaits (Benjamin)
 
 Reproduire (et améliorer) l'existant. Les points importants sont:
 
@@ -164,8 +164,7 @@ Reproduire (et améliorer) l'existant. Les points importants sont:
   - Bleu -> postulation effectuée. Le MC a reçu copie de la postulation
 - Amélioration souhaitée: regroupement des stages similaires (HEIG-VD, IMD, KSA, ...)
 
-
-## 11. Génération du contrat
+## 11. Génération du contrat (Quentin N)
 
 Reproduire le mécanisme existant de génération de contrat:
 
@@ -173,3 +172,8 @@ Reproduire le mécanisme existant de génération de contrat:
 - Sélection de termes masculins ou féminins selon le choix de genre fait. Les sélections sont signalées par  {{ }} , séparés par un | . Par exemple « l’entreprise versera {{ au | à la }} stagiaire »
 - Insertion de données provenant de la db. Les champs d’insertion sont signalés entre {}, par exemple « Sainte-Croix, le {date} », ou «  Nom de l’{{ apprenti | apprentie }} : {PrenomPersonne} {NomPersonne} »
 - Possibilité de marquer le contrat comme généré (commentaire automatique)
+
+## 12. Matrice des distances/temps de déplacement (Kevin)
+
+Sur la base de présentation de la matrice des souhaits, afficher au choix soit la distance en km, soit le temps en transports publics
+
