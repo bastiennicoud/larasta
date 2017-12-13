@@ -28,6 +28,4 @@ Route::post('/remarks/delete','RemarksController@delete');
 
 Route::post('/remarks/update','RemarksController@update');
 
-Route::get('/contratGen', function (){
-    return view('/contratGen/contratGen');
-});
+Route::get('/contratGen', 'ContratGenController@index');
