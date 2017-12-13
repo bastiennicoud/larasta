@@ -9,6 +9,7 @@
             <a href="/visits">Visits (management)</a>
             <br>
             <a href="/remarks">Remarques</a>
+            <a href="/evalgrid">Grille d'évaluation</a>
         </div>
     </div>
 @stop
