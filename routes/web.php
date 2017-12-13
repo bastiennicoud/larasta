@@ -28,6 +28,10 @@ Route::post('/remarks/delete','RemarksController@delete');
 
 Route::post('/remarks/update','RemarksController@update');
 
+// Steven
+
+Route::get('/synchro', 'SynchroController@index');
+
 // Jean-Yves
 Route::get('/visits','VisitsController@index');
 
@@ -41,3 +45,4 @@ Route::get('/traveltime', 'TravelTimeController@index');
 
 // Bastien - Grille d'évaluation
 Route::get('/evalgrid', 'EvalController@index');
+
