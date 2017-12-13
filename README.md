@@ -8,7 +8,7 @@
 Fork on your github account the original repo from XCarrel/larasta.
 
 ### 2. Clone it
-Clone your fork of larasta on our local machine.
+Clone your fork of larasta on your local machine.
 
 ```bash
 git clone https://github.com/USERNAME/larasta.git FLODER
@@ -17,7 +17,7 @@ git clone https://github.com/USERNAME/larasta.git FLODER
 ### 3. Set up homestead
 Follow the installation steps for homestead [here](https://laravel.com/docs/5.5/homestead).
 
-Once homestead are installed, you must add to our homestead configuration the path to our fresh clone of larasta.
+Once homestead are installed, you must add to your homestead configuration the path to your fresh clone of larasta.
 
 Homestead.yaml :
 ```yaml
@@ -33,7 +33,7 @@ sites:
 ```
 
 ### 4. Install dependencies
-Go to our project folder and run the installation of laravel dependencies.
+Go to your project folder and run the installation of laravel dependencies.
 
 ```bash
 cd /path/to/your/local/clone/of/larasta
@@ -59,7 +59,7 @@ php artisan key:generate
 ```
 
 ### Ready for development
-Now, your fork of larasta is working on our machine, you can acces it by the domain name you specified in the Homestead configuration (Don't forget to add it on our host file).
+Now, your fork of larasta is working on your machine, you can acces it by the domain name you specified in the Homestead configuration (Don't forget to add it on your host file).
 
 If your have problems, you can check the laravel documentation :  
 [Installation](https://laravel.com/docs/5.5/installation)  
