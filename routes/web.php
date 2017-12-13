@@ -28,6 +28,15 @@ Route::post('/remarks/delete','RemarksController@delete');
 
 Route::post('/remarks/update','RemarksController@update');
 
+// Steven
+
+Route::get('/synchro', 'SynchroController@index');
+
+// Jean-Yves
+Route::get('/visits','VisitsController@index');
+
+Route::get('/visits/manage','VisitsController@manage');
+
 // Add by Benjamin Delacombaz 12.12.2017 10:40
 Route::get('/wishesMatrix', 'WishesMatrixController@index');
 
@@ -36,3 +45,4 @@ Route::get('/traveltime', 'TravelTimeController@index');
 
 // Bastien - Grille d'évaluation
 Route::get('/evalgrid', 'EvalController@index');
+
