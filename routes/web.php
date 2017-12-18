@@ -28,6 +28,9 @@ Route::post('/remarks/delete','RemarksController@delete');
 
 Route::post('/remarks/update','RemarksController@update');
 
+// Quentin N
+Route::get('/contratGen', 'ContratGenController@index');
+
 // Steven
 
 Route::get('/synchro', 'SynchroController@index');
