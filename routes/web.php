@@ -49,3 +49,6 @@ Route::get('/traveltime', 'TravelTimeController@index');
 // Bastien - Grille d'évaluation
 Route::get('/evalgrid', 'EvalController@index');
 
+// Nicolas - Stages
+Route::get('/reconstages', 'ReconStagesController@index');
+
