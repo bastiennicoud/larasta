@@ -8,6 +8,8 @@ return [
     |--------------------------------------------------------------------------
     */
 
+
+
     'version' => "0.0+",
 
     /*
@@ -33,6 +35,8 @@ return [
     | services your application utilizes. Set this in your ".env" file.
     |
     */
+
+    'API_GOOGLE_MAP' => env( 'API_GOOGLE_MAP'),
 
     'env' => env('APP_ENV', 'production'),
 
