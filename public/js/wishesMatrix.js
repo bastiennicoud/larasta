@@ -1,5 +1,5 @@
 $(document).ready(function(){
     $('.clickableCase').click(function(){
-        $(this).append("1");
+         $(this).append(1);
     });
  });
