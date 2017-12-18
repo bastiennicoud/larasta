@@ -27,3 +27,7 @@ Route::get('/remarks/{rid}/edit','RemarksController@edit');
 Route::post('/remarks/delete','RemarksController@delete');
 
 Route::post('/remarks/update','RemarksController@update');
+
+
+// Antonio - Entreprises list
+Route::get('/entreprises', 'EntreprisesController@index');
