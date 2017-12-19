@@ -1,36 +1,54 @@
 <?php
 
+/*
+ * I was initially gonna use a package called nimbly, but after some testing, it seemed like it wasn't working or I didn't understabd the intranet API enough
+ * So I just decided to take the JSON file directly from the intranet with a cURL function and a simple json_decode() which seems to work pretty well
+ * Issue is that we have to put credentials or it won't work, which could be an issue depending on what we can do or not
+ * 
+*/
+
 namespace App;
 
-use ActiveResourceBase;
-use CurlTransporter;
-use JsonSerializer;
-use TypeMarshaller;
+//use ActiveResource\Model;
 
 
-class Synchro extends ActiveResourceBase
+class Synchro
 {
-    public $site = 'http://intranet.cpnv.ch/';
-    protected $app_key = "demo";
-    protected $app_secret = "secret";
+    /*protected function parseFind($payload)
+    {
+        return $payload->corporate_email;
+    }
 
-    static $marshaller;
+    protected function parseAll($payload){
+        return $payload;
+    }*/
+    private $jsonResponse;
 
-    function __construct($data = []) {
-        if (!$this->transporter) $this->transporter = new CurlTransporter();
-        if (!$this->serializer) $this->serializer = new JsonSerializer(self::$marshaller);
+    public function __construct()
+    {
+        $curl = curl_init();
 
-        parent::__construct($data);
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "http://intranet.cpnv.ch/info/etudiants.json?alter%5Bextra%5D=current_class",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_USERPWD => env('API_USERPWD', false),
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_HTTPHEADER => array(
+            "cache-control: no-cache"
+        ),
+        ));
+
+        $response = curl_exec($curl);
+        $this->jsonResponse = json_decode($response, true);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+    }
+
+    public function getJsonResponse()
+    {
+        return $this->jsonResponse;
     }
 }
-
-Synchro::$marshaller = new TypeMarshaller([
-    'Cpnv::Student' => 'User',
-    'Cpnv::FormerStudent' => 'User',
-    'Cpnv::CurrentStudent' => 'User',
-    'Cpnv::Collaborator' => 'User',
-    'Cpnv::Teacher' => 'User',
-    'Cpnv::HeadTeacher' => 'User',
-    'Cpnv::Dean' => 'User',
-    'Class' => 'Qlass'
-]);
