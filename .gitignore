@@ -12,3 +12,4 @@ yarn-error.log
 .env
 /public/node_modules
 composer\.lock
+*.bak
