@@ -28,6 +28,12 @@ Route::post('/remarks/delete','RemarksController@delete');
 
 Route::post('/remarks/update','RemarksController@update');
 
+// Antonio - Entreprises list
+Route::get('/entreprises', 'EntreprisesController@index');
+
+// Quentin N
+Route::get('/contratGen', 'ContratGenController@index');
+
 // Steven
 
 Route::get('/synchro', 'SynchroController@index');
@@ -42,7 +48,11 @@ Route::get('/wishesMatrix', 'WishesMatrixController@index');
 
 // Kevin
 Route::get('/traveltime', 'TravelTimeController@index');
+Route::post('/traveltime/calculate', 'TravelTimeController@calculate');
 
 // Bastien - Grille d'évaluation
 Route::get('/evalgrid', 'EvalController@index');
+
+// Nicolas - Stages
+Route::get('/reconstages', 'ReconStagesController@index');
 
