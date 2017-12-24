@@ -233,3 +233,30 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2017-12-23 23:27:38
+
+-- Evaluation grid data
+INSERT INTO `app_internships`.`evaluationSections` (`hasGrade`, `sectionName`, `sectionType`) VALUES ('0', 'Travaux effectués', '2');
+INSERT INTO `app_internships`.`evaluationSections` (`hasGrade`, `sectionName`, `sectionType`) VALUES ('1', 'Compétences professionnelles', '1');
+INSERT INTO `app_internships`.`evaluationSections` (`hasGrade`, `sectionName`, `sectionType`) VALUES ('1', 'Compétences globales', '1');
+INSERT INTO `app_internships`.`evaluationSections` (`hasGrade`, `sectionName`, `sectionType`) VALUES ('1', 'Compétences sociales', '1');
+INSERT INTO `app_internships`.`evaluationSections` (`hasGrade`, `sectionName`, `sectionType`) VALUES ('0', 'Retour sur le plan de formation', '3');
+
+INSERT INTO `app_internships`.`criterias` (`criteriaName`, `evaluationSection_id`) VALUES ('effectués jusqu’à ce jour', '1');
+INSERT INTO `app_internships`.`criterias` (`criteriaName`, `evaluationSection_id`) VALUES ('à effectuer durant la suite du stage', '1');
+INSERT INTO `app_internships`.`criterias` (`criteriaName`, `criteriaDetails`, `maxPoints`, `evaluationSection_id`) VALUES ('qualitatif', '• irréprochables\r• soignés\r• de factures professionnelles', '3', '2');
+INSERT INTO `app_internships`.`criterias` (`criteriaName`, `criteriaDetails`, `maxPoints`, `evaluationSection_id`) VALUES ('quantitatif', '• rapides\r• performants\r• efficaces\r• habiles', '3', '2');
+INSERT INTO `app_internships`.`criterias` (`criteriaName`, `criteriaDetails`, `maxPoints`, `evaluationSection_id`) VALUES ('l\'autonomie et l\'organisation personnelle ', '• indépendant\r• planifie ses tâches\r• prend des notes\r• reformule et valide sa \r  compréhension des directives', '3', '3');
+INSERT INTO `app_internships`.`criterias` (`criteriaName`, `criteriaDetails`, `maxPoints`, `evaluationSection_id`) VALUES ('l\'intérêt et la motivation  ', '• engagé\r• enthousiaste', '3', '3');
+INSERT INTO `app_internships`.`criterias` (`criteriaName`, `criteriaDetails`, `maxPoints`, `evaluationSection_id`) VALUES ('la faculté d\'apprendre', '• consulte ses cours, des littératures \r  et articles', '3', '3');
+INSERT INTO `app_internships`.`criterias` (`criteriaName`, `criteriaDetails`, `maxPoints`, `evaluationSection_id`) VALUES ('la créativité', '• imagine des solutions', '3', '3');
+INSERT INTO `app_internships`.`criterias` (`criteriaName`, `criteriaDetails`, `maxPoints`, `evaluationSection_id`) VALUES ('l\'ordre et la propreté  ', '• range ses affaires et sa place de \r  travail\r• soigne sa personne et son \r  habillement', '3', '3');
+INSERT INTO `app_internships`.`criterias` (`criteriaName`, `criteriaDetails`, `maxPoints`, `evaluationSection_id`) VALUES ('le soin d\'utilisation des équipements ', '• respecte le matériel et les \r  infrastructures comme il se doit', '3', '3');
+INSERT INTO `app_internships`.`criterias` (`criteriaName`, `criteriaDetails`, `maxPoints`, `evaluationSection_id`) VALUES ('l\'esprit de collaboration ', '• partage ses informations\r• écoute de manière concentrée\r• respecte ce qui a été convenu', '3', '4');
+INSERT INTO `app_internships`.`criterias` (`criteriaName`, `criteriaDetails`, `maxPoints`, `evaluationSection_id`) VALUES ('la sociabilité  ', '• aimable, prévenant\r• respectueux, agréable\r• charismatique ', '3', '4');
+INSERT INTO `app_internships`.`criterias` (`criteriaName`, `criteriaDetails`, `maxPoints`, `evaluationSection_id`) VALUES ('la tenue du journal de travail  ', '• remis régulièrement selon \r  prescription\r• chemin reproductible\r• références mentionnées\r• états des tâches mentionnés', '3', '4');
+INSERT INTO `app_internships`.`criterias` (`criteriaName`, `criteriaDetails`, `maxPoints`, `evaluationSection_id`) VALUES ('l\'absentéisme et la ponctualité ', '• annonce les imprévus\r• raisons évoquées  dignes de \r  confiance', '3', '4');
+INSERT INTO `app_internships`.`criterias` (`criteriaName`, `evaluationSection_id`) VALUES ('des connaissances théoriques', '5');
+INSERT INTO `app_internships`.`criterias` (`criteriaName`, `evaluationSection_id`) VALUES ('des compétences pratiques', '5');
+INSERT INTO `app_internships`.`criterias` (`criteriaName`, `evaluationSection_id`) VALUES ('de l’attitude professionnelle', '5');
+INSERT INTO `app_internships`.`criterias` (`criteriaName`, `evaluationSection_id`) VALUES ('de l’encadrement', '5');
+
