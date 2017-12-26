@@ -28,6 +28,9 @@ Route::post('/remarks/delete','RemarksController@delete');
 
 Route::post('/remarks/update','RemarksController@update');
 
+// Antonio - Entreprises list
+Route::get('/entreprises', 'EntreprisesController@index');
+
 // Quentin N
 Route::get('/contratGen', 'ContratGenController@index');
 
@@ -49,4 +52,7 @@ Route::post('/traveltime/calculate', 'TravelTimeController@calculate');
 
 // Bastien - Grille d'évaluation
 Route::get('/evalgrid', 'EvalController@index');
+
+// Nicolas - Stages
+Route::get('/reconstages', 'ReconStagesController@index');
 
