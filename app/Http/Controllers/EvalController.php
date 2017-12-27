@@ -11,6 +11,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Criteria;
+use App\CriteriaValue;
+use App\Evaluation;
+use App\EvaluationSection;
+
 
 /**
  * EvalController
@@ -29,5 +34,15 @@ class EvalController extends Controller
     public function index()
     {
         return view('evalGrid/grid');
+    }
+
+    /**
+     * getEval
+     *
+     * @return view evalGrid/grid
+     */
+    public function getEval()
+    {
+        // Here we get all the evaluation form -> after we process it
     }
 }
