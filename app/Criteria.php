@@ -13,7 +13,7 @@ class Criteria extends Model
      */
     public function evaluationSection()
     {
-        return $this->hasOne('App\EvaluationSection');
+        return $this->belongsTo('App\EvaluationSection');
     }
 
     /**

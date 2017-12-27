@@ -13,7 +13,7 @@ class CriteriaValue extends Model
      */
     public function criteria()
     {
-        return $this->hasOne('App\Criteria');
+        return $this->belongsTo('App\Criteria');
     }
 
     /**
@@ -21,6 +21,6 @@ class CriteriaValue extends Model
      */
     public function evaluation()
     {
-        return $this->hasOne('App\Evaluation');
+        return $this->belongsTo('App\Evaluation');
     }
 }

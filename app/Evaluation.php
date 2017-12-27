@@ -21,6 +21,6 @@ class Evaluation extends Model
      */
     public function visit()
     {
-        return $this->hasOne('App\Visit');
+        return $this->belongsTo('App\Visit');
     }
 }
