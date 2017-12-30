@@ -36,8 +36,19 @@
 @if (!empty($message))
     <div class="alert-info willvanish">{{ $message }}</div>
 @endif
-
-<div class="container-fluid text-center">
+<div class="container-fluid col-md-2">
+    <table class="table table-striped">
+        <tr><td><a href="/about"><img alt="Personnes" src="/images/contact.png">Personnes</a></td></tr>
+        <tr><td><a href="/about"><img alt="Entreprises" src="/images/company.png">Entreprises</a></td></tr>
+        <tr><td><a href="/about"><img alt="Elèves" src="/images/student.png">Elèves</a></td></tr>
+        <tr><td><a href="/"><img alt="Places" src="/images/internships.png">Stages</a></td></tr>
+        <tr><td><a href="/about"><img alt="News" src="/images/news.png">News</a></td></tr>
+        <tr><td><a href="/about"><img alt="mp" src="/images/MP.png">Admin</a></td></tr>
+        <tr><td><a href="/about"><img alt="Places" src="/images/wishes.png">Souhaits</a></td></tr>
+        <tr><td><a href="/about"><img alt="Documents" src="/images/documents.png">Documents</a></td></tr>
+    </table>
+</div>
+<div class="container-fluid text-center col-md-10">
     @yield ('content')
 </div>
 </body>
