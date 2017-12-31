@@ -1,16 +1,8 @@
 @extends ('layout')
 
 @section ('content')
-    <h1 class="text-left">Stage</h1>
+    <h2 class="text-left">Stage de {{ $iship->studentfirstname }} {{ $iship->studentlastname }} chez {{ $iship->companyName }}</h2>
     <table class="table text-left">
-        <tr>
-            <td class="col-md-2">De</td>
-            <td>{{ $iship->studentfirstname }} {{ $iship->studentlastname }}</td>
-        </tr>
-        <tr>
-            <td class="col-md-2">Chez</td>
-            <td>{{ $iship->companyName }}</td>
-        </tr>
         <tr>
             <td class="col-md-2">Du</td>
             <td>{{ strftime("%e %b %g", strtotime($iship->beginDate)) }}</td>
