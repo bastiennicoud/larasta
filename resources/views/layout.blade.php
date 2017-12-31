@@ -8,6 +8,7 @@
     <title>Larasta</title>
     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/minimal.css">
     @yield('page_specific_css')
 </head>
 <body>
@@ -36,17 +37,38 @@
 @if (!empty($message))
     <div class="alert-info willvanish">{{ $message }}</div>
 @endif
-<div class="container-fluid col-md-2">
-    <table class="table table-striped">
-        <tr><td><a href="/about"><img alt="Personnes" src="/images/contact.png">Personnes</a></td></tr>
-        <tr><td><a href="/about"><img alt="Entreprises" src="/images/company.png">Entreprises</a></td></tr>
-        <tr><td><a href="/about"><img alt="Elèves" src="/images/student.png">Elèves</a></td></tr>
-        <tr><td><a href="/"><img alt="Places" src="/images/internships.png">Stages</a></td></tr>
-        <tr><td><a href="/about"><img alt="News" src="/images/news.png">News</a></td></tr>
-        <tr><td><a href="/about"><img alt="mp" src="/images/MP.png">Admin</a></td></tr>
-        <tr><td><a href="/about"><img alt="Places" src="/images/wishes.png">Souhaits</a></td></tr>
-        <tr><td><a href="/about"><img alt="Documents" src="/images/documents.png">Documents</a></td></tr>
+<div class="simple-box container-fluid col-md-2 text-center">
+    <table class="table table-striped text-left">
+        <tr>
+            <td><a href="/about"><img alt="Personnes" src="/images/contact.png">Personnes</a></td>
+        </tr>
+        <tr>
+            <td><a href="/about"><img alt="Entreprises" src="/images/company.png">Entreprises</a></td>
+        </tr>
+        <tr>
+            <td><a href="/about"><img alt="Elèves" src="/images/student.png">Elèves</a></td>
+        </tr>
+        <tr>
+            <td><a href="/"><img alt="Places" src="/images/internships.png">Stages</a></td>
+        </tr>
+        <tr>
+            <td><a href="/about"><img alt="News" src="/images/news.png">News</a></td>
+        </tr>
+        <tr>
+            <td><a href="/about"><img alt="Places" src="/images/wishes.png">Souhaits</a></td>
+        </tr>
+        <tr>
+            <td><a href="/about"><img alt="Documents" src="/images/documents.png">Documents</a></td>
+        </tr>
+        @if (CPNVEnvironment\Environment::currentUser()->getLevel() > 1)
+            <tr>
+                <td><a href="/about"><img alt="mp" src="/images/MP.png">Admin</a></td>
+            </tr>
+        @endif
     </table>
+    @if (!CPNVEnvironment\Environment::isProd())
+        <img id="imgwip" src="/images/wip.png">
+    @endif
 </div>
 <div class="container-fluid text-center col-md-10">
     @yield ('content')

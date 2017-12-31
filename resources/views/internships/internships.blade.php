@@ -1,8 +1,7 @@
 @extends ('layout')
 
 @section ('content')
-    <h1 class="text-left">Stages</h1>
-    <div class="col-md-10 text-left">
+    <div class="simple-box col-md-10 text-left">
         <form name="filterInternships" method="post">
             {{ csrf_field() }}
             @foreach ($statefilter as $state)
@@ -13,6 +12,7 @@
             @endforeach
         </form>
     </div>
+    <div class="col-md-10">&nbsp;</div>
     <div class="col-md-10">
         @if (count($iships) > 0)
             <table class="table table-bordered text-left">
