@@ -1,3 +1,11 @@
+//------------------------------------------------------------
+// Benjamin Delacombaz
+// version 0.2
+// WishesMatrixController
+// Created 18.12.2017
+// Last edit 08.01.2017 by Benjamin Delacombaz
+//------------------------------------------------------------
+
 $(document).ready(function(){
     $('.clickableCase').click(function(){
         var items=[];
