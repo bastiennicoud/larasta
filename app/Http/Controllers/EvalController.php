@@ -33,6 +33,8 @@ class EvalController extends Controller
      */
     public function index()
     {
+        $this->getEval();
+
         return view('evalGrid/grid');
     }
 
@@ -44,5 +46,9 @@ class EvalController extends Controller
     public function getEval()
     {
         // Here we get all the evaluation form -> after we process it
+
+        $temp = EvaluationSection::find(1)->criterias();
+
+        dd($temp);
     }
 }

@@ -11,7 +11,7 @@ class Criteria extends Model
     /**
      * Relation with the EvaluationSection model
      */
-    public function evaluationSection()
+    public function evaluationSections()
     {
         return $this->belongsTo('App\EvaluationSection');
     }
@@ -19,7 +19,7 @@ class Criteria extends Model
     /**
      * Relation with the CriteriaValue model
      */
-    public function criteriaValue()
+    public function criteriaValues()
     {
         return $this->hasMany('App\CriteriaValue');
     }
