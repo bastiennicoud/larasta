@@ -18,7 +18,7 @@
             <a class="navbar-brand" href="/">Larasta</a>
         </div>
         <ul class="nav navbar-nav">
-            <li><a href="#">Antonio</a></li>
+            <li><a href="/entreprises">Antonio</a></li>
             <li><a href="/evalgrid">Bastien</a></li>
             <li><a href="/wishesMatrix">Benjamin</a></li>
             <li><a href="#">Davide</a></li>
