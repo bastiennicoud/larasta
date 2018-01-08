@@ -11,5 +11,7 @@ npm-debug.log
 yarn-error.log
 .env
 /public/node_modules
-composer\.lock
+\.DS_Store
+
+composer.lock
 *.bak
