@@ -11,10 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'InternshipsController@index');
 
+Route::post('/', 'InternshipsController@changeFilter');
+
+Route::get('/internships/{iid}/edit','InternshipsController@edit');
+
+Route::get('/about', function () {
+    return view('about');
+});
 
 Route::get('/remarks', 'RemarksController@index');
 
