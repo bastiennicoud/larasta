@@ -63,4 +63,5 @@ Route::get('/reconstages', 'ReconStagesController@index');
 
 // Davide
 Route::get('/listPeople', 'PeopleControlleur@index');
+//
 
