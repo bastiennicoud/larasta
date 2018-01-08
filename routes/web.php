@@ -61,7 +61,5 @@ Route::get('/evalgrid', 'EvalController@index');
 // Nicolas - Stages
 Route::get('/reconstages', 'ReconStagesController@index');
 
-// Davide
-Route::get('/listPeople', 'PeopleControlleur@index');
-//
+
 
