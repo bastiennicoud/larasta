@@ -58,6 +58,12 @@ cd /path/to/your/local/clone/of/larasta
 php artisan key:generate
 ```
 
+### 6. Add the Intranet API key
+To use the intranet API, we need the key and the secret.
+To add it, you need to add 2 environment variables in the ``.env`` file of the project.
+
+The name for the key variable is ``API_KEY`` and the name for the secret is ``API_SECRET``
+
 ### Ready for development
 Now, your fork of larasta is working on your machine, you can acces it by the domain name you specified in the Homestead configuration (Don't forget to add it on your host file).
 

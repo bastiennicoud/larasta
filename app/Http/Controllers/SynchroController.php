@@ -10,32 +10,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Synchro;
-/*use ActiveResource\Connection;
-use ActiveResource\ConnectionManager;
-use Illuminate\Http\Request;*/
+use App\IntranetConnection as Connection;
 
 class SynchroController extends Controller
 {
-    /*public function connectionAPI()
-    {
-        $options = [
-            Connection::OPTION_BASE_URI => 'http://intranet.cpnv.ch/info/etudiants.json?alter%5Bextra%5D=current_class',
-            Connection::OPTION_DEFAULT_HEADERS => [
-                'demo' => 'secret',
-            ]
-        ];
-        
-        $connection = new Connection($options);
-    
-        ConnectionManager::add('default', $connection);
-    }*/
-
     public function index()
     {
-        $synchroObject = new Synchro;
-        $jsonResponse = $synchroObject->getJsonResponse();
+        $students = new Connection();
 
-        return view('synchro/index')->with([ 'jsonResponse' => $jsonResponse ]);
+        $studentsList = $students->getStudents();
+
+        return view('synchro/index')->with([ 'students' => $studentsList]);
     }
 }
