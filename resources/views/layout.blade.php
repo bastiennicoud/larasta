@@ -23,7 +23,7 @@
             <li><a href="/wishesMatrix">Benjamin</a></li>
             <li><a href="#">Davide</a></li>
             <li><a href="/visits">Jean-Yves</a></li>
-            <li><a href="#">Julien</a></li>
+            <li><a href="/editGrid">Julien</a></li>
             <li><a href="/traveltime">Kevin</a></li>
             <li><a href="/reconstages">Nicolas</a></li>
             <li><a href="/contratGen">Quentin N</a></li>

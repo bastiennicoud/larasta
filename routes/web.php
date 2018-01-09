@@ -61,3 +61,6 @@ Route::get('/evalgrid', 'EvalController@index');
 // Nicolas - Stages
 Route::get('/reconstages', 'ReconStagesController@index');
 
+//Julien - Grille d'évaluation - Modélisation
+Route::get('/editGrid', 'EditGridController@index');
+
