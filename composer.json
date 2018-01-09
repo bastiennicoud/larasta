@@ -35,7 +35,8 @@
         "classmap": [
             "database/seeds",
             "database/factories",
-            "vendor/phurni/phpactiveresource"
+            "vendor/phurni/phpactiveresource",
+            "app/HelperClasses"
         ],
         "psr-4": {
             "App\\": "app/"
