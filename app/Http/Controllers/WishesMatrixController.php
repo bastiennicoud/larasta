@@ -19,23 +19,25 @@ class WishesMatrixController extends Controller
 {
     public function index()
     {
-        $companies = $this->getCompanies();
+        $companies = $this->getCompaniesWithInternships();
         $persons = $this->getPersons(12);
         $wishes = null;
         
         // Get all wishes per person
         foreach ($persons as $person)
         {
-            $wishes[$person->id] = $this->getWishesByPersons($person->id);
+            $wishes[$person->id] = $this->getWishesByPerson($person->id);
         }
         return view('wishesMatrix/wishesMatrix')->with(['companies' => $companies, 'persons' => $persons, 'wishes' => $wishes]);
     }
 
-    private function getCompanies()
+    private function getCompaniesWithInternships()
     {
         // Get all the companies where mptOk equals 1
         $companies = DB::table('companies')
+            ->join('internships', 'internships.companies_id', '=', 'companies.id')
             ->where('companies.mptOK', 1)
+            ->whereYear('internships.beginDate', '=', date('Y'))
             ->select('companies.id','companies.companyName')
             ->get();
         return $companies;
@@ -45,15 +47,13 @@ class WishesMatrixController extends Controller
     {
         $persons = DB::table('persons')
             ->where('persons.flock_id', $flock_id)
+            ->whereNotNull('persons.initials')
             ->select('persons.id','persons.initials')
             ->get();
         return $persons;
     }
 
-    //Tests
-
-    // in Progress
-    private function getWishesByPersons($idPerson)
+    private function getWishesByPerson($idPerson)
     {
         $wishes = DB::table('wishes')
             ->join('internships', 'wishes.internships_id', '=', 'internships.id')
@@ -63,18 +63,5 @@ class WishesMatrixController extends Controller
             ->select('wishes.rank', 'wishes.internships_id', 'companies.companyName', 'companies.id')
             ->get();
         return $wishes;
-    }
-
-    // Dead
-    private function getPersonsAndWhishes($flock_id)
-    {
-        $persons = DB::table('persons')
-            ->join('wishes', 'persons_id', '=', 'persons.id')
-            ->join('internships', 'internships_id', '=', 'internships.id')
-            ->where('persons.flock_id', $flock_id)
-            ->where('wishes.rank','>',1)
-            ->select('persons.id','persons.initials')
-            ->get();
-        return $persons;
     }
 }

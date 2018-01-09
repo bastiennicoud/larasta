@@ -10,9 +10,10 @@
 
 @section ('content')
     <h1>Matrice des souhaits</h1>
-    <table class="table-bordered">
+    <table id="WishesMatrixTable" class="table-bordered">
         <tr>
             <th></th>
+            <!-- Add each persons where initials is ok -->
             @foreach ($persons as $person)
                 @if ($person->initials!="")
                     <th value="{{ $person->id }}">{{ $person->initials }}</th>
@@ -23,9 +24,20 @@
             <tr>
                 <td value="{{ $companie->id }}">{{ $companie->companyName }}</td>
                 <!-- Create the clickable case for each person -->
-                @for ($count = 0; $count < count($persons); $count++)
-                    <td class="clickableCase"></td>
-                @endfor
+                @foreach ($persons as $person)
+                    @if ($person->initials!="")
+                    <!-- !!!!!!!!!!!!!!!!!!!!!!!!!PROBLEM BECAUSE NOT EMPTY BECAUSE LARAVEL ADD SYNTAX IN TD !!!!!!!!!!!!!!!!!!!!!! -->
+                        <td class="clickableCase">
+                            <!-- Add for each persons in the table her wish -->
+                            @foreach ($wishes[$person->id] as $wish)
+                                <!-- if wish company is equal to the current company display the rank -->
+                                @if($wish->id == $companie->id)
+                                    {{ $wish->rank }}
+                                @endif
+                            @endforeach
+                        </td>
+                    @endif
+                @endforeach
             </tr>
         @endforeach
     </table>

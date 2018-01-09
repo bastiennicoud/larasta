@@ -1,12 +1,17 @@
 //------------------------------------------------------------
 // Benjamin Delacombaz
-// version 0.2
+// version 0.3
 // WishesMatrixController
 // Created 18.12.2017
-// Last edit 08.01.2017 by Benjamin Delacombaz
+// Last edit 09.01.2017 by Benjamin Delacombaz
 //------------------------------------------------------------
 
 $(document).ready(function(){
+    // When the table is load add item already clicked in a array
+    /*$('#WishesMatrixTable').load(function(){
+        var items=[]
+    });*/
+
     $('.clickableCase').click(function(){
         var items=[];
         var col = $(this).parent().children().index($(this)) + 1;
@@ -17,10 +22,13 @@ $(document).ready(function(){
         
          if($(this).text() != "")
          {
+             console.log("Je ne suis pas vide")
+             console.log("+++" + $(this).text() + "+++");
             recalculateRank(col, $(this).text());
             $(this).text("");
          }else
          {
+             console.log("Je suis vide")
             // Else if for limit 3 choices
             if(jQuery.inArray("1",items) == -1)
             {
