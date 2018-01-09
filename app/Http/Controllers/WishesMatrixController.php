@@ -1,10 +1,10 @@
 <?php
 //------------------------------------------------------------
 // Benjamin Delacombaz
-// version 0.2
+// version 0.3
 // WishesMatrixController
 // Created 18.12.2017
-// Last edit 08.01.2017 by Benjamin Delacombaz
+// Last edit 09.01.2017 by Benjamin Delacombaz
 //------------------------------------------------------------
 
 namespace App\Http\Controllers;
@@ -12,6 +12,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Companies;
+use SebastianBergmann\Environment\Console;
+use function GuzzleHttp\json_encode;
 
 class WishesMatrixController extends Controller
 {
@@ -26,7 +28,6 @@ class WishesMatrixController extends Controller
         {
             $wishes[$person->id] = $this->getWishesByPersons($person->id);
         }
-
         return view('wishesMatrix/wishesMatrix')->with(['companies' => $companies, 'persons' => $persons, 'wishes' => $wishes]);
     }
 
@@ -35,7 +36,7 @@ class WishesMatrixController extends Controller
         // Get all the companies where mptOk equals 1
         $companies = DB::table('companies')
             ->where('companies.mptOK', 1)
-            ->select('companies.companyName')
+            ->select('companies.id','companies.companyName')
             ->get();
         return $companies;
     }
@@ -59,7 +60,7 @@ class WishesMatrixController extends Controller
             ->join('companies', 'internships.companies_id', '=', 'companies.id')
             ->where('wishes.persons_id', $idPerson)
             ->where('wishes.rank', '>', 0)
-            ->select('wishes.rank', 'wishes.internships_id', 'companies.companyName')
+            ->select('wishes.rank', 'wishes.internships_id', 'companies.companyName', 'companies.id')
             ->get();
         return $wishes;
     }

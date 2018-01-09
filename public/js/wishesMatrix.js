@@ -17,6 +17,7 @@ $(document).ready(function(){
         
          if($(this).text() != "")
          {
+            recalculateRank(col, $(this).text());
             $(this).text("");
          }else
          {
@@ -34,4 +35,39 @@ $(document).ready(function(){
          }
 
     });
+
+    // Recalculate rank
+    function recalculateRank(col, nbRemove)
+    {
+        // Do that for each row in col
+        $('tr td:nth-child(' + col + ')').each( function(){
+            //add item to array
+            if($(this).text() != "")
+            {
+                switch(nbRemove)
+                {
+                    case "1":
+                    // Change 2 to 1 and 3 to 2
+                        if($(this).text() == "2")
+                        {
+                            $(this).text("1");
+                        }
+                        if($(this).text() == "3")
+                        {
+                            $(this).text("2"); 
+                        }
+                        break;
+                    case "2":
+                        // Change 3 to 2
+                        if($(this).text() == "3")
+                        {
+                            $(this).text("2"); 
+                        }
+                        break;
+                    default:
+                        // Do nothing
+                }
+            }     
+         });
+    }
  });
