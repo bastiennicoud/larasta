@@ -8,13 +8,14 @@ class EvaluationSection extends Model
 {
     public $timestamps = false;
     
-    public $table = 'evaluationSections';
+    // Define a custom table name (this table dont use the laravel naming conventions)
+    protected $table = 'evaluationSections';
 
     /**
      * Relation with the Criteria model
      */
     public function criterias()
     {
-        return $this->hasMany('App\Criteria');
+        return $this->hasMany('App\Criteria', 'evaluationSection_id');
     }
 }
