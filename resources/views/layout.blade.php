@@ -42,7 +42,7 @@
             <td><a href="/about"><img alt="Personnes" src="/images/contact.png">Personnes</a></td>
         </tr>
         <tr>
-            <td><a href="/about"><img alt="Entreprises" src="/images/company.png">Entreprises</a></td>
+            <td><a href="/entreprises"><img alt="Entreprises" src="/images/company.png">Entreprises</a></td>
         </tr>
         <tr>
             <td><a href="/about"><img alt="Elèves" src="/images/student.png">Elèves</a></td>
