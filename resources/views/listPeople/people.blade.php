@@ -6,29 +6,38 @@
  * Time: 09:02
  */
 -->
-@extends ('larasta.old.resources.views.layout')
+@extends ('layout');
 
 @section ('content')
     <link rel="stylesheet" href="/css/people.css">
-    <h1>The List of People</h1>
+
+    <!-- Header -->
+
+
+
+
     <div id = "people_content" class="container">
+
+        <div id ="people_header" class="row">
+            <h4>Filtre par:</h4>
+            <div>
+        </div>
+
         <div id="people_container" class="row">
-            <table id="people_table" class="col-lg-12 col-xs-12">
+            <table class="col-lg-12 col-xs-12 table table-bordered">
                 <thead>
                     <tr>
-                        <th>Nom</th>
-                        <th>Prenom</th>
-                        <th>Ville</th>
-                        <th>Npa</th>
+                        <th>Personne</th>
+                        <th>Rôle</th>
                     </tr>
                 </thead>
                 <tbody>
+                @foreach($persons as $person)
                     <tr>
-                        <td>Davide</td>
-                        <td>Carboni</td>
-                        <td>Bullet</td>
-                        <td>1453</td>
+                        <td>{{ $person->firstname }} {{ $person->lastname }}</td>
+                        <td> {{ $person->role }}</td>
                     </tr>
+                @endforeach
                 </tbody>
             </table>
         </div>

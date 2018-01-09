@@ -9,12 +9,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Persons;
 
 class PeopleControlleur extends Controller
 {
     // index, base route
     public function index()
     {
-        return view('listPeople/people');
+        $persons = Persons::all();
+        //dd($persons->role);
+        return view('listPeople/people')->with(
+            [
+                'persons' => $persons
+            ]
+        );
     }
 }
