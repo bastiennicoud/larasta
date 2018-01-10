@@ -37,6 +37,9 @@ class EvalController extends Controller
         return view('evalGrid/home');
     }
 
+
+
+
     /**
      * newEval
      * 
@@ -44,13 +47,34 @@ class EvalController extends Controller
      * 1. get the id of the visit
      * 2. Check if the visit exists
      * 2. Add a record in the evaluations table to create the evaluation
+     * 
+     * @param Request $request
      */
+    public function newEval(Request $request)
+    {
+        // Reach the id of the vist witch add the evaluation
+        $visit = $request->route('visit');
+
+        // Check if this vist really exists
+        if (Visit::where('id', '=', $visit)->exists()) {
+            // The visit exists
+        } else {
+            
+        }
+        //User::where('email', '=', Input::get('email'))->exists()
+    }
+
+
+
 
     /**
      * editCriteriaValue
      * 
      * Save the user evaluation value in the database
      */
+
+
+
 
     /**
      * getEval

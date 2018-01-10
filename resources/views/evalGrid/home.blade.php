@@ -15,7 +15,7 @@
     <p>Toute les actions suivantes devront être spécifiques a l'utilisateur connecté</p>
 
     <div>
-        <a class="btn btn-success" href="#">Novelle grille d'evaluation<a>
+        <a class="btn btn-success" href="neweval/12">Novelle grille d'evaluation<a>
         <hr>
         <p><strong>Mes grilles d'évaluation</strong></p>
         <!-- Lists all the user actives evaluations -->
