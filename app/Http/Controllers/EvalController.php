@@ -55,13 +55,12 @@ class EvalController extends Controller
      * 2. Add a record in the evaluations table to create the evaluation and redirect the user to his new evaluation grid
      * 
      * @param Request $request
+     * @param int $visit The id of the visit to add the evaluation
      * 
      * @return redirect
      */
-    public function newEval(Request $request)
+    public function newEval(Request $request, $visit = 0)
     {
-        // Reach the id of the vist witch add the evaluation
-        $visit = $request->route('visit');
 
         // Check if this vist really exists (prevent pest users)
         if (!Visit::where('id', '=', $visit)->exists()) {
@@ -92,10 +91,10 @@ class EvalController extends Controller
                 // Save it
                 $evaluation->save();
 
-                // Store in the session the active edited grid (avoit to pass the id in the url)
+                // Store in the session the active edited grid (avoid to pass the id in the url)
                 $request->session()->put('activeEditedGrid', $evaluation->id);
                 // Redirect the user on the edit page of this new grid
-                return redirect('evalgrid/edit')->with('status', "Grille d'evaluation correctement créée !");
+                return redirect('evalgrid/grid/edit')->with('status', "Grille d'evaluation correctement créée !");
 
             }
         }
@@ -105,25 +104,38 @@ class EvalController extends Controller
 
 
     /**
-     * displayEval
-     * 
-     * Just display an read only evaluation grid (without the edition functionalitys)
-     */
-
-
-
-
-    /**
      * editEval
      * 
      * Return to the user the evaluation grid to be edit
      * 
+     * 1. Check if the grid exists
+     * 2. Check if user authored
+     * 3. Get all the grid and his parameters
+     * 4. return the view (edit or readonly)
+     * 
      * @param Request $request
+     * @param string $mode (accepts : readonly | edit)
+     * @param int $id
+     * 
+     * @return view
      */
-    public function editEval(Request $request)
+    public function editEval(Request $request, $mode = 'readonly', $gridID = null)
     {
-        $gridID = $request->session()->get('activeEditedGrid');
-        return view('evalGrid/grid')->with(['gridID' => $gridID]);
+
+        // To edit a grid, is possible pass his id in request parameters or in session key
+        // Here we check the parameter and the session
+        if ($gridID == null) {
+            // the id is not specified in the request -> we check in the session
+            if($request->session()->exists('activeEditedGrid')) {
+                // the id is defined in the session, we get it
+                $gridID = $request->session()->get('activeEditedGrid');
+            } else {
+                // we have no id in session or in url params
+                return redirect('visits')->with('status', "Cette grille d'évaluation n'existe pas");
+            }
+        }
+
+        return view('evalGrid/editGrid')->with(['gridID' => $gridID]);
     }
 
 

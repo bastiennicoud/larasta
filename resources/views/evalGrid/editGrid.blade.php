@@ -11,4 +11,8 @@
 
     <h2>ID de la grille d'evaluation : {{ $gridID }}</h2>
 
+    <div class="grid">
+
+    </div>
+
 @stop
