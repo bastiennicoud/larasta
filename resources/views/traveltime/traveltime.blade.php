@@ -9,16 +9,19 @@
         <tr>
             <th></th>
             @foreach ($persons as $person)
-                @if ($person->initials!="")
-                    <th>{{ $person->initials }}</th>
-                @endif
+                <th>{{ $person->initials }}</th>
             @endforeach
         </tr>
-        @foreach ($companies as $companie)
+
+        @foreach ($companies as $key => $companie)
             <tr>
                 <td>{{ $companie->companyName }}</td>
+                @for($i = $key*count($persons) ; $i < ($key*count($persons))+count($persons); $i++)
+                    <td>{{ $times[$i] }}</td>
+                @endfor
             </tr>
         @endforeach
+
     </table>
 
 

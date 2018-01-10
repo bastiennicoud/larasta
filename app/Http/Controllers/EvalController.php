@@ -25,7 +25,7 @@ use App\EvaluationSection;
 class EvalController extends Controller
 {
     /**
-     * index()
+     * index
      *
      * Returns the Evaluation grid complete wiew.
      * 
@@ -33,16 +33,25 @@ class EvalController extends Controller
      */
     public function index()
     {
-        return view('evalGrid/grid');
+        $evalGrid = $this->getEval();
+
+        return view('evalGrid/grid')->with('evalGrid', $evalGrid);
     }
 
     /**
      * getEval
+     * 
+     * Get the evaluation grid from the database
      *
      * @return view evalGrid/grid
      */
     public function getEval()
     {
-        // Here we get all the evaluation form -> after we process it
+        // Here we get all the evaluation grid
+
+        // Return a colection with all the evaluation sections in an array with the criterias of each section
+        $temp = EvaluationSection::with('criterias')->get();
+
+        return $temp;
     }
 }
