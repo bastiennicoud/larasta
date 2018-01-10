@@ -1,82 +1,45 @@
-<!-- /////////////////////////////////// -->
-<!-- Benjamin Delacombaz                 -->
-<!-- Wishes Matrix layout                -->
-<!-- Version 1.0                         -->
-<!-- Created 18.12.2017                  -->
-<!-- Last edit 18.12.2017                -->
+<!-- ///////////////////////////////////              -->
+<!-- Benjamin Delacombaz                              -->
+<!-- Wishes Matrix layout                             -->
+<!-- Version 0.3                                      -->
+<!-- Created 18.12.2017                               -->
+<!-- Last edit 09.01.2017 by Benjamin Delacombaz      -->
 
 
 @extends ('layout')
 
 @section ('content')
     <h1>Matrice des souhaits</h1>
-    <table class="table-bordered">
+    <table id="WishesMatrixTable" class="table-bordered">
         <tr>
-            <td></td>
-            <td>BDE</td>
-            <td>YKO</td>
-            <td>ARD</td>
-            <td>GOB</td>
-            <td>TPR</td>
-            <td>MDE</td>
+            <th></th>
+            <!-- Add each persons where initials is ok -->
+            @foreach ($persons as $person)
+                @if ($person->initials!="")
+                    <th value="{{ $person->id }}">{{ $person->initials }}</th>
+                @endif
+            @endforeach
         </tr>
-        <tr>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Ecole Cantonale d'Art de Lausanne</td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-        </tr>
-        <tr>
-            <td>EESP</td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-        </tr>
-        <tr>
-            <td>EPCN</td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-        </tr>
-        <tr>
-            <td>EPFL - VPSI</td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-        </tr>
-        <tr>
-            <td>ETVJ Ecole Technique de la Vallée de Joux</td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-        </tr>
-        <tr>
-            <td>Gymnase de Renens</td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-            <td class="clickableCase"></td>
-        </tr>
+        @foreach ($companies as $companie)
+            <tr>
+                <td value="{{ $companie->id }}">{{ $companie->companyName }}</td>
+                <!-- Create the clickable case for each person -->
+                @foreach ($persons as $person)
+                    @if ($person->initials!="")
+                    <!-- !!!!!!!!!!!!!!!!!!!!!!!!!PROBLEM BECAUSE NOT EMPTY BECAUSE LARAVEL ADD SYNTAX IN TD !!!!!!!!!!!!!!!!!!!!!! -->
+                        <td class="clickableCase">
+                            <!-- Add for each persons in the table her wish -->
+                            @foreach ($wishes[$person->id] as $wish)
+                                <!-- if wish company is equal to the current company display the rank -->
+                                @if($wish->id == $companie->id)
+                                    {{ $wish->rank }}
+                                @endif
+                            @endforeach
+                        </td>
+                    @endif
+                @endforeach
+            </tr>
+        @endforeach
     </table>
 @stop
 

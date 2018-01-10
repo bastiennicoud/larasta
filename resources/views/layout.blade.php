@@ -23,10 +23,10 @@
             <li><a href="/wishesMatrix">Benjamin</a></li>
             <li><a href="/listPeople">Davide</a></li>
             <li><a href="/visits">Jean-Yves</a></li>
-            <li><a href="#">Julien</a></li>
+            <li><a href="/editGrid">Julien</a></li>
             <li><a href="/traveltime">Kevin</a></li>
             <li><a href="/reconstages">Nicolas</a></li>
-            <li><a href="/contratGen">Quentin N</a></li>
+            <li><a href="/contract">Quentin N</a></li>
             <li><a href="#">Quentin R</a></li>
             <li><a href="/synchro">Steven</a></li>
             <li><a href="#">Xavier</a></li>

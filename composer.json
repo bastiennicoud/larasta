@@ -18,6 +18,7 @@
     }],
     "require": {
         "php": ">=7.0.0",
+        "ckeditor/ckeditor": "^4.8",
         "components/jquery": "2.*",
         "fideloper/proxy": "~3.3",
         "laravel/framework": "5.5.*",

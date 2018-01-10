@@ -18,17 +18,16 @@ class ReconStagesController extends Controller
                 "internsiphs" => $internsiphs
             ]
         );
-
     }
 
 
     public function getInternships(){
 
-        foreach(Params::all() as $params)
+        foreach(Params::all() as $param)
         {
-            if($params->NomParam == "reconductible")
+            if($param->paramName == "reconductible")
             {
-                $selectable[] = $params->ValParamInt;
+                $selectable[] = $param->paramValueInt;
             }
         }
 
