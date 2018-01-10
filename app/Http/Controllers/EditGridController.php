@@ -28,7 +28,7 @@ class EditGridController extends Controller
                 break;
 
                 case 'maxPoints':
-                    $criteria->maxPoints = $newValue;
+                    is_int($newValue) ? $criteria->maxPoints = $newValue : $msgerror = "Value must be an int";
                 break;
 
                 default;
