@@ -57,7 +57,7 @@ Route::post('/traveltime/calculate', 'TravelTimeController@calculate');
 
 // Bastien - Grille d'évaluation
 Route::get('/evalgrid/evalgrid', 'EvalController@index');
-Route::get('/evalgrid/neweval', 'EvalController@newEval');
+Route::get('/evalgrid/neweval/{visit}', 'EvalController@newEval')->where('visit', '[0-9]+');
 Route::post('/evalgrid/editcriteriavalue', 'EvalController@editCriteriaValue');
 
 // Nicolas - Stages

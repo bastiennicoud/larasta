@@ -34,13 +34,16 @@ class EvalController extends Controller
      */
     public function index()
     {
-        return view('evalGrid/grid');
+        return view('evalGrid/home');
     }
 
     /**
      * newEval
      * 
      * This method register a new evaluation for the connected user (linked to the vist table)
+     * 1. get the id of the visit
+     * 2. Check if the visit exists
+     * 2. Add a record in the evaluations table to create the evaluation
      */
 
     /**
