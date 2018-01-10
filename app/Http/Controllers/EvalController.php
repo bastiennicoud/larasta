@@ -51,7 +51,8 @@ class EvalController extends Controller
      * This method register a new evaluation for the connected user (linked to the vist table)
      * 1. get the id of the visit
      * 2. Check if the visit exists
-     * 2. Add a record in the evaluations table to create the evaluation
+     * 3. Check if the user is authored
+     * 2. Add a record in the evaluations table to create the evaluation and redirect the user to his new evaluation grid
      * 
      * @param Request $request
      * 
@@ -91,6 +92,8 @@ class EvalController extends Controller
                 // Save it
                 $evaluation->save();
 
+                // Store in the session the active edited grid (avoit to pass the id in the url)
+                $request->session()->put('activeEditedGrid', $evaluation->id);
                 // Redirect the user on the edit page of this new grid
                 return redirect('evalgrid/edit')->with('status', "Grille d'evaluation correctement créée !");
 
@@ -100,14 +103,27 @@ class EvalController extends Controller
 
 
 
+
+    /**
+     * displayEval
+     * 
+     * Just display an read only evaluation grid (without the edition functionalitys)
+     */
+
+
+
+
     /**
      * editEval
      * 
      * Return to the user the evaluation grid to be edit
+     * 
+     * @param Request $request
      */
-    public function editEval()
+    public function editEval(Request $request)
     {
-        return view('evalGrid/grid');
+        $gridID = $request->session()->get('activeEditedGrid');
+        return view('evalGrid/grid')->with(['gridID' => $gridID]);
     }
 
 
@@ -118,24 +134,4 @@ class EvalController extends Controller
      * 
      * Save the user evaluation value in the database
      */
-
-
-
-
-    /**
-     * getEval
-     * 
-     * Get the evaluation grid from the database
-     *
-     * @return view evalGrid/grid
-     */
-    public function getEval()
-    {
-        // Here we get all the evaluation grid
-
-        // Return a colection with all the evaluation sections in an array with the criterias of each section
-        $temp = EvaluationSection::with('criterias')->get();
-
-        return $temp;
-    }
 }
