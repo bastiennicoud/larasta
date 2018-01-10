@@ -1,49 +1,59 @@
-@extends ('layout') @section ('content')
-<div class="row">
-    <h1 class="text-center">Synchro</h1>
+@extends ('layout')
+
+@section ('content')
+
+<h1>Synchronisation</h1>
+
+<div class="col-md-3 col-lg-3 col-xl-3">
+
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th class="text-center">Nom</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach($goodStudents as $student)
+			<tr class="success">
+				<td>{{ $student->lastname . " " . $student->firstname }}</td>
+			</tr>
+			@endforeach
+		</tbody>
+	</table>
 </div>
 
-<div class="row">
-	<div class="col-md-5 col-lg-5 col-xl-5">
-		<table class="table table-bordered table-responsive">
-			<thead>
-				<tr>
-					<th class="text-center">Nom</th>
-					<th>Email</th>
-					<th>Classe</th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach($students as $student)
-				<tr>
-					<td>{{ $student['lastname'] . " " . $student['firstname'] }}</td>
-					<td>{{ $student['corporate_email'] }}</td>
-					<td>{{ $student['current_class']['link']['name'] }}</td>
-				</tr>
-				@endforeach
-			</tbody>
-		</table>
-	</div>
-
-	<div class="col-md-5 col-lg-5 col-xl-5 offset-xl-2 offset-lg-2 offset-md-2">
-		<table class="table table-bordered table-responsive">
-			<thead>
-				<tr>
-					<th>Nom</th>
-					<th>Email</th>
-					<th>Classe</th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach($students as $student)
-				<tr>
-					<td>{{ $student['lastname'] . " " . $student['firstname'] }}</td>
-					<td>{{ $student['corporate_email'] }}</td>
-					<td>{{ $student['current_class']['link']['name'] }}</td>
-				</tr>
-				@endforeach
-			</tbody>
-		</table>
-	</div>
+<div class="col-md-3 col-lg-3 col-xl-3">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th class="text-center">Nom</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach($obsoleteStudents as $student)
+			<tr class="danger">
+				<td>{{ $student->lastname . " " . $student->firstname }}</td>
+			</tr>
+			@endforeach
+		</tbody>
+	</table>
 </div>
+
+<div class="col-md-3 col-lg-3 col-xl-3 mr-auto">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th class="text-center">Nom</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach($newStudents as $student)
+			<tr class="info">
+				<td>{{ $student['lastname'] . " " . $student['firstname'] }}</td>
+			</tr>
+			@endforeach
+		</tbody>
+	</table>
+</div>
+
 @stop
