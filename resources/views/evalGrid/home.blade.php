@@ -15,10 +15,13 @@
     <p>Toute les actions suivantes devront être spécifiques a l'utilisateur connecté</p>
 
     <div>
-        <a class="btn btn-success" href="neweval/12">Novelle grille d'evaluation<a>
+        <a class="btn btn-success" href="neweval/30">Novelle grille d'evaluation (visite 30, juste pour le dev)<a>
         <hr>
         <p><strong>Mes grilles d'évaluation</strong></p>
         <!-- Lists all the user actives evaluations -->
+        @foreach ($evaluations as $eval)
+            <p>ID :{{ $eval->id }} </p>
+        @endforeach
     <div>
 
 @stop

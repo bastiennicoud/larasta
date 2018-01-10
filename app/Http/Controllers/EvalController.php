@@ -30,13 +30,16 @@ class EvalController extends Controller
     /**
      * index
      *
-     * Display de evaluation grid section
+     * Display de evaluation grid section home (just for dev)
      * 
      * @return view evalGrid/grid
      */
     public function index()
     {
-        return view('evalGrid/home');
+        // For dev, we display the evaluations of the visit 30
+        $eval = Evaluation::where('visit_id', '=', 30)->get();
+
+        return view('evalGrid/home')->with(['evaluations' => $eval]);
     }
 
 
@@ -51,6 +54,8 @@ class EvalController extends Controller
      * 2. Add a record in the evaluations table to create the evaluation
      * 
      * @param Request $request
+     * 
+     * @return redirect
      */
     public function newEval(Request $request)
     {
@@ -62,7 +67,8 @@ class EvalController extends Controller
 
             // The visit not exist
             // Return the visit list with an error message
-            return view('visits/visits')->with(['message' => 'ID de la visite non valide ?']);
+            return redirect('visits')->with('status', 'ID de la visite non valide ?');
+            //return view('visits/visits')->with(['message' => 'ID de la visite non valide ?']);
 
         } else {
 
@@ -72,7 +78,8 @@ class EvalController extends Controller
 
                 // Student, have no acces to this function
                 // Return the visit list with an error message
-                return view('visits/visits')->with(['message' => "Vous n'avez pas acces a cette fonction."]);
+                return redirect('visits')->with('status', "Vous n'avez pas acces a cette fonction.");
+                //return view('visits/visits')->with(['message' => "Vous n'avez pas acces a cette fonction."]);
 
             } else {
 
@@ -84,10 +91,23 @@ class EvalController extends Controller
                 // Save it
                 $evaluation->save();
 
+                // Redirect the user on the edit page of this new grid
+                return redirect('evalgrid/edit')->with('status', "Grille d'evaluation correctement créée !");
+
             }
         }
+    }
 
-        
+
+
+    /**
+     * editEval
+     * 
+     * Return to the user the evaluation grid to be edit
+     */
+    public function editEval()
+    {
+        return view('evalGrid/grid');
     }
 
 

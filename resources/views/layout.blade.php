@@ -36,6 +36,12 @@
 @if (!empty($message))
     <div class="alert-info willvanish">{{ $message }}</div>
 @endif
+<!-- Verifie si un message flash est present dans la session -->
+@if (session('status'))
+    <div class="alert-info willvanish">
+        {{ session('status') }}
+    </div>
+@endif
 <div class="simple-box container-fluid col-md-2 text-center">
     <table class="table table-striped text-left">
         <tr>
