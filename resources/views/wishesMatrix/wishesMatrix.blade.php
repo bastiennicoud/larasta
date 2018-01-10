@@ -28,7 +28,7 @@
                     @if ($person->initials!="")
                     <!-- !!!!!!!!!!!!!!!!!!!!!!!!!PROBLEM BECAUSE NOT EMPTY BECAUSE LARAVEL ADD SYNTAX IN TD !!!!!!!!!!!!!!!!!!!!!! -->
                         <td class="clickableCase">
-                            <!-- Add for each persons in the table her wish -->
+                        <!-- Add for each persons in the table her wish -->
                             @foreach ($wishes[$person->id] as $wish)
                                 <!-- if wish company is equal to the current company display the rank -->
                                 @if($wish->id == $companie->id)

@@ -17,14 +17,14 @@ $(document).ready(function(){
         var col = $(this).parent().children().index($(this)) + 1;
         $('tr td:nth-child(' + col + ')').each( function(){
             //add item to array
-            items.push( $(this).text() );       
+            items.push( $(this).text().replace(/\s/g, '') );       
          });
         
-         if($(this).text() != "")
+         if($(this).text().replace(/\s/g, '') != "")
          {
              console.log("Je ne suis pas vide")
              console.log("+++" + $(this).text() + "+++");
-            recalculateRank(col, $(this).text());
+            recalculateRank(col, $(this).text().replace(/\s/g, ''));
             $(this).text("");
          }else
          {
@@ -50,24 +50,24 @@ $(document).ready(function(){
         // Do that for each row in col
         $('tr td:nth-child(' + col + ')').each( function(){
             //add item to array
-            if($(this).text() != "")
+            if($(this).text().replace(/\s/g, '') != "")
             {
                 switch(nbRemove)
                 {
                     case "1":
                     // Change 2 to 1 and 3 to 2
-                        if($(this).text() == "2")
+                        if($(this).text().replace(/\s/g, '') == "2")
                         {
                             $(this).text("1");
                         }
-                        if($(this).text() == "3")
+                        if($(this).text().replace(/\s/g, '') == "3")
                         {
                             $(this).text("2"); 
                         }
                         break;
                     case "2":
                         // Change 3 to 2
-                        if($(this).text() == "3")
+                        if($(this).text().replace(/\s/g, '') == "3")
                         {
                             $(this).text("2"); 
                         }
