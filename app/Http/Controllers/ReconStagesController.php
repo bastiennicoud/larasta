@@ -20,6 +20,11 @@ class ReconStagesController extends Controller
         );
     }
 
+    public function displayStages()
+    {
+        return view('reconstages/reconmade');
+    }
+
 
     public function getInternships(){
 
@@ -48,6 +53,7 @@ class ReconStagesController extends Controller
             'intresp.firstname as irespfirstname',
             'intresp.lastname as iresplastname',
             'student.firstname as studentfirstname',
+            "student.id",
             'student.lastname as studentlastname',
             'contractstate_id',
             'stateDescription')
