@@ -18,10 +18,10 @@
             <a class="navbar-brand" href="/">Larasta</a>
         </div>
         <ul class="nav navbar-nav">
-            <li><a href="#">Antonio</a></li>
+            <li><a href="/entreprises">Antonio</a></li>
             <li><a href="/evalgrid">Bastien</a></li>
             <li><a href="/wishesMatrix">Benjamin</a></li>
-            <li><a href="#">Davide</a></li>
+            <li><a href="/listPeople">Davide</a></li>
             <li><a href="/visits">Jean-Yves</a></li>
             <li><a href="#">Julien</a></li>
             <li><a href="/traveltime">Kevin</a></li>
@@ -42,7 +42,7 @@
             <td><a href="/about"><img alt="Personnes" src="/images/contact.png">Personnes</a></td>
         </tr>
         <tr>
-            <td><a href="/about"><img alt="Entreprises" src="/images/company.png">Entreprises</a></td>
+            <td><a href="/entreprises"><img alt="Entreprises" src="/images/company.png">Entreprises</a></td>
         </tr>
         <tr>
             <td><a href="/about"><img alt="Elèves" src="/images/student.png">Elèves</a></td>

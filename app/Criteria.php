@@ -1,4 +1,10 @@
 <?php
+/**
+ * Criteria Model
+ * 
+ * Bastien Nicoud
+ * v0.0.1
+ */
 
 namespace App;
 
@@ -11,15 +17,15 @@ class Criteria extends Model
     /**
      * Relation with the EvaluationSection model
      */
-    public function evaluationSection()
+    public function evaluationSections()
     {
-        return $this->belongsTo('App\EvaluationSection');
+        return $this->belongsTo('App\EvaluationSection', 'evaluationSection_id');
     }
 
     /**
      * Relation with the CriteriaValue model
      */
-    public function criteriaValue()
+    public function criteriaValues()
     {
         return $this->hasMany('App\CriteriaValue');
     }
