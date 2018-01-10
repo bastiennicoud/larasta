@@ -58,6 +58,18 @@ cd /path/to/your/local/clone/of/larasta
 php artisan key:generate
 ```
 
+### 6. Simulate intranet login
+
+For your tests, you will want to try working as different users with different privilege levels
+
+You can do that using the ``.env`` file, adding the following keys:
+
+```
+USER_ID=1234
+USER_INITIALS='ABC'
+USER_LEVEL=1
+```
+
 ### Ready for development
 Now, your fork of larasta is working on your machine, you can acces it by the domain name you specified in the Homestead configuration (Don't forget to add it on your host file).
 
