@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Visit;
 use App\Criteria;
 use App\CriteriaValue;
 use App\Evaluation;
@@ -27,16 +28,26 @@ class EvalController extends Controller
     /**
      * index
      *
-     * Returns the Evaluation grid complete wiew.
+     * Display de evaluation grid section
      * 
      * @return view evalGrid/grid
      */
     public function index()
     {
-        $evalGrid = $this->getEval();
-
-        return view('evalGrid/grid')->with('evalGrid', $evalGrid);
+        return view('evalGrid/grid');
     }
+
+    /**
+     * newEval
+     * 
+     * This method register a new evaluation for the connected user (linked to the vist table)
+     */
+
+    /**
+     * editCriteriaValue
+     * 
+     * Save the user evaluation value in the database
+     */
 
     /**
      * getEval

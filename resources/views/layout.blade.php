@@ -19,7 +19,7 @@
         </div>
         <ul class="nav navbar-nav">
             <li><a href="/entreprises">Antonio</a></li>
-            <li><a href="/evalgrid">Bastien</a></li>
+            <li><a href="/evalgrid/evalgrid">Bastien</a></li>
             <li><a href="/wishesMatrix">Benjamin</a></li>
             <li><a href="/listPeople">Davide</a></li>
             <li><a href="/visits">Jean-Yves</a></li>
