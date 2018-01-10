@@ -11,6 +11,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use CPNVEnvironment\Environment;
+
 use App\Visit;
 use App\Criteria;
 use App\CriteriaValue;
@@ -55,13 +57,37 @@ class EvalController extends Controller
         // Reach the id of the vist witch add the evaluation
         $visit = $request->route('visit');
 
-        // Check if this vist really exists
-        if (Visit::where('id', '=', $visit)->exists()) {
-            // The visit exists
+        // Check if this vist really exists (prevent pest users)
+        if (!Visit::where('id', '=', $visit)->exists()) {
+
+            // The visit not exist
+            // Return the visit list with an error message
+            return view('visits/visits')->with(['message' => 'ID de la visite non valide ?']);
+
         } else {
-            
+
+            // The visit exists
+            // Check if the user is authored
+            if (Environment::currentUser()->getLevel() < 1) {
+
+                // Student, have no acces to this function
+                // Return the visit list with an error message
+                return view('visits/visits')->with(['message' => "Vous n'avez pas acces a cette fonction."]);
+
+            } else {
+
+                // The user is authored
+                // Create the new evaluation
+                $evaluation = new Evaluation;
+                $evaluation->visit_id = $visit;
+                $evaluation->editable = 1;
+                // Save it
+                $evaluation->save();
+
+            }
         }
-        //User::where('email', '=', Input::get('email'))->exists()
+
+        
     }
 
 
