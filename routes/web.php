@@ -64,3 +64,7 @@ Route::get('/reconstages', 'ReconStagesController@index');
 // Davide
 Route::get('/listPeople', 'PeopleControlleur@index');
 //
+
+//Julien - Grille d'évaluation - Modélisation
+Route::get('/editGrid', 'EditGridController@index');
+
