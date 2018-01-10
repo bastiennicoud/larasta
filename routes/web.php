@@ -36,8 +36,8 @@ Route::post('/remarks/update','RemarksController@update');
 // Antonio - Entreprises list
 Route::get('/entreprises', 'EntreprisesController@getCompanies');
 
-// Quentin N
-Route::get('/contratGen', 'ContratGenController@index');
+// Quentin N - Contract generation
+Route::get('/contract', 'ContractController@index');
 
 // Steven
 
