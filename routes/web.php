@@ -34,10 +34,10 @@ Route::post('/remarks/delete','RemarksController@delete');
 Route::post('/remarks/update','RemarksController@update');
 
 // Antonio - Entreprises list
-Route::get('/entreprises', 'EntreprisesController@index');
+Route::get('/entreprises', 'EntreprisesController@getCompanies');
 
-// Quentin N
-Route::get('/contratGen', 'ContratGenController@index');
+// Quentin N - Contract generation
+Route::get('/contract', 'ContractController@index');
 
 // Steven
 
@@ -61,3 +61,6 @@ Route::get('/evalgrid', 'EvalController@index');
 // Nicolas - Stages
 Route::get('/reconstages', 'ReconStagesController@index');
 
+// Davide
+Route::get('/listPeople', 'PeopleControlleur@index');
+//
