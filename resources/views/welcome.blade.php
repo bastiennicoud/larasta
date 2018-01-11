@@ -1,3 +1,4 @@
+{{-- Author: Xavier Carrel --}}
 @extends ('layout')
 
 @section ('content')

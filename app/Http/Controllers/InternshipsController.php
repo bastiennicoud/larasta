@@ -89,13 +89,14 @@ class InternshipsController extends Controller
             ->join('persons as student', 'intern_id', '=', 'student.id')
             ->join('contractstates', 'contractstate_id', '=', 'contractstates.id')
             ->join('flocks', 'student.flock_id', '=', 'flocks.id')
+            ->join('persons as mc', 'flocks.classMaster_id', '=', 'mc.id')
             ->select(
                 'internships.id',
                 'beginDate',
                 'endDate',
                 'companyName',
                 'grossSalary',
-                'classMaster',
+                'mc.initials',
                 'previous_id',
                 'internshipDescription',
                 'admresp.firstname as arespfirstname',
