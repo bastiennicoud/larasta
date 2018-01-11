@@ -58,11 +58,11 @@ cd /path/to/your/local/clone/of/larasta
 php artisan key:generate
 ```
 
-### 6. Add the Intranet API key
-To use the intranet API, we need the key and the secret.
-To add it, you need to add 2 environment variables in the ``.env`` file of the project.
+### 6. Create and seed the database
 
-The name for the key variable is ``API_KEY`` and the name for the secret is ``API_SECRET``
+- Drop schema `app_internships` on your server
+- Synchronize (i.e: create) schema using `database/Stages v2.mwb` with Workbench
+- Execute script `database/testdata.sql`
 
 ### 7. Simulate intranet login
 
@@ -76,6 +76,25 @@ USER_INITIALS='ABC'
 USER_LEVEL=1
 ```
 
+Then use the static method `Environment::currentUser()` in your code
+
+### 8. Add the Intranet API key (optional)
+If you plan on synchronising your local database with the Intranet (persons), you need the application key and the secret.
+Add 2 environment variables in the ``.env`` file of the project:
+
+```
+API_KEY=...
+API_SECRET=...
+```
+
+### 9. Add the GoogleMap API key (optional)
+If you plan on using the distance matrix function, you must provide the GoogleMap API key:
+
+```
+API_GOOGLE_MAP=AIzaSyBRFbQtojevcenB9g0knU6W_9kL0eWu4Vo
+```
+
+**WARNING**: We have a quota on the requests and it goes for the whole school. The application can be pretty greedy, so use this feature with care and consideration for other users.
 ### Ready for development
 Now, your fork of larasta is working on your machine, you can acces it by the domain name you specified in the Homestead configuration (Don't forget to add it on your host file).
 

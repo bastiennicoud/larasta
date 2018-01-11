@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+{{-- Author: Xavier Carrel --}}
+        <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -74,6 +75,7 @@
     @if (!CPNVEnvironment\Environment::isProd())
         <img id="imgwip" src="/images/wip.png">
     @endif
+    <div class="version">v{{ config('app.version') }}</div>
 </div>
 <div class="container-fluid text-center col-md-10">
     @yield ('content')

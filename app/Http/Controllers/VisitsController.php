@@ -29,7 +29,6 @@ class VisitsController extends Controller
         ->join('companies', 'internships.companies_id', '=', 'companies.id')
         ->join('visitsstates', 'visits.visitsstates_id', '=', 'visitsstates.id')
         ->select('visits.id' ,'persons.firstname', 'persons.lastname', 'companyName', 'stateName', 'beginDate', 'endDate', 'mailstate')
-        ->groupby('visits.id')
         ->orderBy('visits.id', 'DESC')
         ->limit(30)
         ->get();
