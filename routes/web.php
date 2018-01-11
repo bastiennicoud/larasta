@@ -37,16 +37,25 @@ Route::post('/remarks/update','RemarksController@update');
 Route::get('/entreprises', 'EntreprisesController@getCompanies');
 
 // Quentin N - Contract generation
-Route::get('/contract', 'ContractController@index');
+Route::get('/contract/{internshipid}', 'ContractController@index');
+Route::get('/contract/{internshipid}/view', 'ContractController@index');
 
 // Steven
 
 Route::get('/synchro', 'SynchroController@index');
+Route::get('/synchro/new', 'SynchroController@new');
+Route::get('/synchro/delete', 'SynchroController@delete');
 
 // Jean-Yves
 Route::get('/visits','VisitsController@index');
 
-Route::get('/visits/manage','VisitsController@manage');
+Route::get('/visits/{rid}/manage','VisitsController@manage');
+
+Route::get('/visits/add', 'VisitsController@add');
+
+Route::post('/visits/create','VisitsController@create');
+
+Route::get('/visits/{id}/mail','VisitsController@mail');
 
 // Add by Benjamin Delacombaz 12.12.2017 10:40
 Route::get('/wishesMatrix', 'WishesMatrixController@index');
@@ -67,3 +76,7 @@ Route::get('/reconstages', 'ReconStagesController@index');
 // Davide
 Route::get('/listPeople', 'PeopleControlleur@index');
 //
+
+//Julien - Grille d'évaluation - Modélisation
+Route::get('/editGrid', 'EditGridController@index');
+

@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+{{-- Author: Xavier Carrel --}}
+        <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,7 +24,7 @@
             <li><a href="/wishesMatrix">Benjamin</a></li>
             <li><a href="/listPeople">Davide</a></li>
             <li><a href="/visits">Jean-Yves</a></li>
-            <li><a href="#">Julien</a></li>
+            <li><a href="/editGrid">Julien</a></li>
             <li><a href="/traveltime">Kevin</a></li>
             <li><a href="/reconstages">Nicolas</a></li>
             <li><a href="/contract">Quentin N</a></li>
@@ -74,6 +75,7 @@
     @if (!CPNVEnvironment\Environment::isProd())
         <img id="imgwip" src="/images/wip.png">
     @endif
+    <div class="version">v{{ config('app.version') }}</div>
 </div>
 <div class="container-fluid text-center col-md-10">
     @yield ('content')

@@ -146,4 +146,22 @@ class EvalController extends Controller
      * 
      * Save the user evaluation value in the database
      */
+
+    /**
+     * getEvalState
+     *
+     * Returns the evaluation state of a given visit
+     *
+     * @param $visitid The id of the visit
+     * @return int Where we are in terms of evaluation regarding this visit.
+     *      Values:
+     *          1 = Not started
+     *          2 = In progress
+     *          3 = Done
+     */
+    public static function getEvalState($visitid)
+    {
+        return rand(1,3); // XCL testing
+    }
+
 }

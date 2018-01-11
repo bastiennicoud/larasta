@@ -24,6 +24,10 @@
             <td>{{ $iship->irespfirstname }} {{ $iship->iresplastname }}</td>
         </tr>
         <tr>
+            <td class="col-md-2">Maître de classe</td>
+            <td>{{ $iship->initials }}</td>
+        </tr>
+        <tr>
             <td class="col-md-2">Etat</td>
             <td>{{ $iship->stateDescription }}</td>
         </tr>
@@ -37,4 +41,32 @@
             </tr>
         @endif
     </table>
+    {{-- Action buttons --}}
+    @switch(\App\Http\Controllers\EvalController::getEvalState($iship->id))
+        @case(1)
+        <a href="/evalgrid/neweval/{{ $iship->id }}">
+            <button class="btn-primary">Démarrer l'évaluation</button>
+        </a>
+        @break
+        @case(2)
+        <a href="/evalgrid/grid/edit/{{ $iship->id }}">
+            <button class="btn-warning">Reprendre l'évaluation</button>
+        </a>
+        @break
+        @case(3)
+        <a href="/evalgrid/grid/readonly/{{ $iship->id }}">
+            <button class="btn-secondary">Afficher l'évaluation</button>
+        </a>
+        @break
+    @endswitch
+
+    @if(substr($iship->contractGenerated,0,4) == "0000")
+        <a href="/contract/{{ $iship->id }}">
+            <button class="btn-primary">Générer le contrat</button>
+        </a>
+    @else
+        <a href="/contract/{{ $iship->id }}/view">
+            <button class="btn-secondary">Voir le contrat</button>
+        </a>
+    @endif
 @stop
