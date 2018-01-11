@@ -64,6 +64,18 @@ To add it, you need to add 2 environment variables in the ``.env`` file of the p
 
 The name for the key variable is ``API_KEY`` and the name for the secret is ``API_SECRET``
 
+### 7. Simulate intranet login
+
+For your tests, you will want to try working as different users with different privilege levels
+
+You can do that using the ``.env`` file, adding the following keys:
+
+```
+USER_ID=1234
+USER_INITIALS='ABC'
+USER_LEVEL=1
+```
+
 ### Ready for development
 Now, your fork of larasta is working on your machine, you can acces it by the domain name you specified in the Homestead configuration (Don't forget to add it on your host file).
 
