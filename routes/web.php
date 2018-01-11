@@ -48,7 +48,13 @@ Route::get('/synchro/delete', 'SynchroController@delete');
 // Jean-Yves
 Route::get('/visits','VisitsController@index');
 
-Route::get('/visits/manage','VisitsController@manage');
+Route::get('/visits/{rid}/manage','VisitsController@manage');
+
+Route::get('/visits/add', 'VisitsController@add');
+
+Route::post('/visits/create','VisitsController@create');
+
+Route::get('/visits/{id}/mail','VisitsController@mail');
 
 // Add by Benjamin Delacombaz 12.12.2017 10:40
 Route::get('/wishesMatrix', 'WishesMatrixController@index');
