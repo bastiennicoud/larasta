@@ -1,20 +1,59 @@
 @extends ('layout')
 
 @section ('content')
-    <h1>Synchro</h1>
 
-    <table class="table table-bordered col-md-6">
-      <tr>
-        <th class="col-md-2">Nom</th>
-        <th class="col-md-2">Email</th>
-        <th class="col-md-2">Classe</th>
-      </tr>
-      @foreach($jsonResponse as $response)
-      <tr>
-        <td class="col-md-2">{{ $response['lastname'] . ' ' . $response['firstname'] }}
-        <td class="col-md-2">{{ $response['corporate_email'] }}
-        <td class="col-md-2">{{ $response['current_class']['link']['name'] }}
-      </tr>
-      @endforeach
-    </table>
+<h1>Synchronisation</h1>
+
+<div class="col-md-3 col-lg-3 col-xl-3">
+
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th class="text-center">Nom</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach($goodStudents as $student)
+			<tr class="success">
+				<td>{{ $student->lastname . " " . $student->firstname }}</td>
+			</tr>
+			@endforeach
+		</tbody>
+	</table>
+</div>
+
+<div class="col-md-3 col-lg-3 col-xl-3">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th class="text-center">Nom</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach($obsoleteStudents as $student)
+			<tr class="danger">
+				<td>{{ $student->lastname . " " . $student->firstname }}</td>
+			</tr>
+			@endforeach
+		</tbody>
+	</table>
+</div>
+
+<div class="col-md-3 col-lg-3 col-xl-3 mr-auto">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th class="text-center">Nom</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach($newStudents as $student)
+			<tr class="info">
+				<td>{{ $student['lastname'] . " " . $student['firstname'] }}</td>
+			</tr>
+			@endforeach
+		</tbody>
+	</table>
+</div>
+
 @stop

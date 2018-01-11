@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+{{-- Author: Xavier Carrel --}}
+        <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -18,15 +19,15 @@
             <a class="navbar-brand" href="/">Larasta</a>
         </div>
         <ul class="nav navbar-nav">
-            <li><a href="#">Antonio</a></li>
-            <li><a href="/evalgrid">Bastien</a></li>
+            <li><a href="/entreprises">Antonio</a></li>
+            <li><a href="/evalgrid/evalgrid">Bastien</a></li>
             <li><a href="/wishesMatrix">Benjamin</a></li>
-            <li><a href="#">Davide</a></li>
+            <li><a href="/listPeople">Davide</a></li>
             <li><a href="/visits">Jean-Yves</a></li>
-            <li><a href="#">Julien</a></li>
+            <li><a href="/editGrid">Julien</a></li>
             <li><a href="/traveltime">Kevin</a></li>
             <li><a href="/reconstages">Nicolas</a></li>
-            <li><a href="/contratGen">Quentin N</a></li>
+            <li><a href="/contract">Quentin N</a></li>
             <li><a href="#">Quentin R</a></li>
             <li><a href="/synchro">Steven</a></li>
             <li><a href="#">Xavier</a></li>
@@ -36,13 +37,19 @@
 @if (!empty($message))
     <div class="alert-info willvanish">{{ $message }}</div>
 @endif
+<!-- Verifie si un message flash est present dans la session -->
+@if (session('status'))
+    <div class="alert-info willvanish">
+        {{ session('status') }}
+    </div>
+@endif
 <div class="simple-box container-fluid col-md-2 text-center">
     <table class="table table-striped text-left">
         <tr>
             <td><a href="/about"><img alt="Personnes" src="/images/contact.png">Personnes</a></td>
         </tr>
         <tr>
-            <td><a href="/about"><img alt="Entreprises" src="/images/company.png">Entreprises</a></td>
+            <td><a href="/entreprises"><img alt="Entreprises" src="/images/company.png">Entreprises</a></td>
         </tr>
         <tr>
             <td><a href="/about"><img alt="Elèves" src="/images/student.png">Elèves</a></td>
@@ -68,6 +75,7 @@
     @if (!CPNVEnvironment\Environment::isProd())
         <img id="imgwip" src="/images/wip.png">
     @endif
+    <div class="version">v{{ config('app.version') }}</div>
 </div>
 <div class="container-fluid text-center col-md-10">
     @yield ('content')

@@ -15,3 +15,13 @@ yarn-error.log
 
 composer.lock
 *.bak
+InfoProject.txt
+\.env\.production
+
+Capfile
+
+config/deploy\.rb
+
+config/deploy/production\.rb
+
+config/deploy/staging\.rb

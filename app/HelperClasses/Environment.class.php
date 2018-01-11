@@ -21,8 +21,9 @@ class Environment
     {
         // fake values at this point
         $user = new IntranetUser();
-        $user->setInitials("abc");
-        $user->setLevel(2);
+        $user->setId(env("USER_ID","0"));
+        $user->setInitials(env("USER_INITIALS","???"));
+        $user->setLevel(env("USER_LEVEL",0));
         return $user;
     }
 }
