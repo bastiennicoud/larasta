@@ -58,7 +58,13 @@ cd /path/to/your/local/clone/of/larasta
 php artisan key:generate
 ```
 
-### 6. Simulate intranet login
+### 6. Add the Intranet API key
+To use the intranet API, we need the key and the secret.
+To add it, you need to add 2 environment variables in the ``.env`` file of the project.
+
+The name for the key variable is ``API_KEY`` and the name for the secret is ``API_SECRET``
+
+### 7. Simulate intranet login
 
 For your tests, you will want to try working as different users with different privilege levels
 

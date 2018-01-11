@@ -42,6 +42,8 @@ Route::get('/contract', 'ContractController@index');
 // Steven
 
 Route::get('/synchro', 'SynchroController@index');
+Route::get('/synchro/new', 'SynchroController@new');
+Route::get('/synchro/delete', 'SynchroController@delete');
 
 // Jean-Yves
 Route::get('/visits','VisitsController@index');
