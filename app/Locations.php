@@ -4,7 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Synchro extends Model
+class Locations extends Model
 {
     public $timestamps = false;
+
+    //
 }

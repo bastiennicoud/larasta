@@ -1,0 +1,41 @@
+
+/* Header*/
+
+#people_header{
+    width: 100%;
+    background: lightgrey;
+    height: 100px;
+}
+
+#people_header h3{
+    text-align: left;
+}
+
+
+
+/* Table People*/
+
+#people_content{
+    width: 100%;
+    height: 100%;
+    font-family: inherit;
+}
+
+#people_container{
+    width: 100%;
+    height: 100%;
+}
+
+#people_table, th{
+    font-size: 18px;
+}
+
+#people_table, td{
+    font-size: 15px;
+}
+
+.row{
+    margin: 0;
+    padding: 0;
+}
+

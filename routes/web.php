@@ -11,10 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'InternshipsController@index');
 
+Route::post('/', 'InternshipsController@changeFilter');
+
+Route::get('/internships/{iid}/edit','InternshipsController@edit');
+
+Route::get('/about', function () {
+    return view('about');
+});
 
 Route::get('/remarks', 'RemarksController@index');
 
@@ -28,12 +33,17 @@ Route::post('/remarks/delete','RemarksController@delete');
 
 Route::post('/remarks/update','RemarksController@update');
 
-// Quentin N
-Route::get('/contratGen', 'ContratGenController@index');
+// Antonio - Entreprises list
+Route::get('/entreprises', 'EntreprisesController@getCompanies');
+
+// Quentin N - Contract generation
+Route::get('/contract', 'ContractController@index');
 
 // Steven
 
 Route::get('/synchro', 'SynchroController@index');
+Route::get('/synchro/new', 'SynchroController@new');
+Route::get('/synchro/delete', 'SynchroController@delete');
 
 // Jean-Yves
 Route::get('/visits','VisitsController@index');
@@ -51,7 +61,21 @@ Route::get('/wishesMatrix', 'WishesMatrixController@index');
 
 // Kevin
 Route::get('/traveltime', 'TravelTimeController@index');
+Route::post('/traveltime/calculate', 'TravelTimeController@calculate');
 
 // Bastien - Grille d'évaluation
-Route::get('/evalgrid', 'EvalController@index');
+Route::get('/evalgrid/evalgrid', 'EvalController@index');
+Route::get('/evalgrid/neweval/{visit}', 'EvalController@newEval')->where('visit', '[0-9]+'); // Restrict the visit parameter to numbers
+Route::get('/evalgrid/grid/{mode}/{gridID?}', 'EvalController@editEval')->where(['mode' => 'edit|readonly', 'gridID' => '[0-9]+']); // Restrict the visit parameter to numbers
+Route::post('/evalgrid/editcriteriavalue', 'EvalController@editCriteriaValue');
+
+// Nicolas - Stages
+Route::get('/reconstages', 'ReconStagesController@index');
+
+// Davide
+Route::get('/listPeople', 'PeopleControlleur@index');
+//
+
+//Julien - Grille d'évaluation - Modélisation
+Route::get('/editGrid', 'EditGridController@index');
 
