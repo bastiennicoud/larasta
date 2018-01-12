@@ -18,6 +18,11 @@
 				<td>{{ $student->lastname . " " . $student->firstname }}</td>
 			</tr>
 			@endforeach
+			@foreach($updateStudents as $student)
+			<tr class="warning">
+				<td>{{ $student->lastname . " " . $student->firstname }}</td>
+			</tr>			
+			@endforeach
 		</tbody>
 	</table>
 </div>

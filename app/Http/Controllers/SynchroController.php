@@ -18,14 +18,20 @@ class SynchroController extends Controller
     private $goodStudents = [];
     private $obsoleteStudents = [];
     private $newStudents = [];
+    private $updateStudents = [];
     private $message;
 
     protected function dbObsoleteFunction()
     {
         foreach($this->obsoleteStudents as $obsoletStudent)
         {
-            $student = Persons::where('lastname', $obsoleteStudent->lastname)->where('firstname', $obsoleteStudent->firstname);
-            $student->delete();
+            $student = Persons::where('intranetUserId', $obsoleteStudent->intranetUserId);
+            if($student->obsolete != 1)
+            {
+                $student->obsolete = 1;
+            }
+
+            $student->save();
         }
     }
 
@@ -38,6 +44,7 @@ class SynchroController extends Controller
             $student->firstname = $newStudent['firstname'];
             $student->lastname = $newStudent['lastname'];
             $student->upToDateDate = $newStudent['updatedOn'];
+            $student->intranetUserId = $newStudent['id'];
 
             $student->save();
         }
@@ -77,9 +84,16 @@ class SynchroController extends Controller
 
         foreach($dbStudents as $student)
         {
-            if(in_array($student->lastname, array_column($studentsList, 'lastname')) && in_array($student->firstname, array_column($studentsList, 'firstname')))
+            if(in_array($student->intranetUserId, array_column($studentsList, 'id')))
             {
-                array_push($this->goodStudents, $student);
+                if(in_array($student->upToDateDate, array_column($studentsList, 'UpdatedOn')))
+                {
+                    array_push($this->goodStudents, $student);
+                }
+                else
+                {
+                    array_push($this->updateStudents, $student);
+                }
             }
             else
             {
@@ -89,7 +103,7 @@ class SynchroController extends Controller
 
         foreach($studentsList as $student)
         {
-            if(!$dbStudents->contains('lastname', $student['lastname']) && !$dbStudents->contains('firstname', $student['firstname']))
+            if(!$dbStudents->contains('intranetUserId', $student['id']))
             {
                 array_push($this->newStudents, $student);
             }
@@ -98,6 +112,6 @@ class SynchroController extends Controller
         usort($this->newStudents,function($a,$b) {return strnatcasecmp($a['lastname'],$b['lastname']);});
 
 
-        return view('synchro/index')->with([ 'goodStudents' => $this->goodStudents, 'obsoleteStudents' => $this->obsoleteStudents, 'newStudents' => $this->newStudents]);
+        return view('synchro/index')->with([ 'goodStudents' => $this->goodStudents, 'obsoleteStudents' => $this->obsoleteStudents, 'newStudents' => $this->newStudents, 'updateStudents' => $this->updateStudents]);
     }
 }
