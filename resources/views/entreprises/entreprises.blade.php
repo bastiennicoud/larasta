@@ -11,16 +11,17 @@
 
     {{ $edit = ((isset($_GET['edit']) || isset($_POST['edit'])) && $viewall) }}
 
+    <form id="entreprises" action="{{('EntreprisesController@entreprises')}}" method="post">
 
-    @if($edit)
-    <img style='width:32px; float:right' alt='+' src='Images/padlock-open.png' onMouseOver='document.body.style.cursor="pointer"' onMouseOut='document.body.style.cursor="default"' OnClick='document.forms["entreprises"].submit()'/>
-    <div id='insert'><img id='plusicon' style='width:16px' alt='+' src='Images/plus.png' onMouseOver='document.body.style.cursor="pointer"' onMouseOut='document.body.style.cursor="default"' OnClick='Edit()'/></div>
-    @else
-        <img style='width:32px; float:right' alt='+' src='Images/padlock-closed.png' onMouseOver='document.body.style.cursor="pointer"' onMouseOut='document.body.style.cursor="default"' OnClick='window.location="Entreprises.php?edit"'></img>"
+    <div id='insert' class="hidden">
+        <img id='endModif' style='width:32px; float:right' alt='+' src='Images/padlock-open.png' onMouseOver='document.body.style.cursor="pointer"' onMouseOut='document.body.style.cursor="default"' OnClick='endModif()' />
+    <img id='plusicon' style='width:16px' alt='+' src='Images/plus.png' onMouseOver='document.body.style.cursor="pointer"' onMouseOut='document.body.style.cursor="default"' OnClick='Edit()'/></div>
 
-    @endif
+        <div id="edit">
+        <img style='width:32px; float:right' alt='+' src='Images/padlock-closed.png' onMouseOver='document.body.style.cursor="pointer"' onMouseOut='document.body.style.cursor="default"' OnClick='editMode()'/>
+        </div>
 
-    <form action="{{('EntreprisesController@entreprises')}}" method="post">
+
     <table class="table table-responsive" border="solid" >
         <tr>
             <th>Entreprises</th>
@@ -40,4 +41,9 @@
     @endforeach
     </table>
     </form>
+
+
+@stop
+@section('page_specific_js')
+    <script src="/js/entreprises.js"></script>
 @stop

@@ -29,8 +29,10 @@ class EntreprisesController extends Controller
 
         return view('entreprises/entreprises')->with(['companies' => $companies, 'user' => $user]);
     }
-    public function entreprises(Request $request){
 
+    public function entreprises(Request $request){
+        var_dump($request);
     }
+
 
 }
