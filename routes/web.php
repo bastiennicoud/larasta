@@ -37,16 +37,25 @@ Route::post('/remarks/update','RemarksController@update');
 Route::get('/entreprises', 'EntreprisesController@getCompanies');
 
 // Quentin N - Contract generation
-Route::get('/contract', 'ContractController@index');
+Route::get('/contract/{internshipid}', 'ContractController@index');
+Route::get('/contract/{internshipid}/view', 'ContractController@index');
 
 // Steven
 
 Route::get('/synchro', 'SynchroController@index');
+Route::get('/synchro/new', 'SynchroController@new');
+Route::get('/synchro/delete', 'SynchroController@delete');
 
 // Jean-Yves
 Route::get('/visits','VisitsController@index');
 
-Route::get('/visits/manage','VisitsController@manage');
+Route::get('/visits/{rid}/manage','VisitsController@manage');
+
+Route::get('/visits/add', 'VisitsController@add');
+
+Route::post('/visits/create','VisitsController@create');
+
+Route::get('/visits/{id}/mail','VisitsController@mail');
 
 // Add by Benjamin Delacombaz 12.12.2017 10:40
 Route::get('/wishesMatrix', 'WishesMatrixController@index');
@@ -57,7 +66,10 @@ Route::post('/traveltime/calculate', 'TravelTimeController@calculate');
 Route::post('/traveltime/load', 'TravelTimeController@load');
 
 // Bastien - Grille d'évaluation
-Route::get('/evalgrid', 'EvalController@index');
+Route::get('/evalgrid/evalgrid', 'EvalController@index');
+Route::get('/evalgrid/neweval/{visit}', 'EvalController@newEval')->where('visit', '[0-9]+'); // Restrict the visit parameter to numbers
+Route::get('/evalgrid/grid/{mode}/{gridID?}', 'EvalController@editEval')->where(['mode' => 'edit|readonly', 'gridID' => '[0-9]+']); // Restrict the visit parameter to numbers
+Route::post('/evalgrid/editcriteriavalue', 'EvalController@editCriteriaValue');
 
 // Nicolas - Stages
 Route::get('/reconstages', 'ReconStagesController@index');
@@ -65,3 +77,7 @@ Route::get('/reconstages', 'ReconStagesController@index');
 // Davide
 Route::get('/listPeople', 'PeopleControlleur@index');
 //
+
+//Julien - Grille d'évaluation - Modélisation
+Route::get('/editGrid', 'EditGridController@index');
+

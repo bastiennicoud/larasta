@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 class EvaluationSection extends Model
 {
     public $timestamps = false;
-    
+
     // Define a custom table name (this table dont use the laravel naming conventions)
     protected $table = 'evaluationSections';
 
