@@ -74,22 +74,22 @@ Route::prefix('evalgrid')->group(function () {
     /**
      * Home page of the section (just for dev)
      */
-    Route::get('evalgrid', 'EvalController@index');
+    Route::get('evalgrid', 'EvalController@index')->name('evalGridHome');
     /**
      * Create a new evaluation linked to a visit
      * @param visit the visit id
      */
-    Route::get('neweval/{visit}', 'EvalController@newEval')->where('visit', '[0-9]+'); // Restrict the visit parameter to numbers
+    Route::get('neweval/{visit}', 'EvalController@newEval')->where('visit', '[0-9]+')->name('newEvalGrid');
     /**
      * Display an evaluation grid for edition or reading
      * @param mode 'readonly' or 'edit'
      * @param gridID the id of the grid we want to edit. OPTIONAL parameter (we can also pass the id by the session with the 'activeEditedGrid' key)
      */
-    Route::get('grid/{mode}/{gridID?}', 'EvalController@editEval')->where(['mode' => 'edit|readonly', 'gridID' => '[0-9]+']); // Restrict the visit parameter to numbers
+    Route::get('grid/{mode}/{gridID?}', 'EvalController@editEval')->where(['mode' => 'edit|readonly', 'gridID' => '[0-9]+'])->name('editEvalGrid');
     /**
      * Edit the values of the grid fields (see the controller method for more infos)
      */
-    Route::post('editcriteriavalue', 'EvalController@editCriteriaValue');
+    Route::post('editcriteriavalue', 'EvalController@editCriteriaValue')->name('editEvalGridCriteriaValue');
 });
 
 // Nicolas - Stages
