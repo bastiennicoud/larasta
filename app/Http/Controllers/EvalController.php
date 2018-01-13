@@ -85,11 +85,7 @@ class EvalController extends Controller
 
                 // The user is authored
                 // Create the new evaluation
-                $evaluation = new Evaluation;
-                $evaluation->visit_id = $visit;
-                $evaluation->editable = 1;
-                // Save it
-                $evaluation->save();
+                $evaluation = Evaluation::create(['visit_id' => $visit, 'editable' => 1]);
 
                 // Store in the session the active edited grid (avoid to pass the id in the url)
                 $request->session()->put('activeEditedGrid', $evaluation->id);
