@@ -16,10 +16,6 @@ class EntreprisesController extends Controller
 {
     public function index()
     {
-        EntreprisesController::getCompanies();
-    }
-
-    public function getCompanies(){
         $user = Environment::currentUser();
 
         $companies = DB::table('companies')
@@ -30,8 +26,20 @@ class EntreprisesController extends Controller
         return view('entreprises/entreprises')->with(['companies' => $companies, 'user' => $user]);
     }
 
-    public function entreprises(Request $request){
-        var_dump($request);
+    public function getCompanies(){
+
+    }
+
+    public function add(Request $request){
+
+        $id = DB::table('locations')->insertGetId(['address1'=>null]);
+
+        DB::table('companies')->insertGetId(
+            ['companyName' => $request->nameE, 'contracts_id' => 3,'location_id'=>$id]
+        );
+
+
+        return $this->index();
     }
 
 
