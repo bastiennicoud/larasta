@@ -15,6 +15,13 @@ class Criteria extends Model
     public $timestamps = false;
 
     /**
+     * Authorize mass asignement columns
+     *
+     * @var array
+     */
+    protected $fillable = ['criteriaName', 'criteriaDetails', 'maxPoints', 'evaluationSection_id'];
+
+    /**
      * Relation with the EvaluationSection model
      */
     public function evaluationSections()
