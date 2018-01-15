@@ -21,6 +21,7 @@
         </div>
     @else
         Contrat généré le : {{$iDate->contractGenerated}}
+        <a href="/contract/{{$iid}}/view"><button>Voir le contrat</button></a>
     @endif
 
 

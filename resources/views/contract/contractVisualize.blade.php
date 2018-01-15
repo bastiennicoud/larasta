@@ -13,7 +13,7 @@
     <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
     <script>tinymce.init({ selector:'textarea' });</script>
 
-    <textarea>Next, start a free trial!</textarea>
+    <textarea>{{$contract->contracttext}}</textarea>
 
 
 @stop

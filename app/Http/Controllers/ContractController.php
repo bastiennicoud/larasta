@@ -22,12 +22,13 @@ class ContractController extends Controller
     public function generateContract($iid)
     {
         $iDate = $this->getStageDate($iid);
-        return view('contract/contractGenerated')->with('iDate', $iDate);
+        return view('contract/contractGenerated')->with(['iDate' => $iDate, 'iid' => $iid]);
     }
 
     public function visualizeContract($iid)
     {
-        return view('contract/contract/'. $iid .'/view}');
+        $contract = $this->getContract($iid);
+        return view('contract/contractVisualize')->with(['iid' => $iid, 'contract' => $contract]);
     }
 
     public function getStageDate($iid)
@@ -42,6 +43,13 @@ class ContractController extends Controller
 
     public  function getContract($iid)
     {
+        $contract = DB::table('contracts')
+            ->join('companies', 'contracts_id', '=', 'contracts.id')
+            ->join('internships', 'companies_id', '=', 'companies.id')
+            ->select('contracttext')
+            ->where('internships.id', $iid)
+            ->first();
 
+        return $contract;
     }
 }
