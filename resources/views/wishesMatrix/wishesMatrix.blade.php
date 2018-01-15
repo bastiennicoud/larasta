@@ -9,6 +9,9 @@
 @extends ('layout')
 
 @section ('content')
+    <div class="alert-info hidden">
+        <!-- Info if user doesn't have the good right -->
+    </div>
     <h1>Matrice des souhaits</h1>
     <table id="WishesMatrixTable" class="table-bordered">
         <tr>
@@ -16,7 +19,11 @@
             <!-- Add each persons where initials is ok -->
             @foreach ($persons as $person)
                 @if ($person->initials!="")
-                    <th value="{{ $person->id }}">{{ $person->initials }}</th>
+                    @if ($person->initials == $currentInitial) 
+                        <th class="access" value="{{ $person->id }}">{{ $person->initials }}</th>
+                    @else
+                        <th value="{{ $person->id }}">{{ $person->initials }}</th>   
+                    @endif
                 @endif
             @endforeach
         </tr>

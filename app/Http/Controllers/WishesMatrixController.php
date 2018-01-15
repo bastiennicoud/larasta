@@ -19,6 +19,10 @@ class WishesMatrixController extends Controller
 {
     public function index()
     {
+        // Complete the session for test
+        $currentId = 291;
+        $currentInitial = 'CRY';
+
         $companies = $this->getCompaniesWithInternships();
         $persons = $this->getPersons(12);
         $wishes = null;
@@ -28,7 +32,7 @@ class WishesMatrixController extends Controller
         {
             $wishes[$person->id] = $this->getWishesByPerson($person->id);
         }
-        return view('wishesMatrix/wishesMatrix')->with(['companies' => $companies, 'persons' => $persons, 'wishes' => $wishes]);
+        return view('wishesMatrix/wishesMatrix')->with(['companies' => $companies, 'persons' => $persons, 'wishes' => $wishes, 'currentInitial' => $currentInitial]);
     }
 
     private function getCompaniesWithInternships()
