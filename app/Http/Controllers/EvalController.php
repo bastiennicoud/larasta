@@ -59,7 +59,7 @@ class EvalController extends Controller
      * 
      * @return redirect
      */
-    public function newEval(Request $request, $visit = 0)
+    public function newEval(Request $request, int $visit = 0)
     {
 
         // Check if this vist really exists (prevent pest users)
@@ -85,11 +85,7 @@ class EvalController extends Controller
 
                 // The user is authored
                 // Create the new evaluation
-                $evaluation = new Evaluation;
-                $evaluation->visit_id = $visit;
-                $evaluation->editable = 1;
-                // Save it
-                $evaluation->save();
+                $evaluation = Evaluation::create(['visit_id' => $visit, 'editable' => 1]);
 
                 // Store in the session the active edited grid (avoid to pass the id in the url)
                 $request->session()->put('activeEditedGrid', $evaluation->id);
@@ -115,11 +111,11 @@ class EvalController extends Controller
      * 
      * @param Request $request
      * @param string $mode (accepts : readonly | edit)
-     * @param int $id
+     * @param int|bool $id
      * 
      * @return view
      */
-    public function editEval(Request $request, $mode = 'readonly', $gridID = null)
+    public function editEval(Request $request, string $mode = 'readonly', $gridID = null)
     {
 
         // To edit a grid, is possible pass his id in request parameters or in session key
@@ -159,7 +155,7 @@ class EvalController extends Controller
      *          2 = In progress
      *          3 = Done
      */
-    public static function getEvalState($visitid)
+    public static function getEvalState(int $visitid)
     {
         return rand(1,3); // XCL testing
     }

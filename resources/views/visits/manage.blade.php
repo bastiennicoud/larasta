@@ -34,6 +34,26 @@
             {{$contact->value}}
         </tr>
     </table>
+
+    {{-- Link to evaluation --}}
+    @switch(\App\Http\Controllers\EvalController::getEvalState($internship->id))
+        @case(1)
+        <a href="/evalgrid/neweval/{{ $internship->id }}">
+            <button class="btn-primary">Démarrer l'évaluation</button>
+        </a>
+        @break
+        @case(2)
+        <a href="/evalgrid/grid/edit/{{ $internship->id }}">
+            <button class="btn-warning">Reprendre l'évaluation</button>
+        </a>
+        @break
+        @case(3)
+        <a href="/evalgrid/grid/readonly/{{ $internship->id }}">
+            <button class="btn-secondary">Afficher l'évaluation</button>
+        </a>
+        @break
+    @endswitch
+
     <form method="post" action="/remarks/add" class="col-md-10 text-left">
         {{ csrf_field() }}
         <fieldset>
