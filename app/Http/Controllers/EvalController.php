@@ -178,7 +178,20 @@ class EvalController extends Controller
         // We call the grid generator
         $evaluationGrid = $this->generateEvaluation($gridID);
 
-        return view('evalGrid/editGrid')->with(['gridID' => $gridID, 'evaluationContext' => $evaluation, 'evalGrid' => $evaluationGrid]);
+        /**
+         * Return the wiew with all the evaluation
+         * 
+         * @param int $gridID the id of the edited grid
+         * @param Evaluation $evaluation the Model with is context
+         * @param EvaluationSection $evaluationGrid the model with the sections, all criterias and her values
+         * @param strin $mode The type of display edit or readonly
+         */
+        return view('evalGrid/editGrid')->with([
+            'gridID' => $gridID,
+            'evaluationContext' => $evaluation,
+            'evalGrid' => $evaluationGrid,
+            'mode' => $mode
+        ]);
     }
 
 
@@ -191,7 +204,7 @@ class EvalController extends Controller
      * 
      * @param int $gridID the id of the evaluation grid to generates
      * 
-     * @return array This array represents all the grid, it is designed to work with the editGrid wiew
+     * @return EvaluationSection This collection represents all the grid, it is designed to work with the editGrid wiew
      */
     public function generateEvaluation(int $gridID)
     {
@@ -200,6 +213,7 @@ class EvalController extends Controller
             $query->where('evaluation_id', '=', $gridID);
         }])->get();
     }
+
 
 
     /**

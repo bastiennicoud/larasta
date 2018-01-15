@@ -66,6 +66,8 @@ $evalGrid
             <table class="table">
 
                 {{--  Generates the right layout according to the sectionType  --}}
+
+                {{--  SECTION TYPE 1  --}}
                 @if ($evalSection->sectionType == 1)
 
                     <p>Section de type 1</p>
@@ -83,6 +85,7 @@ $evalGrid
 
                     <tbody>
 
+                        {{--  Display all the section criterias  --}}
                         @foreach ($evalSection->criterias as $criteria)
                             <tr>
                                 <td>{{ $criteria->criteriaName }}</td>
@@ -101,6 +104,7 @@ $evalGrid
 
                     </tbody>
 
+                {{--  SECTION TYPE 2  --}}
                 @elseif ($evalSection->sectionType == 2)
 
                     <p>Section de type 2</p>
@@ -118,6 +122,7 @@ $evalGrid
 
                     <tbody>
 
+                        {{--  Display all the section criterias  --}}
                         @foreach ($evalSection->criterias as $criteria)
                             <tr>
                                 <td>{{ $criteria->criteriaName }}</td>
@@ -129,6 +134,7 @@ $evalGrid
 
                     </tbody>
 
+                {{--  SECTION TYPE 3  --}}
                 @elseif ($evalSection->sectionType == 3)
 
                     <p>Section de type 3</p>
@@ -144,7 +150,8 @@ $evalGrid
                         </thead>
     
                         <tbody>
-    
+
+                            {{--  Display all the section criterias  --}}
                             @foreach ($evalSection->criterias as $criteria)
                                 <tr>
                                     <td>{{ $criteria->criteriaName }}</td>
