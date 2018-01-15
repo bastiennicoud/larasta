@@ -25,9 +25,10 @@
                 </div>
                 <div id="dateedit" class="hidden">
                     <?php
-                        $today = date('m/d/Y');
+                        $today = date('Y-m-d');
+                        $last = (new DateTime($internship->endDate))->format('Y-m-d');
                     ?>
-                    <input type="date" name="updtext" max="2018-06-25" min="" value="{{ (new DateTime($internship->moment))->format('Y-m-d') }}">
+                    <input type="date" name="updtext" max="{{$last}}" min="{{$today}}" value="{{ (new DateTime($internship->moment))->format('Y-m-d') }}">
                 </div>
             </td>
             <td class="col-md-1">
