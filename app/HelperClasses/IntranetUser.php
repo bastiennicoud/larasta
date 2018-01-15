@@ -14,6 +14,7 @@ class IntranetUser
 {
     private $initials;  // CPNV style
     private $level;     // 0=student, 1=teacher, 2=MP/deacon and higher
+    private $id;        // Intranet_user_id
 
     /**
      * IntranetUser constructor.
@@ -54,6 +55,22 @@ class IntranetUser
     public function setLevel($level)
     {
         $this->level = $level;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
 

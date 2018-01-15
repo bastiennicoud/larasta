@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+{{-- Author: Xavier Carrel --}}
+        <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,6 +10,8 @@
     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/minimal.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
     @yield('page_specific_css')
 </head>
 <body>
@@ -19,7 +22,7 @@
         </div>
         <ul class="nav navbar-nav">
             <li><a href="/entreprises">Antonio</a></li>
-            <li><a href="/evalgrid">Bastien</a></li>
+            <li><a href="/evalgrid/evalgrid">Bastien</a></li>
             <li><a href="/wishesMatrix">Benjamin</a></li>
             <li><a href="/listPeople">Davide</a></li>
             <li><a href="/visits">Jean-Yves</a></li>
@@ -36,8 +39,14 @@
 @if (!empty($message))
     <div class="alert-info willvanish">{{ $message }}</div>
 @endif
+<!-- Verifie si un message flash est present dans la session -->
+@if (session('status'))
+    <div class="alert-info willvanish">
+        {{ session('status') }}
+    </div>
+@endif
 <div class="simple-box container-fluid col-md-2 text-center">
-    <table class="table table-striped text-left">
+    <table class="table table-striped text-left larastable">
         <tr>
             <td><a href="/about"><img alt="Personnes" src="/images/contact.png">Personnes</a></td>
         </tr>
@@ -68,6 +77,7 @@
     @if (!CPNVEnvironment\Environment::isProd())
         <img id="imgwip" src="/images/wip.png">
     @endif
+    <div class="version">v{{ config('app.version') }}</div>
 </div>
 <div class="container-fluid text-center col-md-10">
     @yield ('content')

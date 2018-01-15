@@ -36,8 +36,8 @@ class RemarksController extends Controller
         $n->remarkText = $request->newremtext;
         $n->author = '???';
         $n->save();
-        $this->message = 'Remarque ajoutée';
-        return $this->index();
+        $request->session()->flash('status', 'Remarque ajoutée');
+        return redirect('/remarks');
     }
 
     public function edit (Request $request, $rid) {
@@ -61,7 +61,7 @@ class RemarksController extends Controller
         $remark = Remark::where('id',$request->updid)->first();
         $remark->remarkText = $request->updtext;
         $remark->save();
-        $this->message = 'Remarque modifiée';
-        return $this->index();
+        $request->session()->flash('status', 'Remarque modifiée');
+        return redirect('/remarks');
     }
 }

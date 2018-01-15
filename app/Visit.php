@@ -13,6 +13,6 @@ class Visit extends Model
      */
     public function visit()
     {
-        return $this->hasOne('App\Evaluation');
+        return $this->hasMany('App\Evaluation');
     }
 }
