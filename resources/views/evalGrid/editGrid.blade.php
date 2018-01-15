@@ -44,9 +44,18 @@ $evalGrid
                 </tr>
                 <tr>
                     <td>Nom et prénom du stagiaire</td>
-                    <td></td>
-                    <td colspan="2">Nom du responsable de suivi du stagiaire</td>
-                    <td colspan="2"></td>
+                    <td>{{ $evaluationContext->visit->internship->student->full_name }}</td>
+                    <td colspan="2">Nom du responsable de suivi du stagiaire (interne)</td>
+                    <td colspan="2">{{ $evaluationContext->visit->internship->teacher->full_name }}</td>
+                </tr>
+                <tr>
+                    <td>Nom de la companie</td>
+                    <td>{{ $evaluationContext->visit->internship->companie->companyName }}</td>
+                    <td colspan="2">Nom du responsable de suivi du stagiaire (externe)</td>
+                    <td colspan="2">{{ $evaluationContext->visit->internship->responsible->full_name }}</td>
+                </tr>
+                <tr>
+                    <td colspan="6">L’ensemble de la procédure d’évaluation se fait en présence de toutes les parties prenantes ! (stagiaire & responsables interne et externe du suivi)</td>
                 </tr>
             </tbody>
         </table>

@@ -21,7 +21,7 @@ class Internship extends Model
      */
     public function companie()
     {
-        return $this->belongsTo('App\Companies');
+        return $this->belongsTo('App\Companies', 'companies_id');
     }
 
     /**
@@ -43,7 +43,7 @@ class Internship extends Model
     /**
      * Relation to retrive the internship master
      */
-    public function intern()
+    public function responsible()
     {
         return $this->belongsTo('App\Persons', 'responsible_id');
     }

@@ -141,7 +141,7 @@ class EvalController extends Controller
         }
 
         // check if the grid exists and is editable
-        if ($evaluation = Evaluation::with('visit.internship')->find($gridID)){
+        if ($evaluation = Evaluation::with(['visit.internship.companie', 'visit.internship.student'])->find($gridID)){
             // The grid exists
             // If the user want to edit the grid
             if ($mode == 'edit') {
@@ -157,6 +157,8 @@ class EvalController extends Controller
             $request->session()->forget('activeEditedGrid');
             return redirect('visits')->with('status', "Cette evaluation n'existe pas !");
         }
+
+        //dd($evaluation->visit->internship->companie->companyName);
 
         // check the user authorisations
         // Only the internship supervisor and the concerned student can acess the evaluation
