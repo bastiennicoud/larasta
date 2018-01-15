@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <form id='textedit' method="post" action="/entreprises/add">
+                    <form method="post" action="/entreprises/add">
                         {{ csrf_field() }}
                         <br>
                         <div id="input" class="hidden text-left">
@@ -43,15 +43,15 @@
         <div class="tab-content">
         <table class="table table-responsive" border="solid" >
             <tr>
-                <th>Entreprises</th>
-                <th>Adresse 1</th>
-                <th>Adresse 2</th>
-                <th>NPA</th>
-                <th>Localité</th>
+                <th class="text-center">Entreprises</th>
+                <th class="text-center">Adresse 1</th>
+                <th class="text-center">Adresse 2</th>
+                <th class="text-center">NPA</th>
+                <th class="text-center">Localité</th>
             </tr>
         @foreach ($companies as $company)
-            <tr>
-                <td><a href="/entreprise/{{$company->id}}"> {{ $company->companyName }} </a></td>
+                <tr class="clickable-row" data-href="/entreprise/{{$company->id}}">
+                <td>{{ $company->companyName }}</td>
                 <td>{{ $company->address1 }}</td>
                 <td>{{ $company->address2 }}</td>
                 <td>{{ $company->postalCode }}</td>
