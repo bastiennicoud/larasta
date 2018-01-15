@@ -185,12 +185,14 @@ class EvalController extends Controller
          * @param Evaluation $evaluation the Model with is context
          * @param EvaluationSection $evaluationGrid the model with the sections, all criterias and her values
          * @param strin $mode The type of display edit or readonly
+         * @param int $level The level of the connected user
          */
         return view('evalGrid/editGrid')->with([
             'gridID' => $gridID,
             'evaluationContext' => $evaluation,
             'evalGrid' => $evaluationGrid,
-            'mode' => $mode
+            'mode' => $mode,
+            'level' => Environment::currentUser()->getLevel()
         ]);
     }
 
