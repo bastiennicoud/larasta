@@ -127,9 +127,33 @@ class EvalController extends Controller
                 $gridID = $request->session()->get('activeEditedGrid');
             } else {
                 // we have no id in session or in url params
-                return redirect('visits')->with('status', "Cette grille d'évaluation n'existe pas");
+                return redirect('visits')->with('status', "Veuillez specifier une evaluation pour l'editer");
             }
+        } else {
+            // If the id of the grid is passed in the uri, we store it in the session for efficient work
+            $request->session()->put('activeEditedGrid', $gridID);
         }
+
+        // check if the grid is editable
+        if ($evaluation = Evaluation::find($gridID)){
+            // The grid exists
+            // If the user want to edit the grid
+            if ($mode == 'edit') {
+                // Check if the grid is editable
+                if ($evaluation->editable == 0) {
+                    // if not we redirect to the readonly version of the page
+                    return redirect('evalgrid/grid/readonly')->with('status', 'Vous ne pouvez plus editer cette grille, vous etes passé en lecture seule.');
+                }
+            }
+        } else {
+            // The evaluation dont exists in the database
+            // delete the id in the session and redirect to the visits
+            $request->session()->forget('activeEditedGrid');
+            return redirect('visits')->with('status', "Cette evaluation n'existe pas !");
+        }
+
+        // check the user authorisations
+        // Only the internship supervisor and the concerned student can acess the evaluation
 
         return view('evalGrid/editGrid')->with(['gridID' => $gridID]);
     }
