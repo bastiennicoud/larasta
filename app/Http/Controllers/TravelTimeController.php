@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-
+/// Author : Kevin Jordil 2018
 
 
 class TravelTimeController extends Controller
 {
     private $message; // a message to display - if defined - in views
+    private $unknowChar = "?";
 
     public function index($result=null, $error=false)
     {
@@ -26,16 +27,9 @@ class TravelTimeController extends Controller
     /// Calculate the traveltime for a class and add it to Database
     public function calculate(Request $request){
 
-        //Actually i put this because they are some problems
-        return view('traveltime/traveltime')->with(
-            [
-                "result" => null,
-                "error" => false
-            ]
-        );
-
         $companies = $this->getCompaniesDB();
         $persons = $this->getPersonsDB($request->flockID);
+        $persons = $this->checkPersons($persons);
         $travelTimes = $this->getTravelTime($companies, $persons);
         $times = $this->extractTimes($travelTimes);
         $this->addDataDB($times, $companies, $persons);
@@ -51,15 +45,35 @@ class TravelTimeController extends Controller
         );
     }
 
+    /// load data from DB
     public function load(Request $request){
-        dd($request->flockID);
         $companies = $this->getCompaniesDB();
         $persons = $this->getPersonsDB($request->flockID);
+        $persons = $this->checkPersons($persons);
         $times = [];
-        foreach( $persons as $person){
-            array_push($times, $this->getTravelTimeDB($person->id));
+
+
+        foreach ($companies as $company){
+            foreach( $persons as $person){
+                $traveltimes = $this->getTravelTimeDB($person->id, $company->id);
+                dd($traveltimes);
+                foreach ($traveltimes as $traveltime){
+                    array_push($times, $traveltime->travelTime);
+                }
+            }
         }
-        dd($times);
+
+
+        return view('traveltime/traveltime')->with(
+            [
+                "companies" => $companies,
+                "persons" => $persons,
+                "times" => $times,
+                "result" => null,
+                "error" => false
+            ]
+        );
+
     }
 
 
@@ -69,12 +83,14 @@ class TravelTimeController extends Controller
         foreach ($companies as $key => $companie){
             $j=0;
             for($i = $key*count($persons) ; $i < ($key*count($persons))+count($persons); $i++){
-                DB::table('wishes')
-                    ->join('internships', 'wishes.internships_id', '=', 'internships.id')
-                    ->where('wishes.persons_id', $persons[$j]->id)
-                    ->where('internships.companies_id', $companie->id)
-                    ->update(['wishes.travelTime' => date('H:i:s', intval($times[$i]))]);
-                $j++;
+                if($times[$i] != $this->unknowChar){
+                    DB::table('wishes')
+                        ->join('internships', 'wishes.internships_id', '=', 'internships.id')
+                        ->where('wishes.persons_id', $persons[$j]->id)
+                        ->where('internships.companies_id', $companie->id)
+                        ->update(['wishes.travelTime' => $times[$i]]);
+                    $j++;
+                }
             }
         }
     }
@@ -168,7 +184,7 @@ class TravelTimeController extends Controller
                         array_push($times, $element["duration"]["value"]);
                     }
                     else{
-                        array_push($times, "?");
+                        array_push($times, $this->unknowChar);
                     }
                 }
             }
@@ -179,8 +195,8 @@ class TravelTimeController extends Controller
     /// Control Persons, delete empty lat lng user
     public function checkPersons($persons){
         foreach($persons as $key  => $person){
-            if(($person->lat = "" or $person->lat = null) or ($person->lng = "" or $person->lng = null)){
-                unset($person[$key]);
+            if($person->lat == null or $person->lng == null){
+                unset($persons[$key]);
             }
         }
         return $persons;
@@ -190,8 +206,10 @@ class TravelTimeController extends Controller
     /// Get companies infos from Database
     public function getCompaniesDB(){
         $companies = DB::table('companies')
+            ->join('internships', 'internships.companies_id', '=', 'companies.id')
             ->join('locations', 'location_id', '=', 'locations.id')
             ->where('companies.mptOK', 1)
+            ->whereYear('internships.beginDate', '=', date('Y'))
             ->select('companies.id', 'companies.companyName', 'locations.lat', 'locations.lng')
             ->get();
         return $companies;
@@ -208,11 +226,14 @@ class TravelTimeController extends Controller
     }
 
     /// Get wishes from Database
-    public function getTravelTimeDB($idPerson){
+    public function getTravelTimeDB($idPerson, $idCompany){
         $travelTimes = DB::table('wishes')
             ->join('internships', 'wishes.internships_id', '=', 'internships.id')
             ->join('companies', 'internships.companies_id', '=', 'companies.id')
+            ->whereYear('internships.beginDate', '=', date('Y'))
+            ->where('companies.mptOK', 1)
             ->where('wishes.persons_id', $idPerson)
+            ->where('companies.id', $idCompany)
             ->select('wishes.travelTime', 'companies.id', 'companies.companyName', 'wishes.persons_id')
             ->get();
         return $travelTimes;

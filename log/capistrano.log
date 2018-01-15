@@ -1,0 +1,511 @@
+# Logfile created on 2017-12-21 16:04:06 +0100 by logger.rb/56815
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-12-21 16:04:06 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [2376b237] Running /usr/bin/env mkdir -p /tmp as larasta@larasta
+ DEBUG [2376b237] Command: /usr/bin/env mkdir -p /tmp
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-12-21 16:05:18 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [52b4d8d3] Running /usr/bin/env mkdir -p /tmp as larasta@larasta.ch
+ DEBUG [52b4d8d3] Command: /usr/bin/env mkdir -p /tmp
+  INFO [52b4d8d3] Finished in 5.819 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh 0.0%
+  INFO Uploading /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh 100.0%
+  INFO [d15f9fd2] Running /usr/bin/env chmod 700 /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh as larasta@larasta.ch
+ DEBUG [d15f9fd2] Command: /usr/bin/env chmod 700 /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh
+  INFO [d15f9fd2] Finished in 0.053 seconds with exit status 0 (successful).
+  INFO [cca73b28] Running /usr/bin/env git ls-remote git@github.com:XCarrel/larasta.git HEAD as larasta@larasta.ch
+ DEBUG [cca73b28] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-larasta-production-Kevin.JORDIL.sh" ; /usr/bin/env git ls-remote git@github.com:XCarrel/larasta.git HEAD )
+ DEBUG [cca73b28] 	Warning: Permanently added 'github.com,192.30.253.112' (RSA) to the list of known hosts.
+ DEBUG [cca73b28] 	Permission denied (publickey).
+ DEBUG [cca73b28] 	fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-12-21 16:05:59 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [75ecb584] Running /usr/bin/env mkdir -p /tmp as larasta@larasta.ch
+ DEBUG [75ecb584] Command: /usr/bin/env mkdir -p /tmp
+  INFO [75ecb584] Finished in 4.452 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh 0.0%
+  INFO Uploading /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh 100.0%
+  INFO [dd8934dd] Running /usr/bin/env chmod 700 /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh as larasta@larasta.ch
+ DEBUG [dd8934dd] Command: /usr/bin/env chmod 700 /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh
+  INFO [dd8934dd] Finished in 0.053 seconds with exit status 0 (successful).
+  INFO [5515fe7f] Running /usr/bin/env git ls-remote git@github.com:XCarrel/larasta.git HEAD as larasta@larasta.ch
+ DEBUG [5515fe7f] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-larasta-production-Kevin.JORDIL.sh" ; /usr/bin/env git ls-remote git@github.com:XCarrel/larasta.git HEAD )
+ DEBUG [5515fe7f] 	Warning: Permanently added the RSA host key for IP address '192.30.253.113' to the list of known hosts.
+ DEBUG [5515fe7f] 	Permission denied (publickey).
+ DEBUG [5515fe7f] 	fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-12-21 16:08:48 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [d6c39668] Running /usr/bin/env mkdir -p /tmp as larasta@larasta.ch
+ DEBUG [d6c39668] Command: /usr/bin/env mkdir -p /tmp
+  INFO [d6c39668] Finished in 4.193 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh 0.0%
+  INFO Uploading /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh 100.0%
+  INFO [0b6eddad] Running /usr/bin/env chmod 700 /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh as larasta@larasta.ch
+ DEBUG [0b6eddad] Command: /usr/bin/env chmod 700 /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh
+  INFO [0b6eddad] Finished in 0.052 seconds with exit status 0 (successful).
+  INFO [0963df75] Running /usr/bin/env git ls-remote git@github.com:XCarrel/larasta.git HEAD as larasta@larasta.ch
+ DEBUG [0963df75] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-larasta-production-Kevin.JORDIL.sh" ; /usr/bin/env git ls-remote git@github.com:XCarrel/larasta.git HEAD )
+ DEBUG [0963df75] 	88d77c46da3876775f9289c854ce89c19edd46a8	HEAD
+  INFO [0963df75] Finished in 1.930 seconds with exit status 0 (successful).
+  INFO [984d8032] Running /usr/bin/env mkdir -p /home/larasta/www/larasta/shared /home/larasta/www/larasta/releases as larasta@larasta.ch
+ DEBUG [984d8032] Command: /usr/bin/env mkdir -p /home/larasta/www/larasta/shared /home/larasta/www/larasta/releases
+  INFO [984d8032] Finished in 0.024 seconds with exit status 0 (successful).
+  INFO [7da755bf] Running /usr/bin/env mkdir -p /home/larasta/www/larasta/shared/storage/app /home/larasta/www/larasta/shared/storage/framework/cache /home/larasta/www/larasta/shared/storage/framework/sessions /home/larasta/www/larasta/shared/storage/framework/views /home/larasta/www/larasta/shared/storage/logs as larasta@larasta.ch
+ DEBUG [7da755bf] Command: /usr/bin/env mkdir -p /home/larasta/www/larasta/shared/storage/app /home/larasta/www/larasta/shared/storage/framework/cache /home/larasta/www/larasta/shared/storage/framework/sessions /home/larasta/www/larasta/shared/storage/framework/views /home/larasta/www/larasta/shared/storage/logs
+  INFO [7da755bf] Finished in 0.052 seconds with exit status 0 (successful).
+ DEBUG [94ea3712] Running [ -f /home/larasta/www/larasta/current/REVISION ] as larasta@larasta.ch
+ DEBUG [94ea3712] Command: [ -f /home/larasta/www/larasta/current/REVISION ]
+ DEBUG [94ea3712] Finished in 0.052 seconds with exit status 1 (failed).
+ DEBUG [b72bc224] Running if test ! -d /home/larasta/www/larasta/shared; then echo "Directory does not exist '/home/larasta/www/larasta/shared'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [b72bc224] Command: if test ! -d /home/larasta/www/larasta/shared; then echo "Directory does not exist '/home/larasta/www/larasta/shared'" 1>&2; false; fi
+ DEBUG [b72bc224] Finished in 0.054 seconds with exit status 0 (successful).
+  INFO [db565389] Running /usr/bin/env mkdir -p storage/app as larasta@larasta.ch
+ DEBUG [db565389] Command: cd /home/larasta/www/larasta/shared && /usr/bin/env mkdir -p storage/app
+  INFO [db565389] Finished in 0.052 seconds with exit status 0 (successful).
+ DEBUG [96243e95] Running if test ! -d /home/larasta/www/larasta/shared; then echo "Directory does not exist '/home/larasta/www/larasta/shared'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [96243e95] Command: if test ! -d /home/larasta/www/larasta/shared; then echo "Directory does not exist '/home/larasta/www/larasta/shared'" 1>&2; false; fi
+ DEBUG [96243e95] Finished in 0.052 seconds with exit status 0 (successful).
+  INFO [7d1531d8] Running /usr/bin/env mkdir -p storage/framework/cache as larasta@larasta.ch
+ DEBUG [7d1531d8] Command: cd /home/larasta/www/larasta/shared && /usr/bin/env mkdir -p storage/framework/cache
+  INFO [7d1531d8] Finished in 0.054 seconds with exit status 0 (successful).
+ DEBUG [0712579a] Running if test ! -d /home/larasta/www/larasta/shared; then echo "Directory does not exist '/home/larasta/www/larasta/shared'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [0712579a] Command: if test ! -d /home/larasta/www/larasta/shared; then echo "Directory does not exist '/home/larasta/www/larasta/shared'" 1>&2; false; fi
+ DEBUG [0712579a] Finished in 0.055 seconds with exit status 0 (successful).
+  INFO [135d0043] Running /usr/bin/env mkdir -p storage/framework/sessions as larasta@larasta.ch
+ DEBUG [135d0043] Command: cd /home/larasta/www/larasta/shared && /usr/bin/env mkdir -p storage/framework/sessions
+  INFO [135d0043] Finished in 0.055 seconds with exit status 0 (successful).
+ DEBUG [59f8965d] Running if test ! -d /home/larasta/www/larasta/shared; then echo "Directory does not exist '/home/larasta/www/larasta/shared'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [59f8965d] Command: if test ! -d /home/larasta/www/larasta/shared; then echo "Directory does not exist '/home/larasta/www/larasta/shared'" 1>&2; false; fi
+ DEBUG [59f8965d] Finished in 0.054 seconds with exit status 0 (successful).
+  INFO [c0c5256b] Running /usr/bin/env mkdir -p storage/framework/views as larasta@larasta.ch
+ DEBUG [c0c5256b] Command: cd /home/larasta/www/larasta/shared && /usr/bin/env mkdir -p storage/framework/views
+  INFO [c0c5256b] Finished in 0.054 seconds with exit status 0 (successful).
+ DEBUG [8911b274] Running if test ! -d /home/larasta/www/larasta/shared; then echo "Directory does not exist '/home/larasta/www/larasta/shared'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [8911b274] Command: if test ! -d /home/larasta/www/larasta/shared; then echo "Directory does not exist '/home/larasta/www/larasta/shared'" 1>&2; false; fi
+ DEBUG [8911b274] Finished in 0.054 seconds with exit status 0 (successful).
+  INFO [813f327e] Running /usr/bin/env mkdir -p storage/logs as larasta@larasta.ch
+ DEBUG [813f327e] Command: cd /home/larasta/www/larasta/shared && /usr/bin/env mkdir -p storage/logs
+  INFO [813f327e] Finished in 0.053 seconds with exit status 0 (successful).
+ DEBUG [c584fdf1] Running [ -f /home/larasta/www/larasta/repo/HEAD ] as larasta@larasta.ch
+ DEBUG [c584fdf1] Command: [ -f /home/larasta/www/larasta/repo/HEAD ]
+ DEBUG [c584fdf1] Finished in 0.050 seconds with exit status 1 (failed).
+ DEBUG [51167c6e] Running if test ! -d /home/larasta/www/larasta; then echo "Directory does not exist '/home/larasta/www/larasta'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [51167c6e] Command: if test ! -d /home/larasta/www/larasta; then echo "Directory does not exist '/home/larasta/www/larasta'" 1>&2; false; fi
+ DEBUG [51167c6e] Finished in 0.053 seconds with exit status 0 (successful).
+  INFO [a993fc17] Running /usr/bin/env git clone --mirror git@github.com:XCarrel/larasta.git /home/larasta/www/larasta/repo as larasta@larasta.ch
+ DEBUG [a993fc17] Command: cd /home/larasta/www/larasta && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-larasta-production-Kevin.JORDIL.sh" ; /usr/bin/env git clone --mirror git@github.com:XCarrel/larasta.git /home/larasta/www/larasta/repo )
+ DEBUG [a993fc17] 	Cloning into bare repository '/home/larasta/www/larasta/repo'...
+  INFO [a993fc17] Finished in 3.669 seconds with exit status 0 (successful).
+ DEBUG [7e569eb7] Running if test ! -d /home/larasta/www/larasta/repo; then echo "Directory does not exist '/home/larasta/www/larasta/repo'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [7e569eb7] Command: if test ! -d /home/larasta/www/larasta/repo; then echo "Directory does not exist '/home/larasta/www/larasta/repo'" 1>&2; false; fi
+ DEBUG [7e569eb7] Finished in 0.024 seconds with exit status 0 (successful).
+  INFO [70715a46] Running /usr/bin/env git remote set-url origin git@github.com:XCarrel/larasta.git as larasta@larasta.ch
+ DEBUG [70715a46] Command: cd /home/larasta/www/larasta/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-larasta-production-Kevin.JORDIL.sh" ; /usr/bin/env git remote set-url origin git@github.com:XCarrel/larasta.git )
+  INFO [70715a46] Finished in 0.054 seconds with exit status 0 (successful).
+  INFO [6a9cdf8e] Running /usr/bin/env git remote update --prune as larasta@larasta.ch
+ DEBUG [6a9cdf8e] Command: cd /home/larasta/www/larasta/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-larasta-production-Kevin.JORDIL.sh" ; /usr/bin/env git remote update --prune )
+ DEBUG [6a9cdf8e] 	Fetching origin
+  INFO [6a9cdf8e] Finished in 1.817 seconds with exit status 0 (successful).
+ DEBUG [8ca0b24d] Running if test ! -d /home/larasta/www/larasta/repo; then echo "Directory does not exist '/home/larasta/www/larasta/repo'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [8ca0b24d] Command: if test ! -d /home/larasta/www/larasta/repo; then echo "Directory does not exist '/home/larasta/www/larasta/repo'" 1>&2; false; fi
+ DEBUG [8ca0b24d] Finished in 0.025 seconds with exit status 0 (successful).
+  INFO [d8e0a191] Running /usr/bin/env mkdir -p /home/larasta/www/larasta/releases/20171221150855 as larasta@larasta.ch
+ DEBUG [d8e0a191] Command: cd /home/larasta/www/larasta/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-larasta-production-Kevin.JORDIL.sh" ; /usr/bin/env mkdir -p /home/larasta/www/larasta/releases/20171221150855 )
+  INFO [d8e0a191] Finished in 0.052 seconds with exit status 0 (successful).
+  INFO [7e216c69] Running /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /home/larasta/www/larasta/releases/20171221150855 as larasta@larasta.ch
+ DEBUG [7e216c69] Command: cd /home/larasta/www/larasta/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-larasta-production-Kevin.JORDIL.sh" ; /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /home/larasta/www/larasta/releases/20171221150855 )
+  INFO [7e216c69] Finished in 0.060 seconds with exit status 0 (successful).
+ DEBUG [4b9ab656] Running if test ! -d /home/larasta/www/larasta/repo; then echo "Directory does not exist '/home/larasta/www/larasta/repo'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [4b9ab656] Command: if test ! -d /home/larasta/www/larasta/repo; then echo "Directory does not exist '/home/larasta/www/larasta/repo'" 1>&2; false; fi
+ DEBUG [4b9ab656] Finished in 0.052 seconds with exit status 0 (successful).
+ DEBUG [3acf9b14] Running /usr/bin/env git rev-list --max-count=1 master as larasta@larasta.ch
+ DEBUG [3acf9b14] Command: cd /home/larasta/www/larasta/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-larasta-production-Kevin.JORDIL.sh" ; /usr/bin/env git rev-list --max-count=1 master )
+ DEBUG [3acf9b14] 	88d77c46da3876775f9289c854ce89c19edd46a8
+ DEBUG [3acf9b14] Finished in 0.058 seconds with exit status 0 (successful).
+ DEBUG [d03dd094] Running if test ! -d /home/larasta/www/larasta/releases/20171221150855; then echo "Directory does not exist '/home/larasta/www/larasta/releases/20171221150855'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [d03dd094] Command: if test ! -d /home/larasta/www/larasta/releases/20171221150855; then echo "Directory does not exist '/home/larasta/www/larasta/releases/20171221150855'" 1>&2; false; fi
+ DEBUG [d03dd094] Finished in 0.054 seconds with exit status 0 (successful).
+  INFO [460bcc95] Running /usr/bin/env echo "88d77c46da3876775f9289c854ce89c19edd46a8" >> REVISION as larasta@larasta.ch
+ DEBUG [460bcc95] Command: cd /home/larasta/www/larasta/releases/20171221150855 && /usr/bin/env echo "88d77c46da3876775f9289c854ce89c19edd46a8" >> REVISION
+  INFO [460bcc95] Finished in 0.053 seconds with exit status 0 (successful).
+  INFO [4ecee1d6] Running /usr/bin/env mkdir -p /home/larasta/www/larasta/releases/20171221150855/storage /home/larasta/www/larasta/releases/20171221150855/storage/framework as larasta@larasta.ch
+ DEBUG [4ecee1d6] Command: /usr/bin/env mkdir -p /home/larasta/www/larasta/releases/20171221150855/storage /home/larasta/www/larasta/releases/20171221150855/storage/framework
+  INFO [4ecee1d6] Finished in 0.053 seconds with exit status 0 (successful).
+ DEBUG [6614d142] Running [ -L /home/larasta/www/larasta/releases/20171221150855/storage/app ] as larasta@larasta.ch
+ DEBUG [6614d142] Command: [ -L /home/larasta/www/larasta/releases/20171221150855/storage/app ]
+ DEBUG [6614d142] Finished in 0.052 seconds with exit status 1 (failed).
+ DEBUG [a53d9265] Running [ -d /home/larasta/www/larasta/releases/20171221150855/storage/app ] as larasta@larasta.ch
+ DEBUG [a53d9265] Command: [ -d /home/larasta/www/larasta/releases/20171221150855/storage/app ]
+ DEBUG [a53d9265] Finished in 0.053 seconds with exit status 0 (successful).
+  INFO [3d5851b4] Running /usr/bin/env rm -rf /home/larasta/www/larasta/releases/20171221150855/storage/app as larasta@larasta.ch
+ DEBUG [3d5851b4] Command: /usr/bin/env rm -rf /home/larasta/www/larasta/releases/20171221150855/storage/app
+  INFO [3d5851b4] Finished in 0.052 seconds with exit status 0 (successful).
+  INFO [1df283f5] Running /usr/bin/env ln -s /home/larasta/www/larasta/shared/storage/app /home/larasta/www/larasta/releases/20171221150855/storage/app as larasta@larasta.ch
+ DEBUG [1df283f5] Command: /usr/bin/env ln -s /home/larasta/www/larasta/shared/storage/app /home/larasta/www/larasta/releases/20171221150855/storage/app
+  INFO [1df283f5] Finished in 0.052 seconds with exit status 0 (successful).
+ DEBUG [ef32c95f] Running [ -L /home/larasta/www/larasta/releases/20171221150855/storage/framework/cache ] as larasta@larasta.ch
+ DEBUG [ef32c95f] Command: [ -L /home/larasta/www/larasta/releases/20171221150855/storage/framework/cache ]
+ DEBUG [ef32c95f] Finished in 0.052 seconds with exit status 1 (failed).
+ DEBUG [01b7c6ea] Running [ -d /home/larasta/www/larasta/releases/20171221150855/storage/framework/cache ] as larasta@larasta.ch
+ DEBUG [01b7c6ea] Command: [ -d /home/larasta/www/larasta/releases/20171221150855/storage/framework/cache ]
+ DEBUG [01b7c6ea] Finished in 0.054 seconds with exit status 0 (successful).
+  INFO [a94dee35] Running /usr/bin/env rm -rf /home/larasta/www/larasta/releases/20171221150855/storage/framework/cache as larasta@larasta.ch
+ DEBUG [a94dee35] Command: /usr/bin/env rm -rf /home/larasta/www/larasta/releases/20171221150855/storage/framework/cache
+  INFO [a94dee35] Finished in 0.054 seconds with exit status 0 (successful).
+  INFO [1284597f] Running /usr/bin/env ln -s /home/larasta/www/larasta/shared/storage/framework/cache /home/larasta/www/larasta/releases/20171221150855/storage/framework/cache as larasta@larasta.ch
+ DEBUG [1284597f] Command: /usr/bin/env ln -s /home/larasta/www/larasta/shared/storage/framework/cache /home/larasta/www/larasta/releases/20171221150855/storage/framework/cache
+  INFO [1284597f] Finished in 0.052 seconds with exit status 0 (successful).
+ DEBUG [bc8e1396] Running [ -L /home/larasta/www/larasta/releases/20171221150855/storage/framework/sessions ] as larasta@larasta.ch
+ DEBUG [bc8e1396] Command: [ -L /home/larasta/www/larasta/releases/20171221150855/storage/framework/sessions ]
+ DEBUG [bc8e1396] Finished in 0.053 seconds with exit status 1 (failed).
+ DEBUG [761ee2a3] Running [ -d /home/larasta/www/larasta/releases/20171221150855/storage/framework/sessions ] as larasta@larasta.ch
+ DEBUG [761ee2a3] Command: [ -d /home/larasta/www/larasta/releases/20171221150855/storage/framework/sessions ]
+ DEBUG [761ee2a3] Finished in 0.054 seconds with exit status 0 (successful).
+  INFO [56f5b3a9] Running /usr/bin/env rm -rf /home/larasta/www/larasta/releases/20171221150855/storage/framework/sessions as larasta@larasta.ch
+ DEBUG [56f5b3a9] Command: /usr/bin/env rm -rf /home/larasta/www/larasta/releases/20171221150855/storage/framework/sessions
+  INFO [56f5b3a9] Finished in 0.043 seconds with exit status 0 (successful).
+  INFO [ce248c1a] Running /usr/bin/env ln -s /home/larasta/www/larasta/shared/storage/framework/sessions /home/larasta/www/larasta/releases/20171221150855/storage/framework/sessions as larasta@larasta.ch
+ DEBUG [ce248c1a] Command: /usr/bin/env ln -s /home/larasta/www/larasta/shared/storage/framework/sessions /home/larasta/www/larasta/releases/20171221150855/storage/framework/sessions
+  INFO [ce248c1a] Finished in 0.054 seconds with exit status 0 (successful).
+ DEBUG [86d8e707] Running [ -L /home/larasta/www/larasta/releases/20171221150855/storage/framework/views ] as larasta@larasta.ch
+ DEBUG [86d8e707] Command: [ -L /home/larasta/www/larasta/releases/20171221150855/storage/framework/views ]
+ DEBUG [86d8e707] Finished in 0.052 seconds with exit status 1 (failed).
+ DEBUG [0af4a1b1] Running [ -d /home/larasta/www/larasta/releases/20171221150855/storage/framework/views ] as larasta@larasta.ch
+ DEBUG [0af4a1b1] Command: [ -d /home/larasta/www/larasta/releases/20171221150855/storage/framework/views ]
+ DEBUG [0af4a1b1] Finished in 0.053 seconds with exit status 0 (successful).
+  INFO [117ab98f] Running /usr/bin/env rm -rf /home/larasta/www/larasta/releases/20171221150855/storage/framework/views as larasta@larasta.ch
+ DEBUG [117ab98f] Command: /usr/bin/env rm -rf /home/larasta/www/larasta/releases/20171221150855/storage/framework/views
+  INFO [117ab98f] Finished in 0.052 seconds with exit status 0 (successful).
+  INFO [cec7906b] Running /usr/bin/env ln -s /home/larasta/www/larasta/shared/storage/framework/views /home/larasta/www/larasta/releases/20171221150855/storage/framework/views as larasta@larasta.ch
+ DEBUG [cec7906b] Command: /usr/bin/env ln -s /home/larasta/www/larasta/shared/storage/framework/views /home/larasta/www/larasta/releases/20171221150855/storage/framework/views
+  INFO [cec7906b] Finished in 0.052 seconds with exit status 0 (successful).
+ DEBUG [8eaa437a] Running [ -L /home/larasta/www/larasta/releases/20171221150855/storage/logs ] as larasta@larasta.ch
+ DEBUG [8eaa437a] Command: [ -L /home/larasta/www/larasta/releases/20171221150855/storage/logs ]
+ DEBUG [8eaa437a] Finished in 0.052 seconds with exit status 1 (failed).
+ DEBUG [eb03e9c4] Running [ -d /home/larasta/www/larasta/releases/20171221150855/storage/logs ] as larasta@larasta.ch
+ DEBUG [eb03e9c4] Command: [ -d /home/larasta/www/larasta/releases/20171221150855/storage/logs ]
+ DEBUG [eb03e9c4] Finished in 0.052 seconds with exit status 0 (successful).
+  INFO [0386ed7e] Running /usr/bin/env rm -rf /home/larasta/www/larasta/releases/20171221150855/storage/logs as larasta@larasta.ch
+ DEBUG [0386ed7e] Command: /usr/bin/env rm -rf /home/larasta/www/larasta/releases/20171221150855/storage/logs
+  INFO [0386ed7e] Finished in 0.052 seconds with exit status 0 (successful).
+  INFO [b3c0b675] Running /usr/bin/env ln -s /home/larasta/www/larasta/shared/storage/logs /home/larasta/www/larasta/releases/20171221150855/storage/logs as larasta@larasta.ch
+ DEBUG [b3c0b675] Command: /usr/bin/env ln -s /home/larasta/www/larasta/shared/storage/logs /home/larasta/www/larasta/releases/20171221150855/storage/logs
+  INFO [b3c0b675] Finished in 0.051 seconds with exit status 0 (successful).
+ DEBUG [b9099ed6] Running if test ! -d /home/larasta/www/larasta/releases/20171221150855; then echo "Directory does not exist '/home/larasta/www/larasta/releases/20171221150855'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [b9099ed6] Command: if test ! -d /home/larasta/www/larasta/releases/20171221150855; then echo "Directory does not exist '/home/larasta/www/larasta/releases/20171221150855'" 1>&2; false; fi
+ DEBUG [b9099ed6] Finished in 0.052 seconds with exit status 0 (successful).
+  INFO [5f4da244] Running /usr/bin/env composer install --no-dev --prefer-dist --no-interaction --quiet --optimize-autoloader as larasta@larasta.ch
+ DEBUG [5f4da244] Command: cd /home/larasta/www/larasta/releases/20171221150855 && /usr/bin/env composer install --no-dev --prefer-dist --no-interaction --quiet --optimize-autoloader
+ DEBUG [5f4da244] 	Warning: The lock file is not up to date with the latest changes in composer.json. You may be getting outdated dependencies. Run update to update them.
+ DEBUG [5f4da244] 	
+  INFO [5f4da244] Finished in 75.776 seconds with exit status 0 (successful).
+ DEBUG [478c06cf] Running if test ! -d /home/larasta/www/larasta/releases/20171221150855; then echo "Directory does not exist '/home/larasta/www/larasta/releases/20171221150855'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [478c06cf] Command: if test ! -d /home/larasta/www/larasta/releases/20171221150855; then echo "Directory does not exist '/home/larasta/www/larasta/releases/20171221150855'" 1>&2; false; fi
+ DEBUG [478c06cf] Finished in 0.053 seconds with exit status 0 (successful).
+  INFO [3570ae64] Running /usr/bin/env php artisan storage:link --env=production as larasta@larasta.ch
+ DEBUG [3570ae64] Command: cd /home/larasta/www/larasta/releases/20171221150855 && /usr/bin/env php artisan storage:link --env=production
+ DEBUG [3570ae64] 	The [public/storage] directory has been linked.
+ DEBUG [3570ae64] 	
+  INFO [3570ae64] Finished in 0.186 seconds with exit status 0 (successful).
+ DEBUG [9adf6209] Running if test ! -d /home/larasta/www/larasta/releases/20171221150855; then echo "Directory does not exist '/home/larasta/www/larasta/releases/20171221150855'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [9adf6209] Command: if test ! -d /home/larasta/www/larasta/releases/20171221150855; then echo "Directory does not exist '/home/larasta/www/larasta/releases/20171221150855'" 1>&2; false; fi
+ DEBUG [9adf6209] Finished in 0.052 seconds with exit status 0 (successful).
+  INFO [cd53e70b] Running /usr/bin/env php artisan optimize --force --env=production as larasta@larasta.ch
+ DEBUG [cd53e70b] Command: cd /home/larasta/www/larasta/releases/20171221150855 && /usr/bin/env php artisan optimize --force --env=production
+  INFO [cd53e70b] Finished in 0.120 seconds with exit status 0 (successful).
+  INFO [364dca93] Running /usr/bin/env ln -s /home/larasta/www/larasta/releases/20171221150855 /home/larasta/www/larasta/releases/current as larasta@larasta.ch
+ DEBUG [364dca93] Command: /usr/bin/env ln -s /home/larasta/www/larasta/releases/20171221150855 /home/larasta/www/larasta/releases/current
+  INFO [364dca93] Finished in 0.054 seconds with exit status 0 (successful).
+  INFO [e484c65c] Running /usr/bin/env mv /home/larasta/www/larasta/releases/current /home/larasta/www/larasta as larasta@larasta.ch
+ DEBUG [e484c65c] Command: /usr/bin/env mv /home/larasta/www/larasta/releases/current /home/larasta/www/larasta
+  INFO [e484c65c] Finished in 0.054 seconds with exit status 0 (successful).
+ DEBUG [c90419c7] Running /usr/bin/env ls -x /home/larasta/www/larasta/releases as larasta@larasta.ch
+ DEBUG [c90419c7] Command: /usr/bin/env ls -x /home/larasta/www/larasta/releases
+ DEBUG [c90419c7] 	20171221150855
+ DEBUG [c90419c7] Finished in 0.056 seconds with exit status 0 (successful).
+ DEBUG [bbf05942] Running if test ! -d /home/larasta/www/larasta/releases; then echo "Directory does not exist '/home/larasta/www/larasta/releases'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [bbf05942] Command: if test ! -d /home/larasta/www/larasta/releases; then echo "Directory does not exist '/home/larasta/www/larasta/releases'" 1>&2; false; fi
+ DEBUG [bbf05942] Finished in 0.053 seconds with exit status 0 (successful).
+  INFO [580f98b0] Running /usr/bin/env echo "Branch master (at 88d77c46da3876775f9289c854ce89c19edd46a8) deployed as release 20171221150855 by Kevin.JORDIL" >> /home/larasta/www/larasta/revisions.log as larasta@larasta.ch
+ DEBUG [580f98b0] Command: cd /home/larasta/www/larasta/releases && /usr/bin/env echo "Branch master (at 88d77c46da3876775f9289c854ce89c19edd46a8) deployed as release 20171221150855 by Kevin.JORDIL" >> /home/larasta/www/larasta/revisions.log
+  INFO [580f98b0] Finished in 0.054 seconds with exit status 0 (successful).
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-12-21 16:36:14 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [779e0c7e] Running /usr/bin/env mkdir -p /tmp as larasta@larasta.ch
+ DEBUG [779e0c7e] Command: /usr/bin/env mkdir -p /tmp
+  INFO [779e0c7e] Finished in 4.098 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh 0.0%
+  INFO Uploading /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh 100.0%
+  INFO [2a0697b2] Running /usr/bin/env chmod 700 /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh as larasta@larasta.ch
+ DEBUG [2a0697b2] Command: /usr/bin/env chmod 700 /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh
+  INFO [2a0697b2] Finished in 0.052 seconds with exit status 0 (successful).
+  INFO [acbe0e96] Running /usr/bin/env git ls-remote git@github.com:XCarrel/larasta.git HEAD as larasta@larasta.ch
+ DEBUG [acbe0e96] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-larasta-production-Kevin.JORDIL.sh" ; /usr/bin/env git ls-remote git@github.com:XCarrel/larasta.git HEAD )
+ DEBUG [acbe0e96] 	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ DEBUG [acbe0e96] 	@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
+ DEBUG [acbe0e96] 	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ DEBUG [acbe0e96] 	Permissions 0770 for '/home/larasta/.ssh/id_rsa' are too open.
+ DEBUG [acbe0e96] 	It is required that your private key files are NOT accessible by others.
+ DEBUG [acbe0e96] 	This private key will be ignored.
+ DEBUG [acbe0e96] 	Load key "/home/larasta/.ssh/id_rsa": bad permissions
+ DEBUG [acbe0e96] 	Permission denied (publickey).
+ DEBUG [acbe0e96] 	fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-12-21 16:38:29 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [1b7280d3] Running /usr/bin/env mkdir -p /tmp as larasta@larasta.ch
+ DEBUG [1b7280d3] Command: /usr/bin/env mkdir -p /tmp
+  INFO [1b7280d3] Finished in 4.091 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh 0.0%
+  INFO Uploading /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh 100.0%
+  INFO [cfd08028] Running /usr/bin/env chmod 700 /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh as larasta@larasta.ch
+ DEBUG [cfd08028] Command: /usr/bin/env chmod 700 /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh
+  INFO [cfd08028] Finished in 0.052 seconds with exit status 0 (successful).
+  INFO [20ed75e8] Running /usr/bin/env git ls-remote git@github.com:XCarrel/larasta.git HEAD as larasta@larasta.ch
+ DEBUG [20ed75e8] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-larasta-production-Kevin.JORDIL.sh" ; /usr/bin/env git ls-remote git@github.com:XCarrel/larasta.git HEAD )
+ DEBUG [20ed75e8] 	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ DEBUG [20ed75e8] 	@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
+ DEBUG [20ed75e8] 	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ DEBUG [20ed75e8] 	Permissions 0755 for '/home/larasta/.ssh/id_rsa' are too open.
+ DEBUG [20ed75e8] 	It is required that your private key files are NOT accessible by others.
+ DEBUG [20ed75e8] 	This private key will be ignored.
+ DEBUG [20ed75e8] 	Load key "/home/larasta/.ssh/id_rsa": bad permissions
+ DEBUG [20ed75e8] 	Permission denied (publickey).
+ DEBUG [20ed75e8] 	fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-12-21 16:43:07 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [29aa1cbc] Running /usr/bin/env mkdir -p /tmp as larasta@larasta.ch
+ DEBUG [29aa1cbc] Command: /usr/bin/env mkdir -p /tmp
+  INFO [29aa1cbc] Finished in 4.519 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh 0.0%
+  INFO Uploading /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh 100.0%
+  INFO [e41155ba] Running /usr/bin/env chmod 700 /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh as larasta@larasta.ch
+ DEBUG [e41155ba] Command: /usr/bin/env chmod 700 /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh
+  INFO [e41155ba] Finished in 0.060 seconds with exit status 0 (successful).
+  INFO [024b20c8] Running /usr/bin/env git ls-remote git@github.com:XCarrel/larasta.git HEAD as larasta@larasta.ch
+ DEBUG [024b20c8] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-larasta-production-Kevin.JORDIL.sh" ; /usr/bin/env git ls-remote git@github.com:XCarrel/larasta.git HEAD )
+ DEBUG [024b20c8] 	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ DEBUG [024b20c8] 	@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
+ DEBUG [024b20c8] 	@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ DEBUG [024b20c8] 	Permissions 0755 for '/home/larasta/.ssh/id_rsa' are too open.
+ DEBUG [024b20c8] 	It is required that your private key files are NOT accessible by others.
+ DEBUG [024b20c8] 	This private key will be ignored.
+ DEBUG [024b20c8] 	Load key "/home/larasta/.ssh/id_rsa": bad permissions
+ DEBUG [024b20c8] 	Permission denied (publickey).
+ DEBUG [024b20c8] 	fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+  INFO ---------------------------------------------------------------------------
+  INFO START 2017-12-21 16:45:55 +0100 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [61cc9808] Running /usr/bin/env mkdir -p /tmp as larasta@larasta.ch
+ DEBUG [61cc9808] Command: /usr/bin/env mkdir -p /tmp
+  INFO [61cc9808] Finished in 4.382 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh 0.0%
+  INFO Uploading /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh 100.0%
+  INFO [dad55750] Running /usr/bin/env chmod 700 /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh as larasta@larasta.ch
+ DEBUG [dad55750] Command: /usr/bin/env chmod 700 /tmp/git-ssh-larasta-production-Kevin.JORDIL.sh
+  INFO [dad55750] Finished in 0.054 seconds with exit status 0 (successful).
+  INFO [f6614275] Running /usr/bin/env git ls-remote git@github.com:XCarrel/larasta.git HEAD as larasta@larasta.ch
+ DEBUG [f6614275] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-larasta-production-Kevin.JORDIL.sh" ; /usr/bin/env git ls-remote git@github.com:XCarrel/larasta.git HEAD )
+ DEBUG [f6614275] 	88d77c46da3876775f9289c854ce89c19edd46a8	HEAD
+  INFO [f6614275] Finished in 2.471 seconds with exit status 0 (successful).
+  INFO [2c266cde] Running /usr/bin/env mkdir -p /home/larasta/www/larasta/shared /home/larasta/www/larasta/releases as larasta@larasta.ch
+ DEBUG [2c266cde] Command: /usr/bin/env mkdir -p /home/larasta/www/larasta/shared /home/larasta/www/larasta/releases
+  INFO [2c266cde] Finished in 0.024 seconds with exit status 0 (successful).
+  INFO [0bdcb7dc] Running /usr/bin/env mkdir -p /home/larasta/www/larasta/shared/storage/app /home/larasta/www/larasta/shared/storage/framework/cache /home/larasta/www/larasta/shared/storage/framework/sessions /home/larasta/www/larasta/shared/storage/framework/views /home/larasta/www/larasta/shared/storage/logs as larasta@larasta.ch
+ DEBUG [0bdcb7dc] Command: /usr/bin/env mkdir -p /home/larasta/www/larasta/shared/storage/app /home/larasta/www/larasta/shared/storage/framework/cache /home/larasta/www/larasta/shared/storage/framework/sessions /home/larasta/www/larasta/shared/storage/framework/views /home/larasta/www/larasta/shared/storage/logs
+  INFO [0bdcb7dc] Finished in 0.053 seconds with exit status 0 (successful).
+ DEBUG [d5b0bfab] Running [ -f /home/larasta/www/larasta/current/REVISION ] as larasta@larasta.ch
+ DEBUG [d5b0bfab] Command: [ -f /home/larasta/www/larasta/current/REVISION ]
+ DEBUG [d5b0bfab] Finished in 0.051 seconds with exit status 0 (successful).
+ DEBUG [72322f16] Running /usr/bin/env cat /home/larasta/www/larasta/current/REVISION 2>/dev/null as larasta@larasta.ch
+ DEBUG [72322f16] Command: /usr/bin/env cat /home/larasta/www/larasta/current/REVISION 2>/dev/null
+ DEBUG [72322f16] 	88d77c46da3876775f9289c854ce89c19edd46a8
+ DEBUG [72322f16] Finished in 0.057 seconds with exit status 0 (successful).
+ DEBUG [4da3ba7e] Running if test ! -d /home/larasta/www/larasta/shared; then echo "Directory does not exist '/home/larasta/www/larasta/shared'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [4da3ba7e] Command: if test ! -d /home/larasta/www/larasta/shared; then echo "Directory does not exist '/home/larasta/www/larasta/shared'" 1>&2; false; fi
+ DEBUG [4da3ba7e] Finished in 0.053 seconds with exit status 0 (successful).
+  INFO [ac7d3a75] Running /usr/bin/env mkdir -p storage/app as larasta@larasta.ch
+ DEBUG [ac7d3a75] Command: cd /home/larasta/www/larasta/shared && /usr/bin/env mkdir -p storage/app
+  INFO [ac7d3a75] Finished in 0.052 seconds with exit status 0 (successful).
+ DEBUG [bee3cbf4] Running if test ! -d /home/larasta/www/larasta/shared; then echo "Directory does not exist '/home/larasta/www/larasta/shared'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [bee3cbf4] Command: if test ! -d /home/larasta/www/larasta/shared; then echo "Directory does not exist '/home/larasta/www/larasta/shared'" 1>&2; false; fi
+ DEBUG [bee3cbf4] Finished in 0.051 seconds with exit status 0 (successful).
+  INFO [42afaf0b] Running /usr/bin/env mkdir -p storage/framework/cache as larasta@larasta.ch
+ DEBUG [42afaf0b] Command: cd /home/larasta/www/larasta/shared && /usr/bin/env mkdir -p storage/framework/cache
+  INFO [42afaf0b] Finished in 0.054 seconds with exit status 0 (successful).
+ DEBUG [3f5f5aa8] Running if test ! -d /home/larasta/www/larasta/shared; then echo "Directory does not exist '/home/larasta/www/larasta/shared'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [3f5f5aa8] Command: if test ! -d /home/larasta/www/larasta/shared; then echo "Directory does not exist '/home/larasta/www/larasta/shared'" 1>&2; false; fi
+ DEBUG [3f5f5aa8] Finished in 0.052 seconds with exit status 0 (successful).
+  INFO [fff594b7] Running /usr/bin/env mkdir -p storage/framework/sessions as larasta@larasta.ch
+ DEBUG [fff594b7] Command: cd /home/larasta/www/larasta/shared && /usr/bin/env mkdir -p storage/framework/sessions
+  INFO [fff594b7] Finished in 0.053 seconds with exit status 0 (successful).
+ DEBUG [7a68d306] Running if test ! -d /home/larasta/www/larasta/shared; then echo "Directory does not exist '/home/larasta/www/larasta/shared'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [7a68d306] Command: if test ! -d /home/larasta/www/larasta/shared; then echo "Directory does not exist '/home/larasta/www/larasta/shared'" 1>&2; false; fi
+ DEBUG [7a68d306] Finished in 0.053 seconds with exit status 0 (successful).
+  INFO [de4a431b] Running /usr/bin/env mkdir -p storage/framework/views as larasta@larasta.ch
+ DEBUG [de4a431b] Command: cd /home/larasta/www/larasta/shared && /usr/bin/env mkdir -p storage/framework/views
+  INFO [de4a431b] Finished in 0.053 seconds with exit status 0 (successful).
+ DEBUG [e4c86717] Running if test ! -d /home/larasta/www/larasta/shared; then echo "Directory does not exist '/home/larasta/www/larasta/shared'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [e4c86717] Command: if test ! -d /home/larasta/www/larasta/shared; then echo "Directory does not exist '/home/larasta/www/larasta/shared'" 1>&2; false; fi
+ DEBUG [e4c86717] Finished in 0.054 seconds with exit status 0 (successful).
+  INFO [05f2d674] Running /usr/bin/env mkdir -p storage/logs as larasta@larasta.ch
+ DEBUG [05f2d674] Command: cd /home/larasta/www/larasta/shared && /usr/bin/env mkdir -p storage/logs
+  INFO [05f2d674] Finished in 0.054 seconds with exit status 0 (successful).
+ DEBUG [4b0aa875] Running [ -f /home/larasta/www/larasta/repo/HEAD ] as larasta@larasta.ch
+ DEBUG [4b0aa875] Command: [ -f /home/larasta/www/larasta/repo/HEAD ]
+ DEBUG [4b0aa875] Finished in 0.044 seconds with exit status 0 (successful).
+  INFO The repository mirror is at /home/larasta/www/larasta/repo
+ DEBUG [b4e8d794] Running if test ! -d /home/larasta/www/larasta/repo; then echo "Directory does not exist '/home/larasta/www/larasta/repo'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [b4e8d794] Command: if test ! -d /home/larasta/www/larasta/repo; then echo "Directory does not exist '/home/larasta/www/larasta/repo'" 1>&2; false; fi
+ DEBUG [b4e8d794] Finished in 0.045 seconds with exit status 0 (successful).
+  INFO [ea4dcf8c] Running /usr/bin/env git remote set-url origin git@github.com:XCarrel/larasta.git as larasta@larasta.ch
+ DEBUG [ea4dcf8c] Command: cd /home/larasta/www/larasta/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-larasta-production-Kevin.JORDIL.sh" ; /usr/bin/env git remote set-url origin git@github.com:XCarrel/larasta.git )
+  INFO [ea4dcf8c] Finished in 0.052 seconds with exit status 0 (successful).
+  INFO [d8da68ce] Running /usr/bin/env git remote update --prune as larasta@larasta.ch
+ DEBUG [d8da68ce] Command: cd /home/larasta/www/larasta/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-larasta-production-Kevin.JORDIL.sh" ; /usr/bin/env git remote update --prune )
+ DEBUG [d8da68ce] 	Fetching origin
+  INFO [d8da68ce] Finished in 2.976 seconds with exit status 0 (successful).
+ DEBUG [05db16bb] Running if test ! -d /home/larasta/www/larasta/repo; then echo "Directory does not exist '/home/larasta/www/larasta/repo'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [05db16bb] Command: if test ! -d /home/larasta/www/larasta/repo; then echo "Directory does not exist '/home/larasta/www/larasta/repo'" 1>&2; false; fi
+ DEBUG [05db16bb] Finished in 0.022 seconds with exit status 0 (successful).
+  INFO [1f5c6dc6] Running /usr/bin/env mkdir -p /home/larasta/www/larasta/releases/20171221154603 as larasta@larasta.ch
+ DEBUG [1f5c6dc6] Command: cd /home/larasta/www/larasta/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-larasta-production-Kevin.JORDIL.sh" ; /usr/bin/env mkdir -p /home/larasta/www/larasta/releases/20171221154603 )
+  INFO [1f5c6dc6] Finished in 0.052 seconds with exit status 0 (successful).
+  INFO [24682455] Running /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /home/larasta/www/larasta/releases/20171221154603 as larasta@larasta.ch
+ DEBUG [24682455] Command: cd /home/larasta/www/larasta/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-larasta-production-Kevin.JORDIL.sh" ; /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /home/larasta/www/larasta/releases/20171221154603 )
+  INFO [24682455] Finished in 0.091 seconds with exit status 0 (successful).
+ DEBUG [f5b1f3cb] Running if test ! -d /home/larasta/www/larasta/repo; then echo "Directory does not exist '/home/larasta/www/larasta/repo'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [f5b1f3cb] Command: if test ! -d /home/larasta/www/larasta/repo; then echo "Directory does not exist '/home/larasta/www/larasta/repo'" 1>&2; false; fi
+ DEBUG [f5b1f3cb] Finished in 0.053 seconds with exit status 0 (successful).
+ DEBUG [09e2221a] Running /usr/bin/env git rev-list --max-count=1 master as larasta@larasta.ch
+ DEBUG [09e2221a] Command: cd /home/larasta/www/larasta/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-larasta-production-Kevin.JORDIL.sh" ; /usr/bin/env git rev-list --max-count=1 master )
+ DEBUG [09e2221a] 	88d77c46da3876775f9289c854ce89c19edd46a8
+ DEBUG [09e2221a] Finished in 0.056 seconds with exit status 0 (successful).
+ DEBUG [8cb75ffe] Running if test ! -d /home/larasta/www/larasta/releases/20171221154603; then echo "Directory does not exist '/home/larasta/www/larasta/releases/20171221154603'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [8cb75ffe] Command: if test ! -d /home/larasta/www/larasta/releases/20171221154603; then echo "Directory does not exist '/home/larasta/www/larasta/releases/20171221154603'" 1>&2; false; fi
+ DEBUG [8cb75ffe] Finished in 0.052 seconds with exit status 0 (successful).
+  INFO [b94f0eb9] Running /usr/bin/env echo "88d77c46da3876775f9289c854ce89c19edd46a8" >> REVISION as larasta@larasta.ch
+ DEBUG [b94f0eb9] Command: cd /home/larasta/www/larasta/releases/20171221154603 && /usr/bin/env echo "88d77c46da3876775f9289c854ce89c19edd46a8" >> REVISION
+  INFO [b94f0eb9] Finished in 0.053 seconds with exit status 0 (successful).
+  INFO [b687216a] Running /usr/bin/env mkdir -p /home/larasta/www/larasta/releases/20171221154603/storage /home/larasta/www/larasta/releases/20171221154603/storage/framework as larasta@larasta.ch
+ DEBUG [b687216a] Command: /usr/bin/env mkdir -p /home/larasta/www/larasta/releases/20171221154603/storage /home/larasta/www/larasta/releases/20171221154603/storage/framework
+  INFO [b687216a] Finished in 0.043 seconds with exit status 0 (successful).
+ DEBUG [81081715] Running [ -L /home/larasta/www/larasta/releases/20171221154603/storage/app ] as larasta@larasta.ch
+ DEBUG [81081715] Command: [ -L /home/larasta/www/larasta/releases/20171221154603/storage/app ]
+ DEBUG [81081715] Finished in 0.052 seconds with exit status 1 (failed).
+ DEBUG [69869c5c] Running [ -d /home/larasta/www/larasta/releases/20171221154603/storage/app ] as larasta@larasta.ch
+ DEBUG [69869c5c] Command: [ -d /home/larasta/www/larasta/releases/20171221154603/storage/app ]
+ DEBUG [69869c5c] Finished in 0.052 seconds with exit status 0 (successful).
+  INFO [8ac0b5b3] Running /usr/bin/env rm -rf /home/larasta/www/larasta/releases/20171221154603/storage/app as larasta@larasta.ch
+ DEBUG [8ac0b5b3] Command: /usr/bin/env rm -rf /home/larasta/www/larasta/releases/20171221154603/storage/app
+  INFO [8ac0b5b3] Finished in 0.052 seconds with exit status 0 (successful).
+  INFO [6a4cae05] Running /usr/bin/env ln -s /home/larasta/www/larasta/shared/storage/app /home/larasta/www/larasta/releases/20171221154603/storage/app as larasta@larasta.ch
+ DEBUG [6a4cae05] Command: /usr/bin/env ln -s /home/larasta/www/larasta/shared/storage/app /home/larasta/www/larasta/releases/20171221154603/storage/app
+  INFO [6a4cae05] Finished in 0.052 seconds with exit status 0 (successful).
+ DEBUG [5f5f0546] Running [ -L /home/larasta/www/larasta/releases/20171221154603/storage/framework/cache ] as larasta@larasta.ch
+ DEBUG [5f5f0546] Command: [ -L /home/larasta/www/larasta/releases/20171221154603/storage/framework/cache ]
+ DEBUG [5f5f0546] Finished in 0.052 seconds with exit status 1 (failed).
+ DEBUG [a8c5db12] Running [ -d /home/larasta/www/larasta/releases/20171221154603/storage/framework/cache ] as larasta@larasta.ch
+ DEBUG [a8c5db12] Command: [ -d /home/larasta/www/larasta/releases/20171221154603/storage/framework/cache ]
+ DEBUG [a8c5db12] Finished in 0.053 seconds with exit status 0 (successful).
+  INFO [8f6981d6] Running /usr/bin/env rm -rf /home/larasta/www/larasta/releases/20171221154603/storage/framework/cache as larasta@larasta.ch
+ DEBUG [8f6981d6] Command: /usr/bin/env rm -rf /home/larasta/www/larasta/releases/20171221154603/storage/framework/cache
+  INFO [8f6981d6] Finished in 0.052 seconds with exit status 0 (successful).
+  INFO [bfcf7f89] Running /usr/bin/env ln -s /home/larasta/www/larasta/shared/storage/framework/cache /home/larasta/www/larasta/releases/20171221154603/storage/framework/cache as larasta@larasta.ch
+ DEBUG [bfcf7f89] Command: /usr/bin/env ln -s /home/larasta/www/larasta/shared/storage/framework/cache /home/larasta/www/larasta/releases/20171221154603/storage/framework/cache
+  INFO [bfcf7f89] Finished in 0.053 seconds with exit status 0 (successful).
+ DEBUG [0cda3968] Running [ -L /home/larasta/www/larasta/releases/20171221154603/storage/framework/sessions ] as larasta@larasta.ch
+ DEBUG [0cda3968] Command: [ -L /home/larasta/www/larasta/releases/20171221154603/storage/framework/sessions ]
+ DEBUG [0cda3968] Finished in 0.052 seconds with exit status 1 (failed).
+ DEBUG [47d16acc] Running [ -d /home/larasta/www/larasta/releases/20171221154603/storage/framework/sessions ] as larasta@larasta.ch
+ DEBUG [47d16acc] Command: [ -d /home/larasta/www/larasta/releases/20171221154603/storage/framework/sessions ]
+ DEBUG [47d16acc] Finished in 0.053 seconds with exit status 0 (successful).
+  INFO [11cfb872] Running /usr/bin/env rm -rf /home/larasta/www/larasta/releases/20171221154603/storage/framework/sessions as larasta@larasta.ch
+ DEBUG [11cfb872] Command: /usr/bin/env rm -rf /home/larasta/www/larasta/releases/20171221154603/storage/framework/sessions
+  INFO [11cfb872] Finished in 0.052 seconds with exit status 0 (successful).
+  INFO [e90dc2e0] Running /usr/bin/env ln -s /home/larasta/www/larasta/shared/storage/framework/sessions /home/larasta/www/larasta/releases/20171221154603/storage/framework/sessions as larasta@larasta.ch
+ DEBUG [e90dc2e0] Command: /usr/bin/env ln -s /home/larasta/www/larasta/shared/storage/framework/sessions /home/larasta/www/larasta/releases/20171221154603/storage/framework/sessions
+  INFO [e90dc2e0] Finished in 0.053 seconds with exit status 0 (successful).
+ DEBUG [70b8965f] Running [ -L /home/larasta/www/larasta/releases/20171221154603/storage/framework/views ] as larasta@larasta.ch
+ DEBUG [70b8965f] Command: [ -L /home/larasta/www/larasta/releases/20171221154603/storage/framework/views ]
+ DEBUG [70b8965f] Finished in 0.051 seconds with exit status 1 (failed).
+ DEBUG [59b08d0f] Running [ -d /home/larasta/www/larasta/releases/20171221154603/storage/framework/views ] as larasta@larasta.ch
+ DEBUG [59b08d0f] Command: [ -d /home/larasta/www/larasta/releases/20171221154603/storage/framework/views ]
+ DEBUG [59b08d0f] Finished in 0.052 seconds with exit status 0 (successful).
+  INFO [f4a9244e] Running /usr/bin/env rm -rf /home/larasta/www/larasta/releases/20171221154603/storage/framework/views as larasta@larasta.ch
+ DEBUG [f4a9244e] Command: /usr/bin/env rm -rf /home/larasta/www/larasta/releases/20171221154603/storage/framework/views
+  INFO [f4a9244e] Finished in 0.053 seconds with exit status 0 (successful).
+  INFO [813f76d5] Running /usr/bin/env ln -s /home/larasta/www/larasta/shared/storage/framework/views /home/larasta/www/larasta/releases/20171221154603/storage/framework/views as larasta@larasta.ch
+ DEBUG [813f76d5] Command: /usr/bin/env ln -s /home/larasta/www/larasta/shared/storage/framework/views /home/larasta/www/larasta/releases/20171221154603/storage/framework/views
+  INFO [813f76d5] Finished in 0.052 seconds with exit status 0 (successful).
+ DEBUG [4b25a809] Running [ -L /home/larasta/www/larasta/releases/20171221154603/storage/logs ] as larasta@larasta.ch
+ DEBUG [4b25a809] Command: [ -L /home/larasta/www/larasta/releases/20171221154603/storage/logs ]
+ DEBUG [4b25a809] Finished in 0.052 seconds with exit status 1 (failed).
+ DEBUG [ac9594f0] Running [ -d /home/larasta/www/larasta/releases/20171221154603/storage/logs ] as larasta@larasta.ch
+ DEBUG [ac9594f0] Command: [ -d /home/larasta/www/larasta/releases/20171221154603/storage/logs ]
+ DEBUG [ac9594f0] Finished in 0.053 seconds with exit status 0 (successful).
+  INFO [09b396c5] Running /usr/bin/env rm -rf /home/larasta/www/larasta/releases/20171221154603/storage/logs as larasta@larasta.ch
+ DEBUG [09b396c5] Command: /usr/bin/env rm -rf /home/larasta/www/larasta/releases/20171221154603/storage/logs
+  INFO [09b396c5] Finished in 0.043 seconds with exit status 0 (successful).
+  INFO [10480909] Running /usr/bin/env ln -s /home/larasta/www/larasta/shared/storage/logs /home/larasta/www/larasta/releases/20171221154603/storage/logs as larasta@larasta.ch
+ DEBUG [10480909] Command: /usr/bin/env ln -s /home/larasta/www/larasta/shared/storage/logs /home/larasta/www/larasta/releases/20171221154603/storage/logs
+  INFO [10480909] Finished in 0.053 seconds with exit status 0 (successful).
+ DEBUG [50328355] Running if test ! -d /home/larasta/www/larasta/releases/20171221154603; then echo "Directory does not exist '/home/larasta/www/larasta/releases/20171221154603'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [50328355] Command: if test ! -d /home/larasta/www/larasta/releases/20171221154603; then echo "Directory does not exist '/home/larasta/www/larasta/releases/20171221154603'" 1>&2; false; fi
+ DEBUG [50328355] Finished in 0.052 seconds with exit status 0 (successful).
+  INFO [2ee62de8] Running /usr/bin/env composer install --no-dev --prefer-dist --no-interaction --quiet --optimize-autoloader as larasta@larasta.ch
+ DEBUG [2ee62de8] Command: cd /home/larasta/www/larasta/releases/20171221154603 && /usr/bin/env composer install --no-dev --prefer-dist --no-interaction --quiet --optimize-autoloader
+ DEBUG [2ee62de8] 	Warning: The lock file is not up to date with the latest changes in composer.json. You may be getting outdated dependencies. Run update to update them.
+ DEBUG [2ee62de8] 	
+  INFO [2ee62de8] Finished in 1.908 seconds with exit status 0 (successful).
+ DEBUG [73e93bb1] Running if test ! -d /home/larasta/www/larasta/releases/20171221154603; then echo "Directory does not exist '/home/larasta/www/larasta/releases/20171221154603'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [73e93bb1] Command: if test ! -d /home/larasta/www/larasta/releases/20171221154603; then echo "Directory does not exist '/home/larasta/www/larasta/releases/20171221154603'" 1>&2; false; fi
+ DEBUG [73e93bb1] Finished in 0.052 seconds with exit status 0 (successful).
+  INFO [470c16c0] Running /usr/bin/env php artisan storage:link --env=production as larasta@larasta.ch
+ DEBUG [470c16c0] Command: cd /home/larasta/www/larasta/releases/20171221154603 && /usr/bin/env php artisan storage:link --env=production
+ DEBUG [470c16c0] 	The [public/storage] directory has been linked.
+ DEBUG [470c16c0] 	
+  INFO [470c16c0] Finished in 0.127 seconds with exit status 0 (successful).
+ DEBUG [a8ba6bfa] Running if test ! -d /home/larasta/www/larasta/releases/20171221154603; then echo "Directory does not exist '/home/larasta/www/larasta/releases/20171221154603'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [a8ba6bfa] Command: if test ! -d /home/larasta/www/larasta/releases/20171221154603; then echo "Directory does not exist '/home/larasta/www/larasta/releases/20171221154603'" 1>&2; false; fi
+ DEBUG [a8ba6bfa] Finished in 0.051 seconds with exit status 0 (successful).
+  INFO [c3e3c679] Running /usr/bin/env php artisan optimize --force --env=production as larasta@larasta.ch
+ DEBUG [c3e3c679] Command: cd /home/larasta/www/larasta/releases/20171221154603 && /usr/bin/env php artisan optimize --force --env=production
+  INFO [c3e3c679] Finished in 0.131 seconds with exit status 0 (successful).
+  INFO [c53a95cd] Running /usr/bin/env ln -s /home/larasta/www/larasta/releases/20171221154603 /home/larasta/www/larasta/releases/current as larasta@larasta.ch
+ DEBUG [c53a95cd] Command: /usr/bin/env ln -s /home/larasta/www/larasta/releases/20171221154603 /home/larasta/www/larasta/releases/current
+  INFO [c53a95cd] Finished in 0.050 seconds with exit status 0 (successful).
+  INFO [11b292fc] Running /usr/bin/env mv /home/larasta/www/larasta/releases/current /home/larasta/www/larasta as larasta@larasta.ch
+ DEBUG [11b292fc] Command: /usr/bin/env mv /home/larasta/www/larasta/releases/current /home/larasta/www/larasta
+  INFO [11b292fc] Finished in 0.051 seconds with exit status 0 (successful).
+ DEBUG [94c1d4c1] Running /usr/bin/env ls -x /home/larasta/www/larasta/releases as larasta@larasta.ch
+ DEBUG [94c1d4c1] Command: /usr/bin/env ls -x /home/larasta/www/larasta/releases
+ DEBUG [94c1d4c1] 	20171221150855	20171221154603
+ DEBUG [94c1d4c1] Finished in 0.053 seconds with exit status 0 (successful).
+ DEBUG [feecb93c] Running if test ! -d /home/larasta/www/larasta/releases; then echo "Directory does not exist '/home/larasta/www/larasta/releases'" 1>&2; false; fi as larasta@larasta.ch
+ DEBUG [feecb93c] Command: if test ! -d /home/larasta/www/larasta/releases; then echo "Directory does not exist '/home/larasta/www/larasta/releases'" 1>&2; false; fi
+ DEBUG [feecb93c] Finished in 0.053 seconds with exit status 0 (successful).
+  INFO [700b6faf] Running /usr/bin/env echo "Branch master (at 88d77c46da3876775f9289c854ce89c19edd46a8) deployed as release 20171221154603 by Kevin.JORDIL" >> /home/larasta/www/larasta/revisions.log as larasta@larasta.ch
+ DEBUG [700b6faf] Command: cd /home/larasta/www/larasta/releases && /usr/bin/env echo "Branch master (at 88d77c46da3876775f9289c854ce89c19edd46a8) deployed as release 20171221154603 by Kevin.JORDIL" >> /home/larasta/www/larasta/revisions.log
+  INFO [700b6faf] Finished in 0.042 seconds with exit status 0 (successful).
