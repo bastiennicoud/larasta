@@ -95,7 +95,6 @@ class InternshipsController extends Controller
                 'endDate',
                 'companyName',
                 'grossSalary',
-                'classMaster',
                 'previous_id',
                 'internshipDescription',
                 'admresp.firstname as arespfirstname',

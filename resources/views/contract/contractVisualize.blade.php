@@ -8,12 +8,7 @@
 @extends ('layout')
 
 @section ('content')
-    <h1>Génération de contrat</h1>
-    <!--
-        Zone d'édition de rich text
-        Ne fonctionne pas encore, net::ERR_ARBOTED quand on tente d'accéder au script
-        Si on appelle le script après, cela renvoie une erreur 404
-    -->
+    <h1>View contract</h1>
 
     <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
     <script>tinymce.init({ selector:'textarea' });</script>

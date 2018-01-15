@@ -1,7 +1,7 @@
 @extends ('layout')
 
 @section ('content')
-    <h2 class="text-left">Stage de {{ $iship->studentfirstname }} {{ $iship->studentlastname }} chez {{ $iship->companyName }}</h2>
+    <h2 class="text-left">Stage de {{ $iship->studentfirstname }} {{ $iship->studentlastname }} chez {{ $iship->companyName }}</h2> <a href="/contract/{{$iship->id}}"><button>Contrat</button></a>
     <table class="table text-left">
         <tr>
             <td class="col-md-2">Du</td>
