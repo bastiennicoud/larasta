@@ -85,6 +85,14 @@ class EvalController extends Controller
                 // Create the new evaluation
                 $evaluation = Evaluation::create(['visit_id' => $visit, 'editable' => 1]);
 
+                // Create all the criteria values for this eval
+                $criterias = Criteria::all();
+                foreach ($criterias as $criteria) {
+                    $criteria->criteriaValue()->create([
+                        'evaluation_id' => $evaluation->id
+                    ]);
+                }
+
                 // Store in the session the active edited grid (avoid to pass the id in the url)
                 $request->session()->put('activeEditedGrid', $evaluation->id);
                 // Redirect the user on the edit page of this new grid
@@ -192,7 +200,7 @@ class EvalController extends Controller
      */
     public function generateEvaluation(int $gridID)
     {
-        
+        // get all the fields in the criterias and ordred it by sections
     }
 
 
