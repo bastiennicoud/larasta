@@ -34,6 +34,6 @@ class Criteria extends Model
      */
     public function criteriaValue()
     {
-        return $this->hasMany('App\CriteriaValue');
+        return $this->hasOne('App\CriteriaValue');
     }
 }
