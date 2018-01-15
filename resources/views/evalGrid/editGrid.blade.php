@@ -46,7 +46,7 @@ $evalGrid
                     <td>Nom et prénom du stagiaire</td>
                     <td>{{ $evaluationContext->visit->internship->student->full_name }}</td>
                     <td colspan="2">Nom du responsable de suivi du stagiaire (interne)</td>
-                    <td colspan="2">{{ $evaluationContext->visit->internship->teacher->full_name }}</td>
+                    <td colspan="2">{{ $evaluationContext->visit->internship->student->flock->classMaster->full_name }}</td>
                 </tr>
                 <tr>
                     <td>Nom de la companie</td>

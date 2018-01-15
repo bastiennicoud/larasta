@@ -33,14 +33,6 @@ class Internship extends Model
     }
 
     /**
-     * Relation to retrive the teacher
-     */
-    public function teacher()
-    {
-        return $this->belongsTo('App\Persons', 'responsible_id');
-    }
-
-    /**
      * Relation to retrive the internship master
      */
     public function responsible()

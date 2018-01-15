@@ -172,13 +172,6 @@ class EvalController extends Controller
                 $request->session()->forget('activeEditedGrid');
                 return redirect('visits')->with('status', "Cette evaluation ne vous apartient pas, vous ne pouvez donc pas la consulter.");
             }
-        } elseif (Environment::currentUser()->getLevel() == 1) {
-            // Check if this student is able to wiew and edit the eval of this student
-            if ($evaluation->visit->internship->responsible_id != Environment::currentUser()->getId()) {
-                // This teacher don have acces to this evaluation
-                $request->session()->forget('activeEditedGrid');
-                return redirect('visits')->with('status', "Vous ne pouvez pas accéder a cette evaluation.");
-            }
         }
 
         // The user is authored and the grid exists
