@@ -36,9 +36,9 @@ $evalGrid
             <tbody>
                 <tr>
                     <td>Dates du stage</td>
-                    <td>{{ $evaluationContext->visit->internship->beginDate }} /// {{ $evaluationContext->visit->internship->endDate }}</td>
+                    <td>Du {{ $evaluationContext->visit->internship->beginDate->format('d-m-Y') }} au {{ $evaluationContext->visit->internship->endDate->format('d-m-Y') }}</td>
                     <td>Date de la visite</td>
-                    <td>{{ $evaluationContext->visit->moment }}</td>
+                    <td>{{ $evaluationContext->visit->moment->format('d-m-Y H:i') }}</td>
                     <td>Numéro de visite</td>
                     <td>{{ $evaluationContext->visit->number }}</td>
                 </tr>
@@ -67,6 +67,9 @@ $evalGrid
 
                 {{--  Generates the right layout according to the sectionType  --}}
 
+
+
+                {{--  --------------  --}}
                 {{--  SECTION TYPE 1  --}}
                 @if ($evalSection->sectionType == 1)
 
@@ -104,6 +107,10 @@ $evalGrid
 
                     </tbody>
 
+
+
+
+                {{--  --------------  --}}
                 {{--  SECTION TYPE 2  --}}
                 @elseif ($evalSection->sectionType == 2)
 
@@ -134,6 +141,10 @@ $evalGrid
 
                     </tbody>
 
+
+
+
+                {{--  --------------  --}}
                 {{--  SECTION TYPE 3  --}}
                 @elseif ($evalSection->sectionType == 3)
 
