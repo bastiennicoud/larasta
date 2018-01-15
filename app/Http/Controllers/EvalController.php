@@ -183,7 +183,7 @@ class EvalController extends Controller
         // We call the grid generator
         $evaluationGrid = $this->generateEvaluation($gridID);
 
-        return view('evalGrid/editGrid')->with(['gridID' => $gridID, 'evalGrid' => $evaluationGrid]);
+        return view('evalGrid/editGrid')->with(['gridID' => $gridID, 'evaluationContext' => $evaluation, 'evalGrid' => $evaluationGrid]);
     }
 
 
@@ -201,6 +201,9 @@ class EvalController extends Controller
     public function generateEvaluation(int $gridID)
     {
         // get all the fields in the criterias and ordred it by sections
+        return EvaluationSection::with(['criterias.criteriaValue' => function($query) use ($gridID) {
+            $query->where('evaluation_id', '=', $gridID);
+        }])->get();
     }
 
 
