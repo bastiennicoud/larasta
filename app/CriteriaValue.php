@@ -1,4 +1,10 @@
 <?php
+/**
+ * CriteriaValue Model
+ * 
+ * Bastien Nicoud
+ * v0.0.1
+ */
 
 namespace App;
 
@@ -7,6 +13,13 @@ use Illuminate\Database\Eloquent\Model;
 class CriteriaValue extends Model
 {
     public $timestamps = false;
+
+    /**
+     * Authorize mass asignement columns
+     *
+     * @var array
+     */
+    protected $fillable = ['evaluation_id', 'criteria_id', 'points', 'studentComments', 'managerComments', 'contextSpecifics'];
 
     /**
      * Relation with the Criteria model

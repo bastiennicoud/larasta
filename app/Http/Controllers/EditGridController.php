@@ -21,6 +21,7 @@ class EditGridController extends Controller
             switch($field){
                 case 'criteriaName':
                     strlen($newValue) <= 45 ? $criteria->criteriaName = $newValue : $msgerror = "Valeur max: 45";
+
                 break;
 
                 case 'criteriaDetails':

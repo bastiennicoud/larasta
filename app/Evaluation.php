@@ -1,4 +1,10 @@
 <?php
+/**
+ * Evaluation Model
+ * 
+ * Bastien Nicoud
+ * v0.0.1
+ */
 
 namespace App;
 
@@ -7,6 +13,13 @@ use Illuminate\Database\Eloquent\Model;
 class Evaluation extends Model
 {
     public $timestamps = false;
+
+    /**
+     * Authorize mass asignement columns
+     *
+     * @var array
+     */
+    protected $fillable = ['visit_id', 'editable'];
 
     /**
      * Relation with the CriteriaValue model
