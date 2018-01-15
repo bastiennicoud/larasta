@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Contractstates;
 use App\Internships;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
@@ -106,6 +107,7 @@ class InternshipsController extends Controller
                 'student.firstname as studentfirstname',
                 'student.lastname as studentlastname',
                 'contractstate_id',
+                'contractGenerated',
                 'stateDescription')
             ->where('internships.id','=', $iid)
             ->first();
