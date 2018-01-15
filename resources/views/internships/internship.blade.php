@@ -2,7 +2,7 @@
 
 @section ('content')
     <h2 class="text-left">Stage de {{ $iship->studentfirstname }} {{ $iship->studentlastname }} chez {{ $iship->companyName }}</h2>
-    <table class="table text-left">
+    <table class="table text-left larastable">
         <tr>
             <td class="col-md-2">Du</td>
             <td>{{ strftime("%e %b %g", strtotime($iship->beginDate)) }}</td>
