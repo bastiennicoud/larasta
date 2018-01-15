@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/minimal.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
     @yield('page_specific_css')
 </head>
 <body>
@@ -44,7 +46,7 @@
     </div>
 @endif
 <div class="simple-box container-fluid col-md-2 text-center">
-    <table class="table table-striped text-left">
+    <table class="table table-striped text-left larastable">
         <tr>
             <td><a href="/about"><img alt="Personnes" src="/images/contact.png">Personnes</a></td>
         </tr>

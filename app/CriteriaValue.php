@@ -12,7 +12,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class CriteriaValue extends Model
 {
+    // Define a custom table name (this table dont use the laravel naming conventions)
+    protected $table = 'criteriaValues';
+
     public $timestamps = false;
+
+    /**
+     * Authorize mass asignement columns
+     *
+     * @var array
+     */
+    protected $fillable = ['evaluation_id', 'criteria_id', 'points', 'studentComments', 'managerComments', 'contextSpecifics'];
 
     /**
      * Relation with the Criteria model
