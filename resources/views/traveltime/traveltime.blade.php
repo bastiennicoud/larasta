@@ -10,16 +10,18 @@
         TravelTime
     </h1>
     <div>
-        <form action="/traveltime/calculate" method="post">
-            {{ csrf_field() }}
+        <form action="/traveltime/calculate" method="post" name="cal">
+            <label for="flockID">ID de classe :</label>
+            <input type="text" class="form-control" name="flockID" id="flockID">
             <button type="submit" class="btn">(Re)Calculer</button>
+            {{ csrf_field() }}
         </form>
     </div>
     <div>
-        <form action="/traveltime/load" method="post">
+        <form action="/traveltime/load" method="post" name="loa">
             {{ csrf_field() }}
-            <label for="flockID">ID de classe :</label>
-            <input type="text" class="form-control" id="flockID">
+
+            <input type="hidden" name="flockID" onblur="document.cal.flockID.value = this.value;" />
             <button type="submit" class="btn">Charger</button>
         </form>
     </div>

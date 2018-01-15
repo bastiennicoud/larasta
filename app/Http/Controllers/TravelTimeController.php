@@ -52,6 +52,7 @@ class TravelTimeController extends Controller
     }
 
     public function load(Request $request){
+        dd($request->flockID);
         $companies = $this->getCompaniesDB();
         $persons = $this->getPersonsDB($request->flockID);
         $times = [];
@@ -174,6 +175,17 @@ class TravelTimeController extends Controller
         }
         return $times;
     }
+
+    /// Control Persons, delete empty lat lng user
+    public function checkPersons($persons){
+        foreach($persons as $key  => $person){
+            if(($person->lat = "" or $person->lat = null) or ($person->lng = "" or $person->lng = null)){
+                unset($person[$key]);
+            }
+        }
+        return $persons;
+    }
+
 
     /// Get companies infos from Database
     public function getCompaniesDB(){
