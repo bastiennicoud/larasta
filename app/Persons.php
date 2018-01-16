@@ -3,12 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use CPNVEnvironment\Environment;
 
 class Persons extends Model
 {
     public $timestamps = false;
-
-
+   /*
     public function getRoleAttribute()
     {
         if (empty($this->company_id)) {
@@ -17,6 +17,6 @@ class Persons extends Model
             return 'Company';
         }
     }
-
+*/
     //
 }

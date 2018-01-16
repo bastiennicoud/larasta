@@ -75,6 +75,10 @@ Route::get('/reconstages', 'ReconStagesController@index');
 
 // Davide
 Route::get('/listPeople', 'PeopleControlleur@index');
+Route::post('/listPeople/category', 'PeopleControlleur@category');
+Route::get('/listPeople/{id}/info','PeopleControlleur@info');
+Route::get('/listPeople/update/{id}','PeopleControlleur@update');
+
 //
 
 //Julien - Grille d'évaluation - Modélisation

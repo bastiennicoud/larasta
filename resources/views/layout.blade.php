@@ -85,6 +85,5 @@
 <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
 <script src="/node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
 <script src="/js/appjs.js"></script>
-
 @yield('page_specific_js')
 </html>
