@@ -273,7 +273,17 @@ class EvalController extends Controller
      */
     public static function getEvalState(int $visitid)
     {
-        return rand(1,3); // XCL testing
+        $visit = Visit::find($visitid);
+
+        if ($visit->evaluation->first() == null) {
+            return 1;
+        } elseif ($visit->evaluation->first()->editable == 1) {
+            return 2;
+        } elseif ($visit->evaluation->first()->editable == 0) {
+            return 3;
+        }
+
+        return 1;
     }
 
 }
