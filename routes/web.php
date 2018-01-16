@@ -98,6 +98,7 @@ Route::prefix('evalgrid')->group(function () {
 
 // Nicolas - Stages
 Route::get('/reconstages', 'ReconStagesController@index');
+Route::get('/reconstages/reconmade', 'ReconStagesController@displayStages');
 
 // Davide
 Route::get('/listPeople', 'PeopleControlleur@index');
