@@ -4,11 +4,13 @@ $(document).ready(function(){
         $('#houredit').removeClass('hidden');
         $('#up').removeClass('hidden');
         $('#del').removeClass('hidden');
-        $('#done').removeClass('hidden');
+        $('.done').removeClass('hidden');
         $('#cancel').removeClass('hidden');
         $('#vdate').addClass('hidden');
         $('#vhour').addClass('hidden');
         $('#edit').addClass('hidden');
+        $('#bmail').addClass('hidden');
+        $('.beval').addClass('hidden');
     });
 
     $('#cancel').click(function(){
@@ -16,10 +18,12 @@ $(document).ready(function(){
         $('#houredit').addClass('hidden');
         $('#up').addClass('hidden');
         $('#del').addClass('hidden');
-        $('#done').addClass('hidden');
+        $('.done').addClass('hidden');
         $('#cancel').addClass('hidden');
         $('#vdate').removeClass('hidden');
         $('#vhour').removeClass('hidden');
         $('#edit').removeClass('hidden');
+        $('#bmail').removeClass('hidden');
+        $('.beval').removeClass('hidden');
     });
 });

@@ -130,9 +130,35 @@ class VisitsController extends Controller
         $this->message = 'Visite supprimée !';
         return $this->index();
     }
-
+    /*
     public function logbook()
     {
 
+    }*/
+
+    public function state(Request $request, $id)
+    {
+        Visit::where('visits.id', '=', $id)
+            ->update(['visitsstates_id' => 3]);
+
+        $this->message = 'Etat de la visite a été modifié !';
+        return $this->index();
+    }
+
+    public function update(Request $request, $id)
+    {
+        $date = $request->upddate;
+        $date .= " ".$request->updtime;
+
+        Visit::where('visits.id', '=', $id)
+        ->update([
+            'visitsstates_id' => 2,
+            'moment' => $date
+
+        ]);
+
+
+        $this->message = 'La visite a été modifiée !';
+        return $this->index();
     }
 }

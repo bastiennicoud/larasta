@@ -53,6 +53,8 @@ Route::get('/visits/add', 'VisitsController@add');
 Route::post('/visits/create','VisitsController@create');
 Route::get('/visits/{id}/mail','VisitsController@mail');
 Route::get('/visits/{id}/delete', 'VisitsController@delete');
+Route::get('/visits/{id}/state', 'VisitsController@state');
+Route::post('/visits/{id}/update', 'VisitsController@update');
 
 // Add by Benjamin Delacombaz 12.12.2017 10:40
 Route::get('/wishesMatrix', 'WishesMatrixController@index');
