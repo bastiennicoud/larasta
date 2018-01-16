@@ -33,7 +33,7 @@ $level
     <div class="grid">
 
         {{--  This first table display the context of the evaluation (Internsip dates and actors)  --}}
-        <table class="table">
+        <table class="table table-responsive">
             <thead>
                 <tr>
                     <th colspan="6">Informations générales</th>
@@ -69,190 +69,192 @@ $level
 
         {{--  ---------------------------------------  --}}
         {{--  List all the sections of the evaluation  --}}
-        @foreach ($evalGrid as $evalSection)
+        <form action="/evalgrid/grid/save/{{ $gridID }}" method="POST">
 
-            <table class="table">
+            {{ csrf_field() }}
 
-                {{--  Generates the right layout according to the sectionType  --}}
+            @foreach ($evalGrid as $evalSection)
+
+                <table class="table">
+
+                    {{--  Generates the right layout according to the sectionType  --}}
 
 
 
-                {{--  --------------  --}}
-                {{--  SECTION TYPE 1  --}}
-                @if ($evalSection->sectionType == 1)
+                    {{--  --------------  --}}
+                    {{--  SECTION TYPE 1  --}}
+                    @if ($evalSection->sectionType == 1)
 
-                    <p>Section de type 1</p>
+                        <h4>Section de type 1</h4>
 
-                    <thead>
+                        <thead>
 
-                        <tr>
-                            <th>{{ $evalSection->sectionName }} :</th>
-                            <th>Observations attendues</th>
-                            <th>Points</th>
-                            <th>Remarques personnalisées</th>
-                        </tr>
+                            <tr>
+                                <th>{{ $evalSection->sectionName }} :</th>
+                                <th>Observations attendues</th>
+                                <th>Points</th>
+                                <th>Remarques personnalisées</th>
+                            </tr>
 
-                    </thead>
+                        </thead>
 
-                    <tbody>
+                        <tbody>
 
-                        {{--  Display all the section criterias  --}}
-                        @foreach ($evalSection->criterias as $criteria)
-
-                            @if ($mode == 'readonly')
-                                <tr>
-                                    <td>{{ $criteria->criteriaName }}</td>
-                                    <td>{{ $criteria->criteriaDetails }}</td>
-                                    <td>{{ $criteria->criteriaValue->points }}</td>
-                                    <td>{{ $criteria->criteriaValue->managerComments }}</td>
-                                </tr>
-
-                            @elseif ($mode == 'edit')
+                            {{--  Display all the section criterias  --}}
+                            @foreach ($evalSection->criterias as $criteria)
 
                                 <tr>
                                     <td>{{ $criteria->criteriaName }}</td>
                                     <td>{{ $criteria->criteriaDetails }}</td>
 
-                                    {{--  Display the inputs depending the user level  --}}
-                                    @if ($level > 0)
-                                        <td><input type="number" value="{{ $criteria->criteriaValue->points }}"></td>
-                                        <td><textarea>{{ $criteria->criteriaValue->managerComments }}</textarea></td>
-                                    @else
+                                    @if ($mode == 'readonly')
+
                                         <td>{{ $criteria->criteriaValue->points }}</td>
                                         <td>{{ $criteria->criteriaValue->managerComments }}</td>
+
+                                    @elseif ($mode == 'edit')
+
+                                        {{--  Display the inputs depending the user level  --}}
+                                        @if ($level > 0)
+                                            <td><input type="number" name="{{ $criteria->criteriaValue->id }}_grade" value="{{ $criteria->criteriaValue->points }}"></td>
+                                            <td><textarea name="{{ $criteria->criteriaValue->id }}_mComm">{{ $criteria->criteriaValue->managerComments }}</textarea></td>
+                                        @else
+                                            <td>{{ $criteria->criteriaValue->points }}</td>
+                                            <td>{{ $criteria->criteriaValue->managerComments }}</td>
+                                        @endif
+                                        
                                     @endif
                                 </tr>
 
-                            @endif
+                            @endforeach
 
-                        @endforeach
+                            <tr>
+                                <td colspan="2"><strong>Note pour les {{ $evalSection->sectionName }} :</strong></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
 
-                        <tr>
-                            <td colspan="2"><strong>Note pour les {{ $evalSection->sectionName }} :</strong></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-
-                    </tbody>
+                        </tbody>
 
 
 
 
-                {{--  --------------  --}}
-                {{--  SECTION TYPE 2  --}}
-                @elseif ($evalSection->sectionType == 2)
+                    {{--  --------------  --}}
+                    {{--  SECTION TYPE 2  --}}
+                    @elseif ($evalSection->sectionType == 2)
 
-                    <p>Section de type 2</p>
+                        <h4>Section de type 2</h4>
 
-                    <thead>
+                        <thead>
 
-                        <tr>
-                            <th>{{ $evalSection->sectionName }} :</th>
-                            <th>Taches :</th>
-                            <th>Remarque du responsable de stage</th>
-                            <th>Remarque du stagiaire</th>
-                        </tr>
+                            <tr>
+                                <th>{{ $evalSection->sectionName }} :</th>
+                                <th>Taches :</th>
+                                <th>Remarque du responsable de stage</th>
+                                <th>Remarque du stagiaire</th>
+                            </tr>
 
-                    </thead>
+                        </thead>
 
-                    <tbody>
+                        <tbody>
 
-                        {{--  Display all the section criterias  --}}
-                        @foreach ($evalSection->criterias as $criteria)
-
-                            @if ($mode == 'readonly')
-                                <tr>
-                                    <td>{{ $criteria->criteriaName }}</td>
-                                    <td>{{ $criteria->criteriaValue->contextSpecifics }}</td>
-                                    <td>{{ $criteria->criteriaValue->managerComments }}</td>
-                                    <td>{{ $criteria->criteriaValue->studentComments }}</td>
-                                </tr>
-
-                            @elseif ($mode == 'edit')
+                            {{--  Display all the section criterias  --}}
+                            @foreach ($evalSection->criterias as $criteria)
 
                                 <tr>
                                     <td>{{ $criteria->criteriaName }}</td>
 
-                                    {{--  Display the inputs depending the user level  --}}
-                                    @if ($level > 0)
-                                        <td><textarea>{{ $criteria->criteriaValue->contextSpecifics }}</textarea></td>
-                                        <td><textarea>{{ $criteria->criteriaValue->managerComments }}</textarea></td>
-                                        <td><textarea>{{ $criteria->criteriaValue->studentComments }}</textarea></td>
-                                    @else
+                                    @if ($mode == 'readonly')
+
                                         <td>{{ $criteria->criteriaValue->contextSpecifics }}</td>
                                         <td>{{ $criteria->criteriaValue->managerComments }}</td>
-                                        <td><textarea>{{ $criteria->criteriaValue->studentComments }}</textarea></td>
+                                        <td>{{ $criteria->criteriaValue->studentComments }}</td>
+
+                                    @elseif ($mode == 'edit')
+
+                                        {{--  Display the inputs depending the user level  --}}
+                                        @if ($level > 0)
+                                            <td><textarea name="{{ $criteria->criteriaValue->id }}_Specs">{{ $criteria->criteriaValue->contextSpecifics }}</textarea></td>
+                                            <td><textarea name="{{ $criteria->criteriaValue->id }}_mComm">{{ $criteria->criteriaValue->managerComments }}</textarea></td>
+                                            <td><textarea name="{{ $criteria->criteriaValue->id }}_sComm">{{ $criteria->criteriaValue->studentComments }}</textarea></td>
+                                        @else
+                                            <td>{{ $criteria->criteriaValue->contextSpecifics }}</td>
+                                            <td>{{ $criteria->criteriaValue->managerComments }}</td>
+                                            <td><textarea name="{{ $criteria->criteriaValue->id }}_sComm">{{ $criteria->criteriaValue->studentComments }}</textarea></td>
+                                        @endif
+
                                     @endif
                                 </tr>
 
-                            @endif
+                            @endforeach
 
-                        @endforeach
-
-                    </tbody>
+                        </tbody>
 
 
 
 
-                {{--  --------------  --}}
-                {{--  SECTION TYPE 3  --}}
-                @elseif ($evalSection->sectionType == 3)
+                    {{--  --------------  --}}
+                    {{--  SECTION TYPE 3  --}}
+                    @elseif ($evalSection->sectionType == 3)
 
-                    <p>Section de type 3</p>
+                        <h4>Section de type 3</h4>
 
-                    <thead>
+                        <thead>
 
                             <tr>
                                 <th>{{ $evalSection->sectionName }} :</th>
                                 <th>Remarque du responsable de stage</th>
                                 <th>Remarque du stagiaire</th>
                             </tr>
-    
+        
                         </thead>
-    
+        
                         <tbody>
 
                             {{--  Display all the section criterias  --}}
                             @foreach ($evalSection->criterias as $criteria)
 
-                                @if ($mode == 'readonly')
+                                <tr>
+                                    <td>{{ $criteria->criteriaName }}</td>
 
-                                    <tr>
-                                        <td>{{ $criteria->criteriaName }}</td>
+                                    @if ($mode == 'readonly')
+
                                         <td>{{ $criteria->criteriaValue->managerComments }}</td>
                                         <td>{{ $criteria->criteriaValue->studentComments }}</td>
-                                    </tr>
 
-                                @elseif ($mode == 'edit')
-
-                                    <tr>
-                                        <td>{{ $criteria->criteriaName }}</td>
+                                    @elseif ($mode == 'edit')
 
                                         {{--  Display the inputs depending the user level  --}}
                                         @if ($level > 0)
 
-                                            <td><textarea>{{ $criteria->criteriaValue->managerComments }}</textarea></td>
-                                            <td><textarea>{{ $criteria->criteriaValue->studentComments }}</textarea></td>
+                                            <td><textarea name="{{ $criteria->criteriaValue->id }}_mComm">{{ $criteria->criteriaValue->managerComments }}</textarea></td>
+                                            <td><textarea name="{{ $criteria->criteriaValue->id }}_sComm">{{ $criteria->criteriaValue->studentComments }}</textarea></td>
 
                                         @else
                                         
                                             <td>{{ $criteria->criteriaValue->managerComments }}</td>
-                                            <td><textarea>{{ $criteria->criteriaValue->studentComments }}</textarea></td>
+                                            <td><textarea name="{{ $criteria->criteriaValue->id }}_sComm">{{ $criteria->criteriaValue->studentComments }}</textarea></td>
 
                                         @endif
-                                    </tr>
+                                        
+                                    @endif
 
-                                @endif
+                                </tr>
 
                             @endforeach
 
                         </tbody>
 
-                @endif
+                    @endif
 
-            </table>
+                </table>
 
-        @endforeach
+            @endforeach
+
+            <button class="btn btn-info" type="submit" name="submit" value="save">Enregistrer la grille</button>
+            <button class="btn btn-danger" type="submit" name="submit" value="checkout">Valider définitivement la grille</button>
+
+        </form>
 
     </div>
 

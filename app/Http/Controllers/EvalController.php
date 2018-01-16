@@ -93,10 +93,8 @@ class EvalController extends Controller
                     ]);
                 }
 
-                // Store in the session the active edited grid (avoid to pass the id in the url)
-                $request->session()->put('activeEditedGrid', $evaluation->id);
                 // Redirect the user on the edit page of this new grid
-                return redirect('evalgrid/grid/edit')->with('status', "Grille d'evaluation correctement créée !");
+                return redirect("evalgrid/grid/edit/$evaluation->id")->with('status', "Grille d'evaluation correctement créée !");
 
             }
         }
@@ -117,7 +115,7 @@ class EvalController extends Controller
      * 
      * @param Request $request
      * @param string $mode (accepts : readonly | edit)
-     * @param int|bool $id
+     * @param int|null $id
      * 
      * @return view
      */
@@ -127,17 +125,8 @@ class EvalController extends Controller
         // To edit a grid, is possible pass his id in request parameters or in session key
         // Here we check the parameter and the session
         if ($gridID == null) {
-            // the id is not specified in the request -> we check in the session
-            if($request->session()->exists('activeEditedGrid')) {
-                // the id is defined in the session, we get it
-                $gridID = $request->session()->get('activeEditedGrid');
-            } else {
-                // we have no id in session or in url params
-                return redirect('visits')->with('status', "Veuillez specifier une evaluation pour l'editer");
-            }
-        } else {
-            // If the id of the grid is passed in the uri, we store it in the session for efficient work
-            $request->session()->put('activeEditedGrid', $gridID);
+            // we have no id in session or in url params
+            return redirect('visits')->with('status', "Veuillez specifier une evaluation pour l'editer");
         }
 
         // check if the grid exists and is editable
@@ -154,7 +143,6 @@ class EvalController extends Controller
         } else {
             // The evaluation dont exists in the database
             // delete the id in the session and redirect to the visits
-            $request->session()->forget('activeEditedGrid');
             return redirect('visits')->with('status', "Cette evaluation n'existe pas !");
         }
 
@@ -169,7 +157,6 @@ class EvalController extends Controller
             // Check if this eval belongs to this user
             if ($evaluation->visit->internship->intern_id != Environment::currentUser()->getId()) {
                 // This eval not belongs to this student (he can wiew id and edit the student comment fields)
-                $request->session()->forget('activeEditedGrid');
                 return redirect('visits')->with('status', "Cette evaluation ne vous apartient pas, vous ne pouvez donc pas la consulter.");
             }
         }
@@ -218,11 +205,28 @@ class EvalController extends Controller
 
 
 
+
     /**
-     * editCriteriaValue
+     * saveNewGridDatas
      * 
      * Save the user evaluation value in the database
+     * 
+     * @param Request $request
+     * @param int|null $gridID
      */
+    public function saveNewGridDatas(Request $request, $gridID = null)
+    {
+        // Here we check the parameter
+        if ($gridID == null) {
+            // we have no id
+            return redirect('visits')->with('status', "Veuillez specifier une evaluation pour l'editer");
+        }
+
+        dd($request->all());
+    }
+
+
+
 
     /**
      * getEvalState

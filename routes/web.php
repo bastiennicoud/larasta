@@ -89,7 +89,7 @@ Route::prefix('evalgrid')->group(function () {
     /**
      * Edit the values of the grid fields (see the controller method for more infos)
      */
-    Route::post('editcriteriavalue', 'EvalController@editCriteriaValue')->name('editEvalGridCriteriaValue');
+    Route::post('grid/save/{gridID?}', 'EvalController@saveNewGridDatas')->where(['gridID' => '[0-9]+'])->name('saveNewGridDatas');
 });
 
 // Nicolas - Stages
