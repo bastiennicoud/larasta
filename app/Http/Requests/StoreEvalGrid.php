@@ -37,7 +37,11 @@ class StoreEvalGrid extends FormRequest
     public function rules()
     {
         return [
-            //
+            'specs.*' => 'nullable|max:500',
+            'mComm.*' => 'nullable|max:500',
+            'sComm.*' => 'nullable|max:500',
+            'grade.*' => 'nullable|numeric',
+            'submit' => 'required'
         ];
     }
 }

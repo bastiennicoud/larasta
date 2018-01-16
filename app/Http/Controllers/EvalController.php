@@ -10,6 +10,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreEvalGrid;
 
 use CPNVEnvironment\Environment;
 
@@ -211,12 +212,12 @@ class EvalController extends Controller
      * 
      * Save the user evaluation value in the database
      * 
-     * @param Request $request
+     * @param App\Http\Requests\StoreEvalGrid $request This specific request validates the input fields and check the authorisation
      * @param int|null $gridID
      */
-    public function saveNewGridDatas(Request $request, $gridID = null)
+    public function saveNewGridDatas(StoreEvalGrid $request, $gridID = null)
     {
-        // Here we check the parameter
+        // Here we check if the specified grid exists
         if ($gridID == null) {
             // we have no id
             return redirect('visits')->with('status', "Veuillez specifier une evaluation pour l'editer");

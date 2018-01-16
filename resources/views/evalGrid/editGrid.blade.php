@@ -32,6 +32,17 @@ $level
     {{--  Contains all the grid  --}}
     <div class="grid">
 
+        {{--  Display the eventual validation errors  --}}
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         {{--  This first table display the context of the evaluation (Internsip dates and actors)  --}}
         <table class="table table-responsive">
             <thead>
@@ -174,7 +185,7 @@ $level
 
                                         {{--  Display the inputs depending the user level  --}}
                                         @if ($level > 0)
-                                            <td><textarea name="specs[{{ $criteria->criteriaValue->id }}]">{{ $criteria->criteriaValue->contextSpecifics }}</textarea></td>
+                                            <td><textarea name="specs[{{ $criteria->criteriaValue->id }}]">{{ old('specs.' . $criteria->criteriaValue->id) ? old('specs.' . $criteria->criteriaValue->id) : $criteria->criteriaValue->contextSpecifics }}</textarea></td>
                                             <td><textarea name="mComm[{{ $criteria->criteriaValue->id }}]">{{ $criteria->criteriaValue->managerComments }}</textarea></td>
                                             <td><textarea name="sComm[{{ $criteria->criteriaValue->id }}]">{{ $criteria->criteriaValue->studentComments }}</textarea></td>
                                         @else
