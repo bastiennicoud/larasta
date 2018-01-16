@@ -20,23 +20,20 @@ class WishesMatrixController extends Controller
 {
     public function index()
     {
-        // Complete the session for test
-
-        $currentUser = Environment::currentUser();
-        $flockId = 12;
-        $currentInitial = "CRY";
+        // !!!!!!!!!!!! Test Value !!!!!!!!!!!!!!!!!!!!!!!!!!
+        $currentUserTest = Environment::currentUser();
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        $currentUser = $this->getCurrentUser($currentUserTest->getId());
         $companies = $this->getCompaniesWithInternships();
-        $persons = $this->getPersons($flockId);
+        $persons = $this->getPersons($currentUser->flock_id);
         $wishes = null;
-
-        echo $currentUser->getInitials();
         
         // Get all wishes per person
         foreach ($persons as $person)
         {
             $wishes[$person->id] = $this->getWishesByPerson($person->id);
         }
-        return view('wishesMatrix/wishesMatrix')->with(['companies' => $companies, 'persons' => $persons, 'wishes' => $wishes, 'currentInitial' => $currentInitial, 'currentUser' => $currentUser, 'flockId' => $flockId]);
+        return view('wishesMatrix/wishesMatrix')->with(['companies' => $companies, 'persons' => $persons, 'wishes' => $wishes, 'currentUser' => $currentUser]);
     }
 
     private function getCompaniesWithInternships()
@@ -71,5 +68,15 @@ class WishesMatrixController extends Controller
             ->select('wishes.rank', 'wishes.internships_id', 'companies.companyName', 'companies.id')
             ->get();
         return $wishes;
+    }
+
+    private function getCurrentUser($personId)
+    {
+        $persons = DB::table('persons')
+            ->where('persons.id', $personId)
+            ->whereNotNull('persons.initials')
+            ->select('persons.id','persons.initials', 'persons.flock_id')
+            ->first();
+        return $persons;
     }
 }

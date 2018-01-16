@@ -20,7 +20,7 @@
             @foreach ($persons as $person)
                 @if ($person->initials!="")
                     <!-- Add access class for authoized to edit a col -->
-                    @if ($person->initials == $currentUser->getInitials()) 
+                    @if ($person->initials == $currentUser->initials) 
                         <th class="access" value="{{ $person->id }}">{{ $person->initials }}</th>
                     @else
                         <th value="{{ $person->id }}">{{ $person->initials }}</th>   
@@ -49,7 +49,7 @@
             </tr>
         @endforeach
     </table>
-    <a href="/traveltime/{{$flockId}}/load" class="col-md-3">Travel time</a>
+    <a href="/traveltime/{{$currentUser->flock_id}}/load" class="col-md-3">Travel time</a>
 @stop
 
 @section ('page_specific_js')
