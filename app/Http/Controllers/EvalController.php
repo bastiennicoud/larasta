@@ -10,6 +10,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreEvalGridRequest;
 
 use CPNVEnvironment\Environment;
 
@@ -93,10 +94,8 @@ class EvalController extends Controller
                     ]);
                 }
 
-                // Store in the session the active edited grid (avoid to pass the id in the url)
-                $request->session()->put('activeEditedGrid', $evaluation->id);
                 // Redirect the user on the edit page of this new grid
-                return redirect('evalgrid/grid/edit')->with('status', "Grille d'evaluation correctement créée !");
+                return redirect("evalgrid/grid/edit/$evaluation->id")->with('status', "Grille d'evaluation correctement créée !");
 
             }
         }
@@ -117,7 +116,7 @@ class EvalController extends Controller
      * 
      * @param Request $request
      * @param string $mode (accepts : readonly | edit)
-     * @param int|bool $id
+     * @param int|null $id
      * 
      * @return view
      */
@@ -127,17 +126,8 @@ class EvalController extends Controller
         // To edit a grid, is possible pass his id in request parameters or in session key
         // Here we check the parameter and the session
         if ($gridID == null) {
-            // the id is not specified in the request -> we check in the session
-            if($request->session()->exists('activeEditedGrid')) {
-                // the id is defined in the session, we get it
-                $gridID = $request->session()->get('activeEditedGrid');
-            } else {
-                // we have no id in session or in url params
-                return redirect('visits')->with('status', "Veuillez specifier une evaluation pour l'editer");
-            }
-        } else {
-            // If the id of the grid is passed in the uri, we store it in the session for efficient work
-            $request->session()->put('activeEditedGrid', $gridID);
+            // we have no id in session or in url params
+            return redirect('visits')->with('status', "Veuillez specifier une evaluation pour l'editer");
         }
 
         // check if the grid exists and is editable
@@ -148,13 +138,12 @@ class EvalController extends Controller
                 // Check if the grid is editable
                 if ($evaluation->editable == 0) {
                     // if not we redirect to the readonly version of the page
-                    return redirect('evalgrid/grid/readonly')->with('status', 'Vous ne pouvez plus editer cette grille, vous etes passé en lecture seule.');
+                    return redirect("evalgrid/grid/readonly/$gridID")->with('status', 'Vous ne pouvez plus editer cette grille, vous etes passé en lecture seule.');
                 }
             }
         } else {
             // The evaluation dont exists in the database
             // delete the id in the session and redirect to the visits
-            $request->session()->forget('activeEditedGrid');
             return redirect('visits')->with('status', "Cette evaluation n'existe pas !");
         }
 
@@ -169,15 +158,7 @@ class EvalController extends Controller
             // Check if this eval belongs to this user
             if ($evaluation->visit->internship->intern_id != Environment::currentUser()->getId()) {
                 // This eval not belongs to this student (he can wiew id and edit the student comment fields)
-                $request->session()->forget('activeEditedGrid');
                 return redirect('visits')->with('status', "Cette evaluation ne vous apartient pas, vous ne pouvez donc pas la consulter.");
-            }
-        } elseif (Environment::currentUser()->getLevel() == 1) {
-            // Check if this student is able to wiew and edit the eval of this student
-            if ($evaluation->visit->internship->responsible_id != Environment::currentUser()->getId()) {
-                // This teacher don have acces to this evaluation
-                $request->session()->forget('activeEditedGrid');
-                return redirect('visits')->with('status', "Vous ne pouvez pas accéder a cette evaluation.");
             }
         }
 
@@ -185,7 +166,22 @@ class EvalController extends Controller
         // We call the grid generator
         $evaluationGrid = $this->generateEvaluation($gridID);
 
-        return view('evalGrid/editGrid')->with(['gridID' => $gridID, 'evaluationContext' => $evaluation, 'evalGrid' => $evaluationGrid]);
+        /**
+         * Return the wiew with all the evaluation
+         * 
+         * @param int $gridID the id of the edited grid
+         * @param Evaluation $evaluation the Model with is context
+         * @param EvaluationSection $evaluationGrid the model with the sections, all criterias and her values
+         * @param strin $mode The type of display edit or readonly
+         * @param int $level The level of the connected user
+         */
+        return view('evalGrid/editGrid')->with([
+            'gridID' => $gridID,
+            'evaluationContext' => $evaluation,
+            'evalGrid' => $evaluationGrid,
+            'mode' => $mode,
+            'level' => Environment::currentUser()->getLevel()
+        ]);
     }
 
 
@@ -198,7 +194,7 @@ class EvalController extends Controller
      * 
      * @param int $gridID the id of the evaluation grid to generates
      * 
-     * @return array This array represents all the grid, it is designed to work with the editGrid wiew
+     * @return EvaluationSection This collection represents all the grid, it is designed to work with the editGrid wiew
      */
     public function generateEvaluation(int $gridID)
     {
@@ -209,11 +205,59 @@ class EvalController extends Controller
     }
 
 
+
+
     /**
-     * editCriteriaValue
+     * saveNewGridDatas
      * 
      * Save the user evaluation value in the database
+     * 
+     * @param App\Http\Requests\StoreEvalGridRequest $request This specific request validates the input fields and check the authorisation
+     * @param int|null $gridID
      */
+    public function saveNewGridDatas(StoreEvalGridRequest $request, $gridID = null)
+    {
+        // Here we check if the specified grid exists
+        if ($gridID == null) {
+            // we have no id
+            return redirect('visits')->with('status', "Veuillez specifier une evaluation pour l'editer");
+        }
+
+        // Save the new grid datas in the DB
+        if ($request->submit == 'save') {
+
+            // We save all the new criterias values in the DB
+            foreach ($request->except('_token', 'submit') as $key => $value) {
+                CriteriaValue::editCriteriasValues($key, $value);
+            }
+
+            // Redirect to the eval in edit mode
+            return redirect("/evalgrid/grid/edit/$gridID")->with('status', "Les informations on correctement étés enregistrées");
+
+        } elseif ($request->submit == 'checkout') {
+
+            // We save the new criterias values
+            foreach ($request->except('_token', 'checkout') as $key => $value) {
+                CriteriaValue::editCriteriasValues($key, $value);
+            }
+
+            // We pass this evaluation state to 0 (not editable)
+            Evaluation::where('id', $gridID)->update(['editable' => 0]);
+
+            // We redirect to the readonly version of the grid
+            return redirect("/evalgrid/grid/edit/$gridID")->with('status', "Les informations on correctement étés enregistrées, la grille n'est plus editable !");
+
+        } else {
+
+            // The action not exists, redirect with message
+            return redirect("/evalgrid/grid/readonly/$gridID")->flash()->with('status', "Cette methode d'édition n'est pas reconnue.");
+
+        }
+
+    }
+
+
+
 
     /**
      * getEvalState
@@ -223,13 +267,23 @@ class EvalController extends Controller
      * @param $visitid The id of the visit
      * @return int Where we are in terms of evaluation regarding this visit.
      *      Values:
-     *          1 = Not started -> editable true, criteriaValues empty
+     *          1 = Not started -> No evaluation
      *          2 = In progress -> editable true
      *          3 = Done editable a false
      */
     public static function getEvalState(int $visitid)
     {
-        return rand(1,3); // XCL testing
+        $visit = Visit::find($visitid);
+
+        if ($visit->evaluation->first() == null) {
+            return 1;
+        } elseif ($visit->evaluation->first()->editable == 1) {
+            return 2;
+        } elseif ($visit->evaluation->first()->editable == 0) {
+            return 3;
+        }
+
+        return 1;
     }
 
 }

@@ -9,6 +9,11 @@ class Visit extends Model
     public $timestamps = false;
 
     /**
+     * Eloquent will automaticaly convert this colums of the model in Carbon dates
+     */
+    protected $dates = ['moment'];
+
+    /**
      * Relation with the Evaluation model
      */
     public function evaluation()

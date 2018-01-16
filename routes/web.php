@@ -89,11 +89,11 @@ Route::prefix('evalgrid')->group(function () {
      * @param mode 'readonly' or 'edit'
      * @param gridID the id of the grid we want to edit. OPTIONAL parameter (we can also pass the id by the session with the 'activeEditedGrid' key)
      */
-    Route::get('grid/{mode}/{gridID?}', 'EvalController@editEval')->where(['mode' => 'edit|readonly', 'gridID' => '[0-9]+'])->name('editEvalGrid');
+    Route::get('grid/{mode}/{gridID}', 'EvalController@editEval')->where(['mode' => 'edit|readonly', 'gridID' => '[0-9]+'])->name('editEvalGrid');
     /**
      * Edit the values of the grid fields (see the controller method for more infos)
      */
-    Route::post('editcriteriavalue', 'EvalController@editCriteriaValue')->name('editEvalGridCriteriaValue');
+    Route::post('grid/save/{gridID}', 'EvalController@saveNewGridDatas')->where(['gridID' => '[0-9]+'])->name('saveNewGridDatas');
 });
 
 // Nicolas - Stages
