@@ -14,16 +14,3 @@
         </tr>
     @endforeach
 </table>
-<table class="table table-borderless col-md-10">
-    <tr>
-        <td class="col-md-1">&nbsp;</td>
-        <td class="col-md-1">&nbsp;</td>
-        <td class="col-md-8 text-left">
-            <form method="post" action="/remarks/filter">
-                {{ csrf_field() }}
-                <input type="text" name="needle"/>
-                <input type="submit" value="Rechercher"/>
-            </form>
-        </td>
-    </tr>
-</table>

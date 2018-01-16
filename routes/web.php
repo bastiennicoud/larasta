@@ -17,6 +17,8 @@ Route::post('/', 'InternshipsController@changeFilter');
 
 Route::get('/internships/{iid}/edit','InternshipsController@edit');
 
+Route::get('/admin', 'AdminController@index');
+
 Route::get('/about', function () {
     return view('about');
 });
@@ -26,6 +28,8 @@ Route::get('/remarks', 'RemarksController@index');
 Route::post('/remarks/filter','RemarksController@filter');
 
 Route::post('/remarks/add','RemarksController@create');
+
+Route::post('/remarks/ajax/add','RemarksController@ajaxCreate');
 
 Route::get('/remarks/{rid}/edit','RemarksController@edit');
 
