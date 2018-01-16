@@ -116,8 +116,8 @@ $level
 
                                         {{--  Display the inputs depending the user level  --}}
                                         @if ($level > 0)
-                                            <td><input type="number" name="{{ $criteria->criteriaValue->id }}_grade" value="{{ $criteria->criteriaValue->points }}"></td>
-                                            <td><textarea name="{{ $criteria->criteriaValue->id }}_mComm">{{ $criteria->criteriaValue->managerComments }}</textarea></td>
+                                            <td><input type="number" name="grade[{{ $criteria->criteriaValue->id }}]" value="{{ $criteria->criteriaValue->points }}"></td>
+                                            <td><textarea name="mComm[{{ $criteria->criteriaValue->id }}]">{{ $criteria->criteriaValue->managerComments }}</textarea></td>
                                         @else
                                             <td>{{ $criteria->criteriaValue->points }}</td>
                                             <td>{{ $criteria->criteriaValue->managerComments }}</td>
@@ -174,13 +174,13 @@ $level
 
                                         {{--  Display the inputs depending the user level  --}}
                                         @if ($level > 0)
-                                            <td><textarea name="{{ $criteria->criteriaValue->id }}_Specs">{{ $criteria->criteriaValue->contextSpecifics }}</textarea></td>
-                                            <td><textarea name="{{ $criteria->criteriaValue->id }}_mComm">{{ $criteria->criteriaValue->managerComments }}</textarea></td>
-                                            <td><textarea name="{{ $criteria->criteriaValue->id }}_sComm">{{ $criteria->criteriaValue->studentComments }}</textarea></td>
+                                            <td><textarea name="specs[{{ $criteria->criteriaValue->id }}]">{{ $criteria->criteriaValue->contextSpecifics }}</textarea></td>
+                                            <td><textarea name="mComm[{{ $criteria->criteriaValue->id }}]">{{ $criteria->criteriaValue->managerComments }}</textarea></td>
+                                            <td><textarea name="sComm[{{ $criteria->criteriaValue->id }}]">{{ $criteria->criteriaValue->studentComments }}</textarea></td>
                                         @else
                                             <td>{{ $criteria->criteriaValue->contextSpecifics }}</td>
                                             <td>{{ $criteria->criteriaValue->managerComments }}</td>
-                                            <td><textarea name="{{ $criteria->criteriaValue->id }}_sComm">{{ $criteria->criteriaValue->studentComments }}</textarea></td>
+                                            <td><textarea name="sComm[{{ $criteria->criteriaValue->id }}]">{{ $criteria->criteriaValue->studentComments }}</textarea></td>
                                         @endif
 
                                     @endif
@@ -227,13 +227,13 @@ $level
                                         {{--  Display the inputs depending the user level  --}}
                                         @if ($level > 0)
 
-                                            <td><textarea name="{{ $criteria->criteriaValue->id }}_mComm">{{ $criteria->criteriaValue->managerComments }}</textarea></td>
-                                            <td><textarea name="{{ $criteria->criteriaValue->id }}_sComm">{{ $criteria->criteriaValue->studentComments }}</textarea></td>
+                                            <td><textarea name="mComm[{{ $criteria->criteriaValue->id }}]">{{ $criteria->criteriaValue->managerComments }}</textarea></td>
+                                            <td><textarea name="sComm[{{ $criteria->criteriaValue->id }}]">{{ $criteria->criteriaValue->studentComments }}</textarea></td>
 
                                         @else
                                         
                                             <td>{{ $criteria->criteriaValue->managerComments }}</td>
-                                            <td><textarea name="{{ $criteria->criteriaValue->id }}_sComm">{{ $criteria->criteriaValue->studentComments }}</textarea></td>
+                                            <td><textarea name="sComm[{{ $criteria->criteriaValue->id }}]">{{ $criteria->criteriaValue->studentComments }}</textarea></td>
 
                                         @endif
                                         
@@ -251,8 +251,25 @@ $level
 
             @endforeach
 
-            <button class="btn btn-info" type="submit" name="submit" value="save">Enregistrer la grille</button>
-            <button class="btn btn-danger" type="submit" name="submit" value="checkout">Valider définitivement la grille</button>
+
+            {{--  Display the save buttons depending the user  --}}
+            @if ($mode == 'edit')
+
+                @if ($level > 0)
+
+                    {{--  Admin and teacher buttons  --}}
+
+                    <button class="btn btn-info" type="submit" name="submit" value="save">Enregistrer la grille</button>
+                    <button class="btn btn-danger" type="submit" name="submit" value="checkout">Valider définitivement la grille</button>
+                
+                @elseif ($level == 0)
+
+                    {{--  Student buttons  --}}
+                    <button class="btn btn-info" type="submit" name="submit" value="save">Enregistrer la grille</button>
+
+                @endif
+
+            @endif
 
         </form>
 
