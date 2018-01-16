@@ -13,7 +13,10 @@
     <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
     <script>tinymce.init({ selector:'textarea' });</script>
 
-    <textarea>{{$contract->contracttext}}</textarea>
+    <form method="post" action="/contract/{{$iid}}/">
+        <textarea name="contractText">{{$contract->contracttext}}</textarea>
+        <button>Envoie la sauce negro</button> <!-- TO DELETE -->
+    </form>
 
 
 @stop

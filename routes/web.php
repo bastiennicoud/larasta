@@ -38,7 +38,12 @@ Route::get('/entreprises', 'EntreprisesController@getCompanies');
 
 // Quentin N - Contract generation
 Route::get('/contract/{iid}', 'ContractController@generateContract');
-Route::get('/contract/{iid}/view', 'ContractController@visualizeContract');
+
+Route::post('/contract/{iid}/view', 'ContractController@visualizeContract');
+
+Route::post('/contract/{iid}/save', 'ContractController@saveContract');
+
+Route::get('/contract/{iid}/cancel', 'ContractController@cancelContract');
 
 // Steven
 
