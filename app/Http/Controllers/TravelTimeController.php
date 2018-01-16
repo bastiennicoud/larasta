@@ -25,10 +25,10 @@ class TravelTimeController extends Controller
     }
 
     /// Calculate the traveltime for a class and add it to Database
-    public function calculate(Request $request){
+    public function calculate(Request $request, $flockId){
 
         $companies = $this->getCompaniesDB();
-        $persons = $this->getPersonsDB($request->flockID);
+        $persons = $this->getPersonsDB($flockId);
         $persons = $this->checkPersons($persons);
         $travelTimes = $this->getTravelTime($companies, $persons);
         $times = $this->extractTimes($travelTimes);
@@ -39,6 +39,7 @@ class TravelTimeController extends Controller
                 "companies" => $companies,
                 "persons" => $persons,
                 "times" => $times,
+                "flockId" => $flockId,
                 "result" => null,
                 "error" => false
             ]
@@ -46,29 +47,32 @@ class TravelTimeController extends Controller
     }
 
     /// load data from DB
-    public function load(Request $request){
+    public function load(Request $request, $flockId){
         $companies = $this->getCompaniesDB();
-        $persons = $this->getPersonsDB($request->flockID);
+        $persons = $this->getPersonsDB($flockId);
         $persons = $this->checkPersons($persons);
         $times = [];
 
-
         foreach ($companies as $company){
             foreach( $persons as $person){
-                $traveltimes = $this->getTravelTimeDB($person->id, $company->id);
-                dd($traveltimes);
-                foreach ($traveltimes as $traveltime){
-                    array_push($times, $traveltime->travelTime);
+
+                $traveltime = $this->getTravelTimeDB($person->id, $company->internships_id);
+                if (isset($traveltime[0]))
+                {
+                    array_push($times, $traveltime[0]->travelTime);
+                }
+                else{
+                    array_push($times, "?");
                 }
             }
         }
-
 
         return view('traveltime/traveltime')->with(
             [
                 "companies" => $companies,
                 "persons" => $persons,
                 "times" => $times,
+                "flockId" => $flockId,
                 "result" => null,
                 "error" => false
             ]
@@ -80,17 +84,25 @@ class TravelTimeController extends Controller
     /// Add Data to Database
     /// By companies and persons, add the good times in DB
     public function addDataDB($times, $companies, $persons){
-        foreach ($companies as $key => $companie){
-            $j=0;
-            for($i = $key*count($persons) ; $i < ($key*count($persons))+count($persons); $i++){
-                if($times[$i] != $this->unknowChar){
+        $i=0;
+        foreach ($companies as $company){
+            foreach ($persons as $person){
+                if($times[$i] != $this->unknowChar) {
                     DB::table('wishes')
                         ->join('internships', 'wishes.internships_id', '=', 'internships.id')
-                        ->where('wishes.persons_id', $persons[$j]->id)
-                        ->where('internships.companies_id', $companie->id)
+                        ->where('wishes.persons_id', $person->id)
+                        ->where('internships.id', $company->internships_id)
                         ->update(['wishes.travelTime' => $times[$i]]);
-                    $j++;
                 }
+                else{
+                    DB::table('wishes')
+                        ->join('internships', 'wishes.internships_id', '=', 'internships.id')
+                        ->where('wishes.persons_id', $person->id)
+                        ->where('internships.id', $company->internships_id)
+                        ->update(['wishes.travelTime' => 0]);
+
+                }
+                $i++;
             }
         }
     }
@@ -140,7 +152,9 @@ class TravelTimeController extends Controller
                     break;
                 }
                 else{
-                    $destinations[$iteration] .= $persons[$i]->lat.",".$persons[$i]->lng."|";
+                    if(isset($persons[$i])){
+                        $destinations[$iteration] .= $persons[$i]->lat.",".$persons[$i]->lng."|";
+                    }
                 }
             }
             $iteration++;
@@ -181,7 +195,7 @@ class TravelTimeController extends Controller
             foreach ($travelTime["rows"] as $row){
                 foreach ($row["elements"] as $element){
                     if (isset($element["duration"]["value"])) {
-                        array_push($times, $element["duration"]["value"]);
+                        array_push($times, round($element["duration"]["value"]/60));
                     }
                     else{
                         array_push($times, $this->unknowChar);
@@ -194,8 +208,8 @@ class TravelTimeController extends Controller
 
     /// Control Persons, delete empty lat lng user
     public function checkPersons($persons){
-        foreach($persons as $key  => $person){
-            if($person->lat == null or $person->lng == null){
+        foreach($persons as $key  => $person) {
+            if ($person->lat == null or $person->lng == null) {
                 unset($persons[$key]);
             }
         }
@@ -210,8 +224,9 @@ class TravelTimeController extends Controller
             ->join('locations', 'location_id', '=', 'locations.id')
             ->where('companies.mptOK', 1)
             ->whereYear('internships.beginDate', '=', date('Y'))
-            ->select('companies.id', 'companies.companyName', 'locations.lat', 'locations.lng')
+            ->select('internships.id as internships_id', 'companies.id', 'companies.companyName', 'locations.lat', 'locations.lng')
             ->get();
+
         return $companies;
     }
 
@@ -226,15 +241,11 @@ class TravelTimeController extends Controller
     }
 
     /// Get wishes from Database
-    public function getTravelTimeDB($idPerson, $idCompany){
+    public function getTravelTimeDB($idPerson, $idInternships){
         $travelTimes = DB::table('wishes')
-            ->join('internships', 'wishes.internships_id', '=', 'internships.id')
-            ->join('companies', 'internships.companies_id', '=', 'companies.id')
-            ->whereYear('internships.beginDate', '=', date('Y'))
-            ->where('companies.mptOK', 1)
             ->where('wishes.persons_id', $idPerson)
-            ->where('companies.id', $idCompany)
-            ->select('wishes.travelTime', 'companies.id', 'companies.companyName', 'wishes.persons_id')
+            ->where('wishes.internships_id', $idInternships)
+            ->select('wishes.travelTime')
             ->get();
         return $travelTimes;
     }

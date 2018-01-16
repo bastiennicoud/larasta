@@ -11,25 +11,20 @@
     <h1>
         TravelTime
     </h1>
-    <div>
-        <form action="/traveltime/calculate" method="post" name="cal">
-            {{ csrf_field() }}
-            <label for="flockID">ID de classe :</label>
-            <input type="text" class="form-control" name="flockID" id="flockID">
-            <button type="submit" class="btn">(Re)Calculer</button>
-        </form>
-    </div>
-    <div>
-        <form action="/traveltime/load" method="post" name="loa">
-            {{ csrf_field() }}
-            <label for="flockID">ID de classe :</label>
-            <input type="text" class="form-control" name="flockID" id="flockID">
-            <button type="submit" class="btn">Charger</button>
-        </form>
-    </div>
-
+    <form action="/wishesMatrix" method="get" class="backForm">
+        {{ csrf_field() }}
+        <button type="submit" class="btn">Retour</button>
+    </form>
     @if (isset($persons) & isset($companies) & isset($times))
-        <table class="table-bordered">
+        <div>
+            <form action="/traveltime/{{ $flockId }}/calculate" method="get">
+                {{ csrf_field() }}
+                <button type="submit" class="btn">(Re)Calculer</button>
+            </form>
+        </div>
+
+
+        <table class="table-bordered col-md-9">
             <tr>
                 <th></th>
                 @foreach ($persons as $person)
@@ -47,6 +42,11 @@
             @endforeach
 
         </table>
+    @else
+
+        <h4>L'url n'est pas valide</h4>
+
+
     @endif
 
 

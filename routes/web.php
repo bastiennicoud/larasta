@@ -62,8 +62,9 @@ Route::get('/wishesMatrix', 'WishesMatrixController@index');
 
 // Kevin
 Route::get('/traveltime', 'TravelTimeController@index');
-Route::post('/traveltime/calculate', 'TravelTimeController@calculate');
-Route::post('/traveltime/load', 'TravelTimeController@load');
+Route::get('/traveltime/{flockId}/load', 'TravelTimeController@load');
+Route::get('/traveltime/{flockId}/calculate', 'TravelTimeController@calculate');
+
 
 /**
  * Bastien - Grille d'évaluation
