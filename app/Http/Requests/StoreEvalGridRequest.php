@@ -1,10 +1,20 @@
 <?php
+/**
+ * StoreEvalGridRequest
+ * 
+ * This class contains custom request for validating evalgrid update requests
+ * He authorise the request and define the rules
+ * 
+ * Bastien Nicoud
+ * v1.0.0
+ */
 
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use CPNVEnvironment\Environment;
 use App\Evaluation;
+use App\Rules\MaxGridGrade;
 
 class StoreEvalGridRequest extends FormRequest
 {
@@ -44,7 +54,7 @@ class StoreEvalGridRequest extends FormRequest
             // Validates all the student comments
             '*.sComm' => 'nullable|max:500',
             // Validates all the grades
-            '*.grade' => 'nullable|numeric',
+            '*.grade' => ['nullable|numeric', new MaxGridGrade],
             // Check the submit field is present
             'submit' => 'required'
         ];
