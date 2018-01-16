@@ -10,7 +10,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreEvalGrid;
+use App\Http\Requests\StoreEvalGridRequest;
 
 use CPNVEnvironment\Environment;
 
@@ -138,7 +138,7 @@ class EvalController extends Controller
                 // Check if the grid is editable
                 if ($evaluation->editable == 0) {
                     // if not we redirect to the readonly version of the page
-                    return redirect('evalgrid/grid/readonly')->with('status', 'Vous ne pouvez plus editer cette grille, vous etes passé en lecture seule.');
+                    return redirect("evalgrid/grid/readonly/$gridID")->with('status', 'Vous ne pouvez plus editer cette grille, vous etes passé en lecture seule.');
                 }
             }
         } else {
@@ -212,10 +212,10 @@ class EvalController extends Controller
      * 
      * Save the user evaluation value in the database
      * 
-     * @param App\Http\Requests\StoreEvalGrid $request This specific request validates the input fields and check the authorisation
+     * @param App\Http\Requests\StoreEvalGridRequest $request This specific request validates the input fields and check the authorisation
      * @param int|null $gridID
      */
-    public function saveNewGridDatas(StoreEvalGrid $request, $gridID = null)
+    public function saveNewGridDatas(StoreEvalGridRequest $request, $gridID = null)
     {
         // Here we check if the specified grid exists
         if ($gridID == null) {
@@ -226,18 +226,34 @@ class EvalController extends Controller
         // Save the new grid datas in the DB
         if ($request->submit == 'save') {
 
-            $criteriasValues = CriteriaValue::where('evaluation_id', '=', $gridID);
-            foreach ($request->only() as $key => $value) {
-                # code...
+            // We save all the new criterias values in the DB
+            foreach ($request->except('_token', 'submit') as $key => $value) {
+                CriteriaValue::editCriteriasValues($key, $value);
             }
 
+            // Redirect to the eval in edit mode
+            return redirect("/evalgrid/grid/edit/$gridID")->with('status', "Les informations on correctement étés enregistrées");
+
         } elseif ($request->submit == 'checkout') {
-            dd('checkout');
+
+            // We save the new criterias values
+            foreach ($request->except('_token', 'checkout') as $key => $value) {
+                CriteriaValue::editCriteriasValues($key, $value);
+            }
+
+            // We pass this evaluation state to 0 (not editable)
+            Evaluation::where('id', $gridID)->update(['editable' => 0]);
+
+            // We redirect to the readonly version of the grid
+            return redirect("/evalgrid/grid/edit/$gridID")->with('status', "Les informations on correctement étés enregistrées, la grille n'est plus editable !");
+
         } else {
-            // L'action n'est pas reconnue
+
+            // The action not exists, redirect with message
+            return redirect("/evalgrid/grid/readonly/$gridID")->flash()->with('status', "Cette methode d'édition n'est pas reconnue.");
+
         }
 
-        //dd($request->all());
     }
 
 

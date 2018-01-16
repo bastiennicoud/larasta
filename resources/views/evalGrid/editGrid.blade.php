@@ -17,10 +17,6 @@ $level
 
 @extends ('layout')
 
-@section ('page_specific_css')
-    <script src="/css/evalGrid.css"></script>
-@stop
-
 @section ('content')
 
 <div class="container">
@@ -128,8 +124,8 @@ $level
                                         {{--  Display the inputs depending the user level  --}}
                                         @if ($level > 0)
                                             {{--  For each fiels we create a name with the criteria id, and fill the value from the DB or from the old inpuf if the form is reloaded (after a validation fails)  --}}
-                                            <td><input type="number" name="grade[{{ $criteria->criteriaValue->id }}]" value="{{ old('grade.' . $criteria->criteriaValue->id) ? old('grade.' . $criteria->criteriaValue->id) : $criteria->criteriaValue->points }}"></td>
-                                            <td><textarea name="mComm[{{ $criteria->criteriaValue->id }}]">{{ old('mComm.' . $criteria->criteriaValue->id) ? old('mComm.' . $criteria->criteriaValue->id) : $criteria->criteriaValue->managerComments }}</textarea></td>
+                                            <td><input type="number" name="{{ $criteria->criteriaValue->id }}[grade]" value="{{ old($criteria->criteriaValue->id . '.grade') ? old($criteria->criteriaValue->id . '.grade') : $criteria->criteriaValue->points }}"></td>
+                                            <td><textarea name="{{ $criteria->criteriaValue->id }}[mComm]">{{ old($criteria->criteriaValue->id . '.mComm') ? old($criteria->criteriaValue->id . '.mComm') : $criteria->criteriaValue->managerComments }}</textarea></td>
                                         @else
                                             <td>{{ $criteria->criteriaValue->points }}</td>
                                             <td>{{ $criteria->criteriaValue->managerComments }}</td>
@@ -186,13 +182,13 @@ $level
 
                                         {{--  Display the inputs depending the user level  --}}
                                         @if ($level > 0)
-                                            <td><textarea name="specs[{{ $criteria->criteriaValue->id }}]">{{ old('specs.' . $criteria->criteriaValue->id) ? old('specs.' . $criteria->criteriaValue->id) : $criteria->criteriaValue->contextSpecifics }}</textarea></td>
-                                            <td><textarea name="mComm[{{ $criteria->criteriaValue->id }}]">{{ old('mComm.' . $criteria->criteriaValue->id) ? old('mComm.' . $criteria->criteriaValue->id) : $criteria->criteriaValue->managerComments }}</textarea></td>
-                                            <td><textarea name="sComm[{{ $criteria->criteriaValue->id }}]">{{ old('sComm.' . $criteria->criteriaValue->id) ? old('sComm.' . $criteria->criteriaValue->id) : $criteria->criteriaValue->studentComments }}</textarea></td>
+                                            <td><textarea name="{{ $criteria->criteriaValue->id }}[specs]">{{ old($criteria->criteriaValue->id . '.specs') ? old($criteria->criteriaValue->id . '.specs') : $criteria->criteriaValue->contextSpecifics }}</textarea></td>
+                                            <td><textarea name="{{ $criteria->criteriaValue->id }}[mComm]">{{ old($criteria->criteriaValue->id . '.mComm') ? old($criteria->criteriaValue->id . '.mComm') : $criteria->criteriaValue->managerComments }}</textarea></td>
+                                            <td><textarea name="{{ $criteria->criteriaValue->id }}[sComm]">{{ old($criteria->criteriaValue->id . '.sComm') ? old($criteria->criteriaValue->id . '.sComm') : $criteria->criteriaValue->studentComments }}</textarea></td>
                                         @else
                                             <td>{{ $criteria->criteriaValue->contextSpecifics }}</td>
                                             <td>{{ $criteria->criteriaValue->managerComments }}</td>
-                                            <td><textarea name="sComm[{{ $criteria->criteriaValue->id }}]">{{ old('sComm.' . $criteria->criteriaValue->id) ? old('sComm.' . $criteria->criteriaValue->id) : $criteria->criteriaValue->studentComments }}</textarea></td>
+                                            <td><textarea name="{{ $criteria->criteriaValue->id }}[sComm]">{{ old($criteria->criteriaValue->id . '.sComm') ? old($criteria->criteriaValue->id . '.sComm') : $criteria->criteriaValue->studentComments }}</textarea></td>
                                         @endif
 
                                     @endif
@@ -239,13 +235,13 @@ $level
                                         {{--  Display the inputs depending the user level  --}}
                                         @if ($level > 0)
 
-                                            <td><textarea name="mComm[{{ $criteria->criteriaValue->id }}]">{{ old('mComm.' . $criteria->criteriaValue->id) ? old('mComm.' . $criteria->criteriaValue->id) : $criteria->criteriaValue->managerComments }}</textarea></td>
-                                            <td><textarea name="sComm[{{ $criteria->criteriaValue->id }}]">{{ old('sComm.' . $criteria->criteriaValue->id) ? old('sComm.' . $criteria->criteriaValue->id) : $criteria->criteriaValue->studentComments }}</textarea></td>
+                                            <td><textarea name="{{ $criteria->criteriaValue->id }}[mComm]">{{ old($criteria->criteriaValue->id . '.mComm') ? old($criteria->criteriaValue->id . '.mComm') : $criteria->criteriaValue->managerComments }}</textarea></td>
+                                            <td><textarea name="{{ $criteria->criteriaValue->id }}[sComm]">{{ old($criteria->criteriaValue->id . '.sComm') ? old($criteria->criteriaValue->id . '.sComm') : $criteria->criteriaValue->studentComments }}</textarea></td>
 
                                         @else
                                         
                                             <td>{{ $criteria->criteriaValue->managerComments }}</td>
-                                            <td><textarea name="sComm[{{ $criteria->criteriaValue->id }}]">{{ old('sComm.' . $criteria->criteriaValue->id) ? old('sComm.' . $criteria->criteriaValue->id) : $criteria->criteriaValue->studentComments }}</textarea></td>
+                                            <td><textarea name="{{ $criteria->criteriaValue->id }}[sComm]">{{ old($criteria->criteriaValue->id . '.sComm') ? old($criteria->criteriaValue->id . '.sComm') : $criteria->criteriaValue->studentComments }}</textarea></td>
 
                                         @endif
                                         
@@ -289,8 +285,4 @@ $level
 
 </div>
 
-@stop
-
-@section ('page_specific_js')
-    <script src="/js/evalGrid.js"></script>
 @stop

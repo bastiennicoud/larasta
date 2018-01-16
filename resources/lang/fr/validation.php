@@ -18,10 +18,7 @@ return [
     */
 
     'max' => [
-        'numeric' => 'The :attribute may not be greater than :max.',
-        'file'    => 'The :attribute may not be greater than :max kilobytes.',
-        'string'  => 'Les :attribute peuvent faire :max caractères maximum.',
-        'array'   => 'The :attribute may not have more than :max items.',
+        'string'  => 'Les :attribute peuvent faire :max caractères maximum.'
     ],
     'required' => 'Le :attribute est requis.',
 
@@ -37,10 +34,10 @@ return [
     */
 
     'attributes' => [
-        'specs.*' => 'spécifications',
-        'mComm.*' => 'commentaire du responsable de stage',
-        'sComm.*' => 'commentaires du stagiaire',
-        'grade' => 'note',
+        '*.specs' => 'spécifications',
+        '*.mComm' => 'commentaire du responsable de stage',
+        '*.sComm' => 'commentaires du stagiaire',
+        '*.grade' => 'note',
         'submit' => 'type d\'enregistrement'
     ]
 

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use CPNVEnvironment\Environment;
 use App\Evaluation;
 
-class StoreEvalGrid extends FormRequest
+class StoreEvalGridRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -37,10 +37,15 @@ class StoreEvalGrid extends FormRequest
     public function rules()
     {
         return [
-            'specs.*' => 'nullable|max:500',
-            'mComm.*' => 'nullable|max:500',
-            'sComm.*' => 'nullable|max:500',
-            'grade.*' => 'nullable|numeric',
+            // Validates all the specification fields
+            '*.specs' => 'nullable|max:500',
+            // Validates all the master comment fields
+            '*.mComm' => 'nullable|max:500',
+            // Validates all the student comments
+            '*.sComm' => 'nullable|max:500',
+            // Validates all the grades
+            '*.grade' => 'nullable|numeric',
+            // Check the submit field is present
             'submit' => 'required'
         ];
     }
