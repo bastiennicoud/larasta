@@ -9,57 +9,102 @@
 $(document).ready(function(){
     var lockTable = true;
     $('#lockTable').click(function(){
+        // Test
+        var col = $(this).parent().children().index($(this)) + 1;
+
         if(lockTable)
         {
-            $(this).attr('src',"/images/padlock_32x32.png");
+            $(this).attr('src',"/images/open-padlock-silhouette_32x32.png");
             lockTable = false;
+            $('tr td:nth-child(' + col + ')').each( function(){
+                $('.clickableCase').removeClass('locked');
+                ;       
+            });
         }
         else
         {
-            $(this).attr('src',"/images/open-padlock-silhouette_32x32.png");
+            $(this).attr('src',"/images/padlock_32x32.png");
             lockTable = true;
+            $('tr td:nth-child(' + col + ')').each( function(){
+                $('.clickableCase').addClass('locked');
+                ;       
+            });
         }
     });
 
     $('.clickableCase').click(function(){
-        var items=[];
-        var col = $(this).parent().children().index($(this)) + 1;
-        if($('.access').index() + 1 == col)
+        // Test if table is locked
+        if(!$(this).hasClass('locked'))
         {
-            $('tr td:nth-child(' + col + ')').each( function(){
-                //add item to array
-                items.push( $(this).text().replace(/\s/g, '') );       
-            });
-            
-             if($(this).text().replace(/\s/g, '') != "")
+            // Test if the current user is not a teacher
+            if(!$(this).hasClass('teacher'))
             {
-                recalculateRank(col, $(this).text().replace(/\s/g, ''));
-                $(this).text("");
-            }else
-            {
-                // Else if for limit 3 choices
-                if(jQuery.inArray("1",items) == -1)
+                var items=[];
+                var col = $(this).parent().children().index($(this)) + 1;
+                // Test if student has access to edit the col
+                if($('.access').index() + 1 == col)
                 {
-                    $(this).text(1)
-                }else if(jQuery.inArray("2",items) == -1)
-                {
-                    $(this).text(2)
-                }else if(jQuery.inArray("3",items) == -1)
-                {
-                    $(this).text(3)
-                }else
+                    $('tr td:nth-child(' + col + ')').each( function(){
+                        //add item to array
+                        items.push( $(this).text().replace(/\s/g, '') );       
+                    });
+                    
+                    if($(this).text().replace(/\s/g, '') != "")
+                    {
+                        recalculateRank(col, $(this).text().replace(/\s/g, ''));
+                        $(this).text("");
+                    }else
+                    {
+                        // Else if for limit 3 choices
+                        if(jQuery.inArray("1",items) == -1)
+                        {
+                            $(this).text(1)
+                        }else if(jQuery.inArray("2",items) == -1)
+                        {
+                            $(this).text(2)
+                        }else if(jQuery.inArray("3",items) == -1)
+                        {
+                            $(this).text(3)
+                        }else
+                        {
+                            // View The toast message
+                            $('.alert-info').text("Vous ne pouvez que 3 souhaits.");
+                            $('.alert-info').removeClass('hidden');
+                            cleanMessage();
+                        }
+                    }
+                }
+                else
                 {
                     // View The toast message
-                    $('.alert-info').text("Vous ne pouvez que 3 souhaits.");
+                    $('.alert-info').text("Vous n'avez pas le droit de modifier les souhaits d'un autre élève.");
                     $('.alert-info').removeClass('hidden');
                     cleanMessage();
+                }
+            }
+            else
+            {
+                // Teacher function
+                // Test if had already a postulation
+                if($(this).hasClass('postulationRequest'))
+                {
+                    $(this).removeClass('postulationRequest');
+                    $(this).addClass('postulationDone');
+                }
+                else if($(this).hasClass('postulationDone'))
+                {
+                    $(this).removeClass('postulationDone');
+                }
+                else
+                {
+                    $(this).addClass('postulationRequest');
                 }
             }
         }
         else
         {
             // View The toast message
-            $('.alert-info').text("Vous n'avez pas le droit de modifier les souhaits d'un autre élève.");
+            $('.alert-info').text("Le tableau est bloquer en édition.");
             $('.alert-info').removeClass('hidden');
             cleanMessage();
         }

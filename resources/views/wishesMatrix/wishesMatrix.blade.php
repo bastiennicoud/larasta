@@ -7,7 +7,9 @@
 
 
 @extends ('layout')
-
+@section ('page_specific_css')
+    <link rel="stylesheet" href="/css/wishesMatrix.css" />
+@stop
 @section ('content')
     <div class="alert-info hidden">
         <!-- Info if user doesn't have the good right -->
@@ -36,7 +38,11 @@
                     @foreach ($persons as $person)
                         @if ($person->initials!="")
                         <!-- !!!!!!!!!!!!!!!!!!!!!!!!!PROBLEM BECAUSE NOT EMPTY BECAUSE LARAVEL ADD SYNTAX IN TD !!!!!!!!!!!!!!!!!!!!!! -->
-                            <td class="clickableCase">
+                            @if ($currentUser->role != 0)
+                                <td class="clickableCase locked teacher">
+                            @else
+                                <td class="clickableCase">
+                            @endif
                             <!-- Add for each persons in the table her wish -->
                                 @foreach ($wishes[$person->id] as $wish)
                                     <!-- if wish company is equal to the current company display the rank -->
@@ -51,7 +57,7 @@
             @endforeach
         </table>
         @if ($currentUser->role != 0)
-            <img id="lockTable" src="/images/open-padlock-silhouette_32x32.png"/>
+            <img id="lockTable" src="/images/padlock_32x32.png"/>
         @endif
     </div>
     <!-- Check if current user is not a student -->
