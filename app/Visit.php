@@ -11,8 +11,16 @@ class Visit extends Model
     /**
      * Relation with the Evaluation model
      */
-    public function visit()
+    public function evaluation()
     {
         return $this->hasMany('App\Evaluation');
+    }
+
+    /**
+     * Relation with the internships model
+     */
+    public function internship()
+    {
+        return $this->belongsTo('App\Internship', 'internships_id');
     }
 }

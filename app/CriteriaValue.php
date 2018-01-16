@@ -12,6 +12,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class CriteriaValue extends Model
 {
+    // Define a custom table name (this table dont use the laravel naming conventions)
+    protected $table = 'criteriaValues';
+
     public $timestamps = false;
 
     /**

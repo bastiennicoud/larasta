@@ -64,7 +64,7 @@ Route::get('/traveltime', 'TravelTimeController@index');
 Route::post('/traveltime/calculate', 'TravelTimeController@calculate');
 
 /**
- * Bastien - Grille d'évaluation
+ * Bastien - Evaluation grid
  * 
  * All the routes to interact with the evaluation Grid (edition)
  * Grouped by the /evalgrid prefix
