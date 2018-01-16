@@ -23,3 +23,7 @@
   display: block;
 }
 
+.clickable-row {
+  cursor: pointer;
+}
+
