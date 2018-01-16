@@ -15,9 +15,16 @@ class Criteria extends Model
     public $timestamps = false;
 
     /**
+     * Authorize mass asignement columns
+     *
+     * @var array
+     */
+    protected $fillable = ['criteriaName', 'criteriaDetails', 'maxPoints', 'evaluationSection_id'];
+
+    /**
      * Relation with the EvaluationSection model
      */
-    public function evaluationSections()
+    public function evaluationSection()
     {
         return $this->belongsTo('App\EvaluationSection', 'evaluationSection_id');
     }
@@ -25,8 +32,8 @@ class Criteria extends Model
     /**
      * Relation with the CriteriaValue model
      */
-    public function criteriaValues()
+    public function criteriaValue()
     {
-        return $this->hasMany('App\CriteriaValue');
+        return $this->hasOne('App\CriteriaValue');
     }
 }

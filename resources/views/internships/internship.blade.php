@@ -2,7 +2,7 @@
 
 @section ('content')
     <h2 class="text-left">Stage de {{ $iship->studentfirstname }} {{ $iship->studentlastname }} chez {{ $iship->companyName }}</h2>
-    <table class="table text-left">
+    <table class="table text-left larastable">
         <tr>
             <td class="col-md-2">Du</td>
             <td>{{ strftime("%e %b %g", strtotime($iship->beginDate)) }}</td>
@@ -42,24 +42,6 @@
         @endif
     </table>
     {{-- Action buttons --}}
-    @switch(\App\Http\Controllers\EvalController::getEvalState($iship->id))
-        @case(1)
-        <a href="/evalgrid/neweval/{{ $iship->id }}">
-            <button class="btn-primary">Démarrer l'évaluation</button>
-        </a>
-        @break
-        @case(2)
-        <a href="/evalgrid/grid/edit/{{ $iship->id }}">
-            <button class="btn-warning">Reprendre l'évaluation</button>
-        </a>
-        @break
-        @case(3)
-        <a href="/evalgrid/grid/readonly/{{ $iship->id }}">
-            <button class="btn-secondary">Afficher l'évaluation</button>
-        </a>
-        @break
-    @endswitch
-
     @if(substr($iship->contractGenerated,0,4) == "0000")
         <a href="/contract/{{ $iship->id }}">
             <button class="btn-primary">Générer le contrat</button>

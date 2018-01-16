@@ -15,6 +15,13 @@ class Evaluation extends Model
     public $timestamps = false;
 
     /**
+     * Authorize mass asignement columns
+     *
+     * @var array
+     */
+    protected $fillable = ['visit_id', 'editable'];
+
+    /**
      * Relation with the CriteriaValue model
      */
     public function criteriaValue()
