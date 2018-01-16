@@ -67,7 +67,7 @@ Route::get('/traveltime/{flockId}/calculate', 'TravelTimeController@calculate');
 
 
 /**
- * Bastien - Grille d'évaluation
+ * Bastien - Evaluation grid
  * 
  * All the routes to interact with the evaluation Grid (edition)
  * Grouped by the /evalgrid prefix
