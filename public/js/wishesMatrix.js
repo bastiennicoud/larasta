@@ -1,9 +1,9 @@
 //------------------------------------------------------------
 // Benjamin Delacombaz
-// version 0.3
+// version 0.4
 // WishesMatrixController
 // Created 18.12.2017
-// Last edit 09.01.2017 by Benjamin Delacombaz
+// Last edit 16.01.2017 by Benjamin Delacombaz
 //------------------------------------------------------------
 
 $(document).ready(function(){
@@ -44,9 +44,9 @@ $(document).ready(function(){
         else
         {
             // View The toast message
-            $('.alert-info').text = "Vous n'avez pas le droit de modifier les souhaits d'un autre élève.";
-            $('.alert-info').addClass('willvanish');
+            $('.alert-info').text("Vous n'avez pas le droit de modifier les souhaits d'un autre élève.");
             $('.alert-info').removeClass('hidden');
+            cleanMessage();
         }
     });
 
@@ -83,5 +83,12 @@ $(document).ready(function(){
                 }
             }     
          });
+    }
+    // Clean message box
+    function cleanMessage()
+    {
+        $(".alert-info").fadeTo(2000, 500).slideUp(500, function(){
+            $(".alert-info").slideUp(500);
+        });
     }
  });
