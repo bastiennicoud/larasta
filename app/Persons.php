@@ -18,5 +18,11 @@ class Persons extends Model
         }
     }
 
-    //
+    /**
+     * Computed property to recompose full name
+     */
+    public function getFullNameAttribute()
+    {
+        return "{$this->firstname} {$this->lastname}";
+    }
 }
