@@ -14,25 +14,29 @@ use Illuminate\Support\Facades\DB;
 use App\Companies;
 use SebastianBergmann\Environment\Console;
 use function GuzzleHttp\json_encode;
+use CPNVEnvironment\Environment;
 
 class WishesMatrixController extends Controller
 {
     public function index()
     {
         // Complete the session for test
-        $currentId = 291;
-        $currentInitial = 'CRY';
 
+        $currentUser = Environment::currentUser();
+        $flockId = 12;
+        $currentInitial = "CRY";
         $companies = $this->getCompaniesWithInternships();
-        $persons = $this->getPersons(12);
+        $persons = $this->getPersons($flockId);
         $wishes = null;
+
+        echo $currentUser->getInitials();
         
         // Get all wishes per person
         foreach ($persons as $person)
         {
             $wishes[$person->id] = $this->getWishesByPerson($person->id);
         }
-        return view('wishesMatrix/wishesMatrix')->with(['companies' => $companies, 'persons' => $persons, 'wishes' => $wishes, 'currentInitial' => $currentInitial]);
+        return view('wishesMatrix/wishesMatrix')->with(['companies' => $companies, 'persons' => $persons, 'wishes' => $wishes, 'currentInitial' => $currentInitial, 'currentUser' => $currentUser, 'flockId' => $flockId]);
     }
 
     private function getCompaniesWithInternships()

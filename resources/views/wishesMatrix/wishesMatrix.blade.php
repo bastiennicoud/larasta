@@ -13,13 +13,14 @@
         <!-- Info if user doesn't have the good right -->
     </div>
     <h1>Matrice des souhaits</h1>
-    <table id="WishesMatrixTable" class="table-bordered">
+    <table id="WishesMatrixTable" class="table-bordered col-md-9">
         <tr>
             <th></th>
             <!-- Add each persons where initials is ok -->
             @foreach ($persons as $person)
                 @if ($person->initials!="")
-                    @if ($person->initials == $currentInitial) 
+                    <!-- Add access class for authoized to edit a col -->
+                    @if ($person->initials == $currentUser->getInitials()) 
                         <th class="access" value="{{ $person->id }}">{{ $person->initials }}</th>
                     @else
                         <th value="{{ $person->id }}">{{ $person->initials }}</th>   
@@ -48,6 +49,7 @@
             </tr>
         @endforeach
     </table>
+    <a href="/traveltime/{{$flockId}}/load" class="col-md-3">Travel time</a>
 @stop
 
 @section ('page_specific_js')
