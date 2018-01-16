@@ -7,10 +7,19 @@
 //------------------------------------------------------------
 
 $(document).ready(function(){
-    // When the table is load add item already clicked in a array
-    /*$('#WishesMatrixTable').load(function(){
-        var items=[]
-    });*/
+    var lockTable = true;
+    $('#lockTable').click(function(){
+        if(lockTable)
+        {
+            $(this).attr('src',"/images/padlock_32x32.png");
+            lockTable = false;
+        }
+        else
+        {
+            $(this).attr('src',"/images/open-padlock-silhouette_32x32.png");
+            lockTable = true;
+        }
+    });
 
     $('.clickableCase').click(function(){
         var items=[];
@@ -38,6 +47,12 @@ $(document).ready(function(){
                 }else if(jQuery.inArray("3",items) == -1)
                 {
                     $(this).text(3)
+                }else
+                {
+                    // View The toast message
+                    $('.alert-info').text("Vous ne pouvez que 3 souhaits.");
+                    $('.alert-info').removeClass('hidden');
+                    cleanMessage();
                 }
             }
         }

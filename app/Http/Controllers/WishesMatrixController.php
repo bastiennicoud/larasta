@@ -1,10 +1,10 @@
 <?php
 //------------------------------------------------------------
 // Benjamin Delacombaz
-// version 0.3
+// version 0.4
 // WishesMatrixController
 // Created 18.12.2017
-// Last edit 09.01.2017 by Benjamin Delacombaz
+// Last edit 16.01.2017 by Benjamin Delacombaz
 //------------------------------------------------------------
 
 namespace App\Http\Controllers;
@@ -75,7 +75,7 @@ class WishesMatrixController extends Controller
         $persons = DB::table('persons')
             ->where('persons.id', $personId)
             ->whereNotNull('persons.initials')
-            ->select('persons.id','persons.initials', 'persons.flock_id')
+            ->select('persons.id','persons.initials', 'persons.flock_id', 'persons.role')
             ->first();
         return $persons;
     }
