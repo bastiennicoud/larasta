@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use CPNVEnvironment\Environment;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 
@@ -28,13 +29,45 @@ class EntrepriseController extends Controller
             ->where('company_id','=',$id)
             ->get();
 
-
-        $trainee = DB::table('persons')
-            ->join('internships', 'persons.id','=','intern_id')
-            ->select('firstname', 'lastname','persons.id', 'beginDate','endDate','admin_id','intern_id','responsible_id')
-            ->where('companies_id','=',$id)
+        $iships = DB::table('internships')
+            ->join('companies', 'companies_id', '=', 'companies.id')
+            ->join('persons as admresp', 'admin_id', '=', 'admresp.id')
+            ->join('persons as intresp', 'responsible_id', '=', 'intresp.id')
+            ->join('persons as student', 'intern_id', '=', 'student.id')
+            ->join('contractstates', 'contractstate_id', '=', 'contractstates.id')
+            ->select(
+                'internships.id',
+                'beginDate',
+                'companyName',
+                'admresp.firstname as arespfirstname',
+                'admresp.lastname as aresplastname',
+                'intresp.firstname as irespfirstname',
+                'intresp.lastname as iresplastname',
+                'student.firstname as studentfirstname',
+                'student.lastname as studentlastname',
+                'contractstate_id','stateDescription')
+            ->where('companies.id', $id)
             ->get();
 
-        return view('entreprises/entreprise')->with(['company' => $company, 'user' => $user, 'persons' => $persons, 'contacts' => $contacts,  'trainee'=>$trainee]);
+        $remarks = DB::table('remarks')
+            ->select('id','remarkDate','author','remarkText')
+            ->where('remarkType',1)
+            ->where('remarkOn_id', $id)
+            ->get();
+
+        return view('/entreprises/entreprise')->with(['company' => $company, 'user' => $user, 'persons' => $persons, 'contacts' => $contacts,  'iships'=>$iships, 'remarks'=>$remarks]);
+    }
+
+    public function save(Request $request, $id){  // $request data : address1, address2, npa, city, ctype
+       dd($request->address2);
+        DB::table('companies')
+            ->where('id',$id)
+            ->update(['contracts_id' => $request->ctype]);
+
+        DB::table('locations')
+            ->where('id',$id)
+            ->update(['address1' => $request->address1, 'address2' => $request->address2, 'postalCode' => $request->npa, 'city' => $request->city]);
+
+        return $this->index($id);
     }
 }

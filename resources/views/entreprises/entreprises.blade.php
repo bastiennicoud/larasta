@@ -41,7 +41,7 @@
      @endif
     <div class="body">
         <div class="tab-content">
-        <table class="table table-responsive" border="solid" >
+        <table class="table table-bordered table-hover text-left larastable" >
             <tr>
                 <th class="text-center">Entreprises</th>
                 <th class="text-center">Adresse 1</th>
