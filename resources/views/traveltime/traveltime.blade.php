@@ -1,6 +1,18 @@
-@extends ('../layout')
+{{--
+Author : Kevin Jordil
 
-{{-- Author : Kevin Jordil 2018 --}}
+If this view get
+$persons
+$companies
+$times
+
+Display it
+--}}
+
+<!-- Author : Kevin Jordil -->
+<!--    TravelTime page    -->
+
+@extends ('../layout')
 
 @section ('page_specific_css')
     <link rel="stylesheet" href="/css/travelTime.css">
@@ -15,15 +27,12 @@
         {{ csrf_field() }}
         <button type="submit" class="btn">Retour</button>
     </form>
-    @if (isset($persons) & isset($companies) & isset($times))
-        <div>
-            <form action="/traveltime/{{ $flockId }}/calculate" method="get">
-                {{ csrf_field() }}
-                <button type="submit" class="btn">(Re)Calculer</button>
-            </form>
-        </div>
+    @if ($error)
 
+        <h4>Erreur : {{ $message }}</h4>
 
+    @elseif (isset($persons) & isset($companies) & isset($times))
+        
         <table class="table-bordered col-md-9">
             <tr>
                 <th></th>
@@ -42,6 +51,14 @@
             @endforeach
 
         </table>
+
+        <div>
+            <form action="/traveltime/{{ $flockId }}/calculate" method="get">
+                {{ csrf_field() }}
+                <button type="submit" class="btn">(Re)Calculer</button>
+            </form>
+        </div>
+
     @else
 
         <h4>L'url n'est pas valide</h4>

@@ -13,26 +13,28 @@ class TravelTimeController extends Controller
     private $message; // a message to display - if defined - in views
     private $unknowChar = "?";
 
-    public function index($result=null, $error=false)
-    {
-
-        return view('traveltime/traveltime')->with(
-            [
-                "result" => $result,
-                "error" => $error
-            ]
-        );
-    }
-
     /// Calculate the traveltime for a class and add it to Database
     public function calculate(Request $request, $flockId){
 
         $companies = $this->getCompaniesDB();
         $persons = $this->getPersonsDB($flockId);
-        $persons = $this->checkPersons($persons);
+        //$persons = $this->checkPersons($persons);
         $travelTimes = $this->getTravelTime($companies, $persons);
+        $error = $this->checkGoogleAPI($travelTimes);
+
+        if($error != null){
+            return view('traveltime/traveltime')->with(
+                [
+                    "message" => $error,
+                    "error" => true
+                ]
+            );
+        }
+
         $times = $this->extractTimes($travelTimes);
-        $this->addDataDB($times, $companies, $persons);
+        //$this->addDataDB($times, $companies, $persons);
+
+        $message = "Classe calculée !";
 
         return view('traveltime/traveltime')->with(
             [
@@ -40,7 +42,7 @@ class TravelTimeController extends Controller
                 "persons" => $persons,
                 "times" => $times,
                 "flockId" => $flockId,
-                "result" => null,
+                "message" => $message,
                 "error" => false
             ]
         );
@@ -50,7 +52,7 @@ class TravelTimeController extends Controller
     public function load(Request $request, $flockId){
         $companies = $this->getCompaniesDB();
         $persons = $this->getPersonsDB($flockId);
-        $persons = $this->checkPersons($persons);
+        //$persons = $this->checkPersons($persons);
         $times = [];
 
         foreach ($companies as $company){
@@ -67,13 +69,15 @@ class TravelTimeController extends Controller
             }
         }
 
+        $message = "Chargement réussi";
+
         return view('traveltime/traveltime')->with(
             [
                 "companies" => $companies,
                 "persons" => $persons,
                 "times" => $times,
                 "flockId" => $flockId,
-                "result" => null,
+                "message" => $message,
                 "error" => false
             ]
         );
@@ -173,7 +177,7 @@ class TravelTimeController extends Controller
             foreach($destinations as $destination){
 
 
-                $url="https://maps.googleapis.com/maps/api/distancematrix/json?origins=".$origin."&destinations=".$destination."&mode=transit&arrival_time=".$timestamp."&key=AIzaSyDGKtvzU-EsYTykwKR-ApMrlycEG30PyIg"; //.$_ENV['API_GOOGLE_MAP'];
+                $url="https://maps.googleapis.com/maps/api/distancematrix/json?origins=".$origin."&destinations=".$destination."&mode=transit&arrival_time=".$timestamp."&key=".$_ENV['API_GOOGLE_MAP'];
                 $json = file_get_contents($url);
                 $actualTravel = json_decode($json, true);
                 array_push($travelTime, $actualTravel);
@@ -181,7 +185,6 @@ class TravelTimeController extends Controller
             }
         }
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
         return $travelTime;
 
@@ -213,7 +216,15 @@ class TravelTimeController extends Controller
                 unset($persons[$key]);
             }
         }
+
         return $persons;
+    }
+
+    public function checkGoogleAPI($travelTimes){
+        if(isset($travelTimes[count($travelTimes)-1]["error_message"])) {
+            return $travelTimes[count($travelTimes)-1]["error_message"];
+        }
+        return null;
     }
 
 

@@ -61,7 +61,6 @@ Route::get('/visits/{id}/mail','VisitsController@mail');
 Route::get('/wishesMatrix', 'WishesMatrixController@index');
 
 // Kevin
-Route::get('/traveltime', 'TravelTimeController@index');
 Route::get('/traveltime/{flockId}/load', 'TravelTimeController@load');
 Route::get('/traveltime/{flockId}/calculate', 'TravelTimeController@calculate');
 
