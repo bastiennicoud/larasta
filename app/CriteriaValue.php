@@ -39,4 +39,11 @@ class CriteriaValue extends Model
     {
         return $this->belongsTo('App\Evaluation');
     }
+
+    /**
+     * Save the criterias values
+     */
+    public function editCriteriasValue () {
+        
+    }
 }

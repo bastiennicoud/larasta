@@ -223,7 +223,21 @@ class EvalController extends Controller
             return redirect('visits')->with('status', "Veuillez specifier une evaluation pour l'editer");
         }
 
-        dd($request->all());
+        // Save the new grid datas in the DB
+        if ($request->submit == 'save') {
+
+            $criteriasValues = CriteriaValue::where('evaluation_id', '=', $gridID);
+            foreach ($request->only() as $key => $value) {
+                # code...
+            }
+
+        } elseif ($request->submit == 'checkout') {
+            dd('checkout');
+        } else {
+            // L'action n'est pas reconnue
+        }
+
+        //dd($request->all());
     }
 
 
@@ -237,7 +251,7 @@ class EvalController extends Controller
      * @param $visitid The id of the visit
      * @return int Where we are in terms of evaluation regarding this visit.
      *      Values:
-     *          1 = Not started -> editable true, criteriaValues empty
+     *          1 = Not started -> No evaluation
      *          2 = In progress -> editable true
      *          3 = Done editable a false
      */
