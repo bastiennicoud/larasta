@@ -48,6 +48,11 @@ class RemarksController extends Controller
         );
     }
 
+    public function ajaxCreate(Request $request) {
+        self::addRemark($request->type,$request->on,$request->text);
+        return 'Remarque ajoutée';
+    }
+
     public function create(Request $request) {
         self::addRemark(1,1,$request->newremtext);
         $request->session()->flash('status', 'Remarque ajoutée');
