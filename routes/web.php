@@ -47,7 +47,9 @@ Route::get('/contract/{internshipid}/view', 'ContractController@index');
 // Steven
 
 Route::get('/synchro', 'SynchroController@index');
+
 Route::get('/synchro/new', 'SynchroController@new');
+
 Route::get('/synchro/delete', 'SynchroController@delete');
 
 // Jean-Yves
