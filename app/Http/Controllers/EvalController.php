@@ -245,7 +245,7 @@ class EvalController extends Controller
             Evaluation::where('id', $gridID)->update(['editable' => 0]);
 
             // We redirect to the readonly version of the grid
-            return redirect("/evalgrid/grid/edit/$gridID")->with('status', "Les informations on correctement étés enregistrées, la grille n'est plus editable !");
+            return redirect("/evalgrid/grid/readonly/$gridID")->with('status', "Les informations on correctement étés enregistrées, la grille n'est plus editable !");
 
         } else {
 

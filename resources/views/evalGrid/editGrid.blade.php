@@ -101,7 +101,7 @@ $level
                         <thead>
 
                             <tr>
-                                <th>{{ $evalSection->sectionName }} :</th>
+                                <th><p data-section="{{ $evalSection->id }}">{{ $evalSection->sectionName }} :</p></th>
                                 <th>Observations attendues</th>
                                 <th>Points</th>
                                 <th>Remarques personnalisées</th>
@@ -294,5 +294,5 @@ $level
 @stop
 
 @section ('page_specific_js')
-    <link rel="stylesheet" href="/js/evalgrid.js">
+    <script src="/js/evalgrid.js"></script>
 @stop
