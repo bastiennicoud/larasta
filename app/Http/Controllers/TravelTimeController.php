@@ -152,11 +152,11 @@ class TravelTimeController extends Controller
 
         //////////////////////////Do requests at Google API and create an array with all datas///////////////////////////
         $travelTime = array();
-        foreach ($origins as $origin){
-            foreach($destinations as $destination){
+        foreach($destinations as $destination){
+            foreach ($origins as $origin){
 
 
-                $url="https://maps.googleapis.com/maps/api/distancematrix/json?origins=".$origin."&destinations=".$destination."&mode=transit&arrival_time=".$timestamp."&key=AIzaSyCX4-tZ3inw_77Y23l4e7_zvqZ-2EMDHyg"; //.$_ENV['API_GOOGLE_MAP'];
+                $url="https://maps.googleapis.com/maps/api/distancematrix/json?origins=".$origin."&destinations=".$destination."&mode=transit&arrival_time=".$timestamp."&key=AIzaSyAQwDDboooBL-qqZ2-giZptizjQCW3PAl0"; //.$_ENV['API_GOOGLE_MAP'];
                 $json = file_get_contents($url);
                 $actualTravel = json_decode($json, true);
                 array_push($travelTime, $actualTravel);
@@ -265,20 +265,49 @@ class TravelTimeController extends Controller
         $i=0;
         foreach ($companies as $company){
             foreach ($persons as $person){
+
+                $exists = DB::table('wishes')
+                    ->where('wishes.persons_id', $person->id)
+                    ->where('wishes.internships_id', $company->internships_id)
+                    ->first();
+
                 if($times[$i] != $this->unknowChar) {
-                    DB::table('wishes')
-                        ->join('internships', 'wishes.internships_id', '=', 'internships.id')
-                        ->where('wishes.persons_id', $person->id)
-                        ->where('internships.id', $company->internships_id)
-                        ->update(['wishes.travelTime' => $times[$i]]);
+                    if(!$exists){
+                        DB::table('wishes')->insert([
+                            ['internships_id' => $company->internships_id,
+                                'persons_id' => $person->id,
+                                'rank' => 0,
+                                'workPlaceDistance' => 0,
+                                'travelTime' => $times[$i],
+                                'application' => 1
+                                ]
+                        ]);
+                    }
+                    else{
+                        DB::table('wishes')
+                            ->where('wishes.persons_id', $person->id)
+                            ->where('wishes.internships_id', $company->internships_id)
+                            ->update(['wishes.travelTime' => $times[$i]]);
+                    }
                 }
                 else{
-                    DB::table('wishes')
-                        ->join('internships', 'wishes.internships_id', '=', 'internships.id')
-                        ->where('wishes.persons_id', $person->id)
-                        ->where('internships.id', $company->internships_id)
-                        ->update(['wishes.travelTime' => 0]);
-
+                    if(!$exists){
+                        DB::table('wishes')->insert([
+                            ['internships_id' => $company->internships_id,
+                                'persons_id' => $person->id,
+                                'rank' => 0,
+                                'workPlaceDistance' => 0,
+                                'travelTime' => $this->unknowChar,
+                                'application' => 1
+                            ]
+                        ]);
+                    }
+                    else{
+                        DB::table('wishes')
+                            ->where('wishes.persons_id', $person->id)
+                            ->where('wishes.internships_id', $company->internships_id)
+                            ->update(['wishes.travelTime' => $this->unknowChar]);
+                    }
                 }
                 $i++;
             }
@@ -292,6 +321,7 @@ class TravelTimeController extends Controller
             ->join('locations', 'location_id', '=', 'locations.id')
             ->where('companies.mptOK', 1)
             ->whereYear('internships.beginDate', '=', date('Y'))
+            ->orderBy('companies.id', 'asc')
             ->select('internships.id as internships_id', 'companies.id', 'companies.companyName', 'locations.lat', 'locations.lng')
             ->get();
 
@@ -306,6 +336,7 @@ class TravelTimeController extends Controller
             ->whereNotNull('locations.lat')
             ->whereNotNull('locations.lng')
             ->where('persons.flock_id', $flock_id)
+            ->orderBy('persons.id', 'asc')
             ->select('persons.id', 'persons.initials', 'locations.lat', 'locations.lng')
             ->get();
         return $persons;

@@ -43,9 +43,9 @@ Display an array with all elements
                     @endforeach
                 </tr>
 
-                @foreach ($companies as $key => $companie)
+                @foreach ($companies as $key => $company)
                     <tr>
-                        <td>{{ $companie->companyName }}</td>
+                        <td>{{ $company->companyName }}</td>
                         @for($i = $key*count($persons) ; $i < ($key*count($persons))+count($persons); $i++)
                             <td class="{{ $colors[$i] }}">{{ $times[$i] }}</td>
                         @endfor
