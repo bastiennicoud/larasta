@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use CPNVEnvironment\Environment;
 
 class Persons extends Model
 {
@@ -29,6 +30,7 @@ class Persons extends Model
      * 
      * @return string eleve|company
      */
+
     public function getRoleAttribute()
     {
         if (empty($this->company_id)) {
