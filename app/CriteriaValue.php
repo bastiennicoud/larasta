@@ -39,4 +39,24 @@ class CriteriaValue extends Model
     {
         return $this->belongsTo('App\Evaluation');
     }
+
+    /**
+     * editCriteriasValues
+     * 
+     * Save the criterias values
+     * 
+     * @param int $id The id of the criteria to edit
+     * @param array $colums An array of key values for all the columns to edit
+     */
+    public static function editCriteriasValues ($id, $columns) {
+
+        // Find the corresponding id and update is values
+        // for each key in the array we check if exists, if not we choose a default value
+        self::where('id', $id)->update([
+            'points' => isset($columns['grade']) ? $columns['grade'] : 1,
+            'studentComments' => isset($columns['sComm']) ? $columns['sComm'] : '',
+            'managerComments' => isset($columns['mComm']) ? $columns['mComm'] : '',
+            'contextSpecifics' => isset($columns['specs']) ? $columns['specs'] : ''
+        ]);
+    }
 }
