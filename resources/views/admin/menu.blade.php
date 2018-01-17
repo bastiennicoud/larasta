@@ -16,6 +16,13 @@
         <td class='invisiblecell'>&nbsp;</td>
         <td class='tile clickable-row' data-href="/about"><h4>Edition de contrat</h4></td>
     </tr>
+    <tr>
+        <td class='invisiblecell' width=20px>&nbsp;</td>
+    </tr>
+    <tr height=150px>
+        <td class='invisiblecell'>&nbsp;</td>
+        <td class='tile clickable-row' data-href="/editGrid"><h4>Edition Grille</h4></td>
+    </tr>
 </table>
 @stop
 
