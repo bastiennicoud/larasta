@@ -275,11 +275,16 @@ class EvalController extends Controller
     {
         $visit = Visit::find($visitid);
 
+        // No visit
         if ($visit->evaluation->first() == null) {
             return 1;
-        } elseif ($visit->evaluation->first()->editable == 1) {
+        }
+        // Visit editable
+        elseif ($visit->evaluation->first()->editable == 1) {
             return 2;
-        } elseif ($visit->evaluation->first()->editable == 0) {
+        }
+        // Visit validated, no more editable
+        elseif ($visit->evaluation->first()->editable == 0) {
             return 3;
         }
 

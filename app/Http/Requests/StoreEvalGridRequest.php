@@ -54,7 +54,7 @@ class StoreEvalGridRequest extends FormRequest
             // Validates all the student comments
             '*.sComm' => 'nullable|max:500',
             // Validates all the grades
-            '*.grade' => ['nullable|numeric', new MaxGridGrade],
+            '*.grade' => ['nullable', 'numeric', new MaxGridGrade],
             // Check the submit field is present
             'submit' => 'required'
         ];

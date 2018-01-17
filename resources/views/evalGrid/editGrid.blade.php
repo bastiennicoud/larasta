@@ -17,6 +17,10 @@ $level
 
 @extends ('layout')
 
+@section ('page_specific_css')
+    <link rel="stylesheet" href="/css/evalgrid.css">
+@stop
+
 @section ('content')
 
 <div class="container">
@@ -124,10 +128,11 @@ $level
                                         {{--  Display the inputs depending the user level  --}}
                                         @if ($level > 0)
                                             {{--  For each fiels we create a name with the criteria id, and fill the value from the DB or from the old inpuf if the form is reloaded (after a validation fails)  --}}
-                                            <td><input type="number" name="{{ $criteria->criteriaValue->id }}[grade]" value="{{ old($criteria->criteriaValue->id . '.grade') ? old($criteria->criteriaValue->id . '.grade') : $criteria->criteriaValue->points }}"></td>
-                                            <td><textarea name="{{ $criteria->criteriaValue->id }}[mComm]">{{ old($criteria->criteriaValue->id . '.mComm') ? old($criteria->criteriaValue->id . '.mComm') : $criteria->criteriaValue->managerComments }}</textarea></td>
+                                            {{--  The data-max is used by the js to verifiy and display a live average of the grades  --}}
+                                            <td><input class="evalgrid input" data-max="{{ $criteria->maxPoints }}" type="number" name="{{ $criteria->criteriaValue->id }}[grade]" value="{{ old($criteria->criteriaValue->id . '.grade') ? old($criteria->criteriaValue->id . '.grade') : $criteria->criteriaValue->points }}"></td>
+                                            <td><textarea class="evalgrid textarea" name="{{ $criteria->criteriaValue->id }}[mComm]">{{ old($criteria->criteriaValue->id . '.mComm') ? old($criteria->criteriaValue->id . '.mComm') : $criteria->criteriaValue->managerComments }}</textarea></td>
                                         @else
-                                            <td>{{ $criteria->criteriaValue->points }}</td>
+                                            <td><p>{{ $criteria->criteriaValue->points }}</p></td>
                                             <td>{{ $criteria->criteriaValue->managerComments }}</td>
                                         @endif
                                         
@@ -138,7 +143,8 @@ $level
 
                             <tr>
                                 <td colspan="2"><strong>Note pour les {{ $evalSection->sectionName }} :</strong></td>
-                                <td></td>
+                                {{--  data-grades is used to transmit to the js the number of grades in the section (to calculate the avg)  --}}
+                                <td><p><strong class="evalgrid-grade" data-grades="{{ $evalSection->criterias->count() }}"></strong></p></td>
                                 <td></td>
                             </tr>
 
@@ -182,13 +188,13 @@ $level
 
                                         {{--  Display the inputs depending the user level  --}}
                                         @if ($level > 0)
-                                            <td><textarea name="{{ $criteria->criteriaValue->id }}[specs]">{{ old($criteria->criteriaValue->id . '.specs') ? old($criteria->criteriaValue->id . '.specs') : $criteria->criteriaValue->contextSpecifics }}</textarea></td>
-                                            <td><textarea name="{{ $criteria->criteriaValue->id }}[mComm]">{{ old($criteria->criteriaValue->id . '.mComm') ? old($criteria->criteriaValue->id . '.mComm') : $criteria->criteriaValue->managerComments }}</textarea></td>
-                                            <td><textarea name="{{ $criteria->criteriaValue->id }}[sComm]">{{ old($criteria->criteriaValue->id . '.sComm') ? old($criteria->criteriaValue->id . '.sComm') : $criteria->criteriaValue->studentComments }}</textarea></td>
+                                            <td><textarea class="evalgrid textarea" name="{{ $criteria->criteriaValue->id }}[specs]">{{ old($criteria->criteriaValue->id . '.specs') ? old($criteria->criteriaValue->id . '.specs') : $criteria->criteriaValue->contextSpecifics }}</textarea></td>
+                                            <td><textarea class="evalgrid textarea" name="{{ $criteria->criteriaValue->id }}[mComm]">{{ old($criteria->criteriaValue->id . '.mComm') ? old($criteria->criteriaValue->id . '.mComm') : $criteria->criteriaValue->managerComments }}</textarea></td>
+                                            <td><textarea class="evalgrid textarea" name="{{ $criteria->criteriaValue->id }}[sComm]">{{ old($criteria->criteriaValue->id . '.sComm') ? old($criteria->criteriaValue->id . '.sComm') : $criteria->criteriaValue->studentComments }}</textarea></td>
                                         @else
                                             <td>{{ $criteria->criteriaValue->contextSpecifics }}</td>
                                             <td>{{ $criteria->criteriaValue->managerComments }}</td>
-                                            <td><textarea name="{{ $criteria->criteriaValue->id }}[sComm]">{{ old($criteria->criteriaValue->id . '.sComm') ? old($criteria->criteriaValue->id . '.sComm') : $criteria->criteriaValue->studentComments }}</textarea></td>
+                                            <td><textarea class="evalgrid textarea" name="{{ $criteria->criteriaValue->id }}[sComm]">{{ old($criteria->criteriaValue->id . '.sComm') ? old($criteria->criteriaValue->id . '.sComm') : $criteria->criteriaValue->studentComments }}</textarea></td>
                                         @endif
 
                                     @endif
@@ -235,13 +241,13 @@ $level
                                         {{--  Display the inputs depending the user level  --}}
                                         @if ($level > 0)
 
-                                            <td><textarea name="{{ $criteria->criteriaValue->id }}[mComm]">{{ old($criteria->criteriaValue->id . '.mComm') ? old($criteria->criteriaValue->id . '.mComm') : $criteria->criteriaValue->managerComments }}</textarea></td>
-                                            <td><textarea name="{{ $criteria->criteriaValue->id }}[sComm]">{{ old($criteria->criteriaValue->id . '.sComm') ? old($criteria->criteriaValue->id . '.sComm') : $criteria->criteriaValue->studentComments }}</textarea></td>
+                                            <td><textarea class="evalgrid textarea" name="{{ $criteria->criteriaValue->id }}[mComm]">{{ old($criteria->criteriaValue->id . '.mComm') ? old($criteria->criteriaValue->id . '.mComm') : $criteria->criteriaValue->managerComments }}</textarea></td>
+                                            <td><textarea class="evalgrid textarea" name="{{ $criteria->criteriaValue->id }}[sComm]">{{ old($criteria->criteriaValue->id . '.sComm') ? old($criteria->criteriaValue->id . '.sComm') : $criteria->criteriaValue->studentComments }}</textarea></td>
 
                                         @else
                                         
                                             <td>{{ $criteria->criteriaValue->managerComments }}</td>
-                                            <td><textarea name="{{ $criteria->criteriaValue->id }}[sComm]">{{ old($criteria->criteriaValue->id . '.sComm') ? old($criteria->criteriaValue->id . '.sComm') : $criteria->criteriaValue->studentComments }}</textarea></td>
+                                            <td><textarea class="evalgrid textarea" name="{{ $criteria->criteriaValue->id }}[sComm]">{{ old($criteria->criteriaValue->id . '.sComm') ? old($criteria->criteriaValue->id . '.sComm') : $criteria->criteriaValue->studentComments }}</textarea></td>
 
                                         @endif
                                         
@@ -285,4 +291,8 @@ $level
 
 </div>
 
+@stop
+
+@section ('page_specific_js')
+    <link rel="stylesheet" href="/js/evalgrid.js">
 @stop
