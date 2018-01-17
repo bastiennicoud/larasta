@@ -76,6 +76,7 @@ Route::get('/traveltime/{flockId}/calculate', 'TravelTimeController@calculate');
  * Grouped by the /evalgrid prefix
  */
 Route::prefix('evalgrid')->group(function () {
+
     /**
      * Home page of the section (just for dev)
      */
@@ -101,6 +102,7 @@ Route::prefix('evalgrid')->group(function () {
 Route::get('/reconstages', 'ReconStagesController@index');
 Route::get('/reconstages/reconmade', 'ReconStagesController@displayStages');
 
+
 // Davide
 Route::get('/listPeople', 'PeopleControlleur@index');
 Route::post('/listPeople/category', 'PeopleControlleur@category');
@@ -109,6 +111,6 @@ Route::get('/listPeople/update/{id}','PeopleControlleur@update');
 
 //
 
+
 //Julien - Grille d'évaluation - Modélisation
 Route::get('/editGrid', 'EditGridController@index');
-
