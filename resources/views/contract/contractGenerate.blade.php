@@ -2,8 +2,8 @@
 /**
  * Author :         Quentin Neves
  * Created :        12.12.2017
- * Updated :        09.01.2018
- * Description :
+ * Updated :        17.01.2018
+ * Description :    Check if the contract had already been generated and display it's date or the generation form
  */
 ?>
 @extends ('layout')
