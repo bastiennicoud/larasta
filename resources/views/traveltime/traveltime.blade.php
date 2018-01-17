@@ -5,8 +5,9 @@ If this view get
 $persons
 $companies
 $times
+$colors
 
-Display it
+Display an array with all elements
 --}}
 
 <!-- Author : Kevin Jordil -->
@@ -32,27 +33,32 @@ Display it
         <h4>Erreur : {{ $message }}</h4>
 
     @elseif (isset($persons) & isset($companies) & isset($times))
-        
-        <table class="table-bordered col-md-9">
-            <tr>
-                <th></th>
-                @foreach ($persons as $person)
-                    <th>{{ $person->initials }}</th>
-                @endforeach
-            </tr>
 
-            @foreach ($companies as $key => $companie)
+        <div class="row">
+            <table class="table-bordered col-md-9">
                 <tr>
-                    <td>{{ $companie->companyName }}</td>
-                    @for($i = $key*count($persons) ; $i < ($key*count($persons))+count($persons); $i++)
-                        <td>{{ $times[$i] }}</td>
-                    @endfor
+                    <th></th>
+                    @foreach ($persons as $person)
+                        <th>{{ $person->initials }}</th>
+                    @endforeach
                 </tr>
-            @endforeach
 
-        </table>
+                @foreach ($companies as $key => $companie)
+                    <tr>
+                        <td>{{ $companie->companyName }}</td>
+                        @for($i = $key*count($persons) ; $i < ($key*count($persons))+count($persons); $i++)
+                            <td class="{{ $colors[$i] }}">{{ $times[$i] }}</td>
+                        @endfor
+                    </tr>
+                @endforeach
 
-        <div>
+            </table>
+        </div>
+
+        <br/>
+        <br/>
+
+        <div class="row">
             <form action="/traveltime/{{ $flockId }}/calculate" method="get">
                 {{ csrf_field() }}
                 <button type="submit" class="btn">(Re)Calculer</button>

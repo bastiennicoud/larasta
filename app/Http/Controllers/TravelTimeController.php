@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\DB;
 class TravelTimeController extends Controller
 {
     private $message; // a message to display - if defined - in views
-    private $unknowChar = "?";
+    private $unknowChar = "0"; // unknow char is when the time is unknow, define this char
 
     /// Calculate the traveltime for a class and add it to Database
-    public function calculate(Request $request, $flockId){
+    public function calculate($flockId){
 
         $companies = $this->getCompaniesDB();
         $persons = $this->getPersonsDB($flockId);
-        //$persons = $this->checkPersons($persons);
+        $persons = $this->checkPersons($persons);
         $travelTimes = $this->getTravelTime($companies, $persons);
         $error = $this->checkGoogleAPI($travelTimes);
 
@@ -32,7 +32,9 @@ class TravelTimeController extends Controller
         }
 
         $times = $this->extractTimes($travelTimes);
-        //$this->addDataDB($times, $companies, $persons);
+        $this->addDataDB($times, $companies, $persons);
+
+        $colors = $this->colorTimes($times);
 
         $message = "Classe calculée !";
 
@@ -41,6 +43,7 @@ class TravelTimeController extends Controller
                 "companies" => $companies,
                 "persons" => $persons,
                 "times" => $times,
+                "colors" => $colors,
                 "flockId" => $flockId,
                 "message" => $message,
                 "error" => false
@@ -49,11 +52,11 @@ class TravelTimeController extends Controller
     }
 
     /// load data from DB
-    public function load(Request $request, $flockId){
+    public function load($flockId){
         $companies = $this->getCompaniesDB();
         $persons = $this->getPersonsDB($flockId);
-        //$persons = $this->checkPersons($persons);
-        $times = [];
+        $persons = $this->checkPersons($persons);
+        $times = array();
 
         foreach ($companies as $company){
             foreach( $persons as $person){
@@ -64,11 +67,13 @@ class TravelTimeController extends Controller
                     array_push($times, $traveltime[0]->travelTime);
                 }
                 else{
-                    array_push($times, "?");
+                    array_push($times, $this->unknowChar);
                 }
             }
         }
 
+
+        $colors = $this->colorTimes($times);
         $message = "Chargement réussi";
 
         return view('traveltime/traveltime')->with(
@@ -76,39 +81,13 @@ class TravelTimeController extends Controller
                 "companies" => $companies,
                 "persons" => $persons,
                 "times" => $times,
+                "colors" => $colors,
                 "flockId" => $flockId,
                 "message" => $message,
                 "error" => false
             ]
         );
 
-    }
-
-
-    /// Add Data to Database
-    /// By companies and persons, add the good times in DB
-    public function addDataDB($times, $companies, $persons){
-        $i=0;
-        foreach ($companies as $company){
-            foreach ($persons as $person){
-                if($times[$i] != $this->unknowChar) {
-                    DB::table('wishes')
-                        ->join('internships', 'wishes.internships_id', '=', 'internships.id')
-                        ->where('wishes.persons_id', $person->id)
-                        ->where('internships.id', $company->internships_id)
-                        ->update(['wishes.travelTime' => $times[$i]]);
-                }
-                else{
-                    DB::table('wishes')
-                        ->join('internships', 'wishes.internships_id', '=', 'internships.id')
-                        ->where('wishes.persons_id', $person->id)
-                        ->where('internships.id', $company->internships_id)
-                        ->update(['wishes.travelTime' => 0]);
-
-                }
-                $i++;
-            }
-        }
     }
 
 
@@ -172,12 +151,12 @@ class TravelTimeController extends Controller
 
 
         //////////////////////////Do requests at Google API and create an array with all datas///////////////////////////
-        $travelTime = [];
+        $travelTime = array();
         foreach ($origins as $origin){
             foreach($destinations as $destination){
 
 
-                $url="https://maps.googleapis.com/maps/api/distancematrix/json?origins=".$origin."&destinations=".$destination."&mode=transit&arrival_time=".$timestamp."&key=".$_ENV['API_GOOGLE_MAP'];
+                $url="https://maps.googleapis.com/maps/api/distancematrix/json?origins=".$origin."&destinations=".$destination."&mode=transit&arrival_time=".$timestamp."&key=AIzaSyCX4-tZ3inw_77Y23l4e7_zvqZ-2EMDHyg"; //.$_ENV['API_GOOGLE_MAP'];
                 $json = file_get_contents($url);
                 $actualTravel = json_decode($json, true);
                 array_push($travelTime, $actualTravel);
@@ -193,7 +172,7 @@ class TravelTimeController extends Controller
 
     /// Extract times from PHP array and return an array
     public function extractTimes($travelTimes){
-        $times = [];
+        $times = array();
         foreach($travelTimes as $travelTime){
             foreach ($travelTime["rows"] as $row){
                 foreach ($row["elements"] as $element){
@@ -217,9 +196,18 @@ class TravelTimeController extends Controller
             }
         }
 
-        return $persons;
+        $newPersons = array();
+        $i=0;
+        foreach ($persons as $person){
+            $newPersons[$i] = $person;
+            $i++;
+        }
+
+        return $newPersons;
     }
 
+    /// Check if we have a problem with request
+    /// the most popular message it's daily quota end
     public function checkGoogleAPI($travelTimes){
         if(isset($travelTimes[count($travelTimes)-1]["error_message"])) {
             return $travelTimes[count($travelTimes)-1]["error_message"];
@@ -227,6 +215,75 @@ class TravelTimeController extends Controller
         return null;
     }
 
+    /// Define wich color class the time have
+    /// the function take the higher number and define range for every color
+    /// Return a colors array with same id as $times
+    public function colorTimes($times){
+        $maxValue = max($times);
+        $ratio = $maxValue/5;
+        $range1 = $ratio*1;
+        $range2 = $ratio*2;
+        $range3 = $ratio*3;
+        $range4 = $ratio*4;
+        $range5 = $ratio*5;
+        $colors = $times;
+        foreach ($times as $key => $time){
+            try{
+                switch (true){
+                    case $time == 0:
+                        $colors[$key] = "";
+                        break;
+                    case $time < $range1:
+                        $colors[$key] = "color1";
+                        break;
+                    case $time < $range2:
+                        $colors[$key] = "color2";
+                        break;
+                    case $time < $range3:
+                        $colors[$key] = "color3";
+                        break;
+                    case $time < $range4:
+                        $colors[$key] = "color4";
+                        break;
+                    case $time <= $range5:
+                        $colors[$key] = "color5";
+                        break;
+                    default:
+                        $colors[$key] = "";
+                        break;
+                }
+            }
+            catch(\Exception $e){}
+        }
+        return $colors;
+
+    }
+
+    /// Add Data to Database
+    /// By companies and persons, add the good times in DB
+    public function addDataDB($times, $companies, $persons){
+        $i=0;
+        foreach ($companies as $company){
+            foreach ($persons as $person){
+                if($times[$i] != $this->unknowChar) {
+                    DB::table('wishes')
+                        ->join('internships', 'wishes.internships_id', '=', 'internships.id')
+                        ->where('wishes.persons_id', $person->id)
+                        ->where('internships.id', $company->internships_id)
+                        ->update(['wishes.travelTime' => $times[$i]]);
+                }
+                else{
+                    DB::table('wishes')
+                        ->join('internships', 'wishes.internships_id', '=', 'internships.id')
+                        ->where('wishes.persons_id', $person->id)
+                        ->where('internships.id', $company->internships_id)
+                        ->update(['wishes.travelTime' => 0]);
+
+                }
+                $i++;
+            }
+        }
+    }
 
     /// Get companies infos from Database
     public function getCompaniesDB(){
@@ -245,6 +302,9 @@ class TravelTimeController extends Controller
     public function getPersonsDB($flock_id){
         $persons = DB::table('persons')
             ->join('locations', 'location_id', '=', 'locations.id')
+            ->join('flocks', 'persons.flock_id', '=', 'flocks.id')
+            ->whereNotNull('locations.lat')
+            ->whereNotNull('locations.lng')
             ->where('persons.flock_id', $flock_id)
             ->select('persons.id', 'persons.initials', 'locations.lat', 'locations.lng')
             ->get();
