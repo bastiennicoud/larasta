@@ -23,3 +23,14 @@
   display: block;
 }
 
+#cancel_a
+{
+  border: 1px solid #888888;
+  padding: 3px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  border-color: #46b8da;
+  font-size: 11px;
+}
+

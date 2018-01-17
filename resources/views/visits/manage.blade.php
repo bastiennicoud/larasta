@@ -6,7 +6,7 @@
     <br>
     <form method="post" action="/visits/{{$internship->id}}/update" class="text-left">
         {{ csrf_field() }}
-        <table class="table table-bordered col-md-10">
+        <table class="larastable table table-bordered col-md-10">
             <tr>
                 <th class="col-md-1">Prénom de l'élève</th>
                 <th class="col-md-1">Nom de l'élève</th>
@@ -56,32 +56,41 @@
             </tr>
             <tr>
                 <th colspan="7" class="text-right">Etat de la visite</th>
-                <td>{{ $internship->stateName }}</td>
+                <td>
+                    <span id="staid">{{ $internship->stateName }}</span>
+                    <select id='sel' name="state" class="hidden">
+                        @foreach($visitstate as $state)
+                            <option value="{{$state->id}}">
+                                {{$state->stateName}}
+                            </option>
+                        @endforeach
+                    </select>
+                </td>
             </tr>
         </table>
         <div>
-            <button id="up" class="btn btn-info hidden" type="submit">Enregistrer</button>
-            <a id="cancel" class="btn btn-info hidden">Annuler</a>
+            <button id="up" class="btn-info hidden" type="submit">Enregistrer</button>
+            <a id="cancel_a" class="btn-info hidden" style="">Annuler</a>
         </div>
     </form>
 
     @if($internship->visitsstates_id <= 2 || $internship->visitsstates_id == 4)
-        <button id="edit" class="btn btn-info">Editer</button>
-        <button id="bmail" class="btn btn-success" onclick="mailto()">Envoyer un e-mail</button>{{-- Link to evaluation--}}
+        <button id="edit" class="btn-info">Editer</button>
+        <button id="bmail" class="btn-success" onclick="mailto()">Envoyer un e-mail</button>{{-- Link to evaluation--}}
         @switch(\App\Http\Controllers\EvalController::getEvalState($internship->id))
             @case(1)
             <a href="/evalgrid/neweval/{{ $internship->id }}">
-                <button class="beval btn btn-primary">Démarrer l'évaluation</button>
+                <button class="beval btn-primary">Démarrer l'évaluation</button>
             </a>
             @break
             @case(2)
             <a href="/evalgrid/grid/edit/{{ $internship->id }}">
-                <button class="beval btn btn-warning">Reprendre l'évaluation</button>
+                <button class="beval btn-warning">Reprendre l'évaluation</button>
             </a>
             @break
             @case(3)
             <a href="/evalgrid/grid/readonly/{{ $internship->id }}">
-                <button class="beval btn btn-secondary">Afficher l'évaluation</button>
+                <button class="beval btn-secondary">Afficher l'évaluation</button>
             </a>
             @break
         @endswitch
@@ -91,72 +100,59 @@
         @switch(\App\Http\Controllers\EvalController::getEvalState($internship->id))
             @case(1)
             <a href="/evalgrid/neweval/{{ $internship->id }}">
-                <button class="beval btn btn-primary">Démarrer l'évaluation</button>
+                <button class="beval btn-primary">Démarrer l'évaluation</button>
             </a>
             @break
             @case(2)
             <a href="/evalgrid/grid/edit/{{ $internship->id }}">
-                <button class="beval btn btn-warning">Reprendre l'évaluation</button>
+                <button class="beval btn-warning">Reprendre l'évaluation</button>
             </a>
             @break
             @case(3)
             <a href="/evalgrid/grid/readonly/{{ $internship->id }}">
-                <button class="beval btn btn-secondary">Afficher l'évaluation</button>
+                <button class="beval btn-secondary">Afficher l'évaluation</button>
             </a>
             @break
         @endswitch
         <br>
     @endif
     <div class="text-left">
-        <p id="pdone" class="hidden done">Changer l'état du stage à Effectuée ! <span class="text-danger">Irréversible !</span></p>
-        <a id="done" class="hidden done" href="/visits/{{ $internship->id }}/state/">
-            <button class="btn btn-success">Effectuée</button>
-            <br><br>
-        </a>
         <p id="pdone" class="hidden done">Supprimer la visite de stage <span class="text-danger">Irréversible !</span></p>
         <a id="del" class="hidden" href="/visits/{{ $internship->id }}/delete">
-            <button class="btn btn-danger">Supprimer</button>
+            <button class="btn-danger">Supprimer</button>
         </a>
     </div>
     <br><br>
     <div>
         {{-- Responsible table info --}}
-        <table class="table table-bordered col-md-12">
+        <table class="larastable table table-bordered col-md-12">
             <tr>
                 <th class="col-md-6">email du responsable</th>
-                <th class="col-md-6">numéro de téléphone</th>
             </tr>
             <tr class="clickable-row text-left">
                 <td class="col-md-6"><span class="mailstate">{{$contact->value}}</span></td>
-                <!--<td class="col-md-6"><span class="mailstate">{{$contact->value}}</span></td>-->
             </tr>
         </table>
-        <form method="post" action="/remarks/add" class="col-md-12 text-left">
-            {{ csrf_field() }}
-            <fieldset>
-                <legend>Ajouter une remarque</legend>
-                <textarea type="text" name="newremtext"></textarea>
-                <input type="submit" value="Ok"/>
-            </fieldset>
-        </form>
+                    <form method="post" action="/remarks/add" class="col-md-12 text-left">
+                        {{ csrf_field() }}
+                        <fieldset>
+                            <legend>Ajouter une remarque</legend>
+                            <textarea type="text" name="newremtext"></textarea>
+                            <input type="submit" value="Ok"/>
+                        </fieldset>
+                    </form>
         <br>
-        <h3>Historique</h3>
-        <table class="table table-striped text-left">
+        <h3>Remarques</h3>
+        <table class="larastable table table-striped text-left">
             <thead class="thead-inverse">
             <tr>
-                <th>Type</th>
+                <th>Date</th>
+                <th>Créateur</th>
                 <th>Description</th>
-                <th>Date de modification</th>
             </tr>
             </thead>
             <tbody>
-            @foreach ($log as $logs)
-                <tr>
-                    <td class="col-md-2">{{$logs->typeActivityDescription}}</td>
-                    <td class="col-md-8">{{$logs->activityDescription}}</td>
-                    <td class="col-md-2">{{ (new DateTime($logs->entryDate))->format('d M Y')}} à {{ (new DateTime($logs->entryDate))->format('H:i:s' ) }}</td>
-                </tr>
-            @endforeach
+
             </tbody>
         </table>
     </div>
@@ -166,11 +162,15 @@
         //Fonction that open mail app and redirect the user to the main view
         function mailto()
         {
-            //var email = {{$contact->value}};
-            //var mailto_link = 'mailto:' + email;
+            var email = '{{$contact->value}}';
+
+            var mailto_link = 'mailto:' + email + '?subject=Stagiaire {{$internship->lastname}}, {{$internship->firstname}}&body=Bonjour,%0D%0DDescription';
+
+            console.log(mailto_link);
+
             var url = '/visits/'+{{$internship->internships_id}}+'/mail';
 
-            location.href = "mailto:jeanyvesle@hotmail.com?subject=Hello world&body=Line one%0DLine two";
+            location.href = mailto_link;
             window.setTimeout(function(){ location.href = url },  1000);
         }
     </script>

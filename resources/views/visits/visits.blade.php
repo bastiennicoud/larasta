@@ -9,7 +9,7 @@
         </a>
         <br>
         <br>
-        <table class="table table-striped">
+        <table class="larastable table table-striped">
             <thead class="thead-inverse">
                 <tr class="clickable-row">
                     <th>Nom</th>
@@ -18,7 +18,7 @@
                     <th>Date de début</th>
                     <th>Date de fin</th>
                     <th>Etat de la visite</th>
-                    <th colspan="2">Mail</th>
+                    <th colspan="2">Email</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,11 +30,11 @@
                         <td class="col-md-1">{{ (new DateTime($internship->beginDate))->format('d.m.Y') }}</td>
                         <td class="col-md-1">{{ (new DateTime($internship->endDate))->format('d.m.Y') }}</td>
                         <td class="col-md-1">{{ $internship->stateName }}</td>
-                        <td class="col-md-1"><span class="glyphicon glyphicon-envelope"></span>
+                        <td class="col-md-1">
                             @if($internship->mailstate == 1)
                                 <span class="ok glyphicon glyphicon-ok" style="color:green"></span>
                             @else
-                                <span class="remove glyphicon glyphicon-remove" style="color:red"></span>
+
                             @endif
                         </td>
                     </tr>

@@ -61,22 +61,18 @@ class VisitsController extends Controller
         ->where('contacttypes_id', '=', 1)
         ->first();
 
+        $visitstate = DB::table('visitsstates')
+        ->where('id', '<=', 2)
+        ->get();
 
-        $log = DB::table('logbooks')
-            ->join('activitytypes', 'logbooks.activitytypes_id', '=', 'activitytypes.id')
-            ->where('internships_id' , '=', $rid)
-            ->select('activitytypes.id', 'internships_id', 'entryDate', 'activityDescription', 'typeActivityDescription')
-            ->orderBy('entryDate', 'DESC')
-            ->get();
-
-        error_log(print_r($contact, 1));
+        error_log(print_r($visitstate, 1));
         //dd($rid);
 
         return view('visits/manage')->with(
             [
                 'internship' => $internship,
                 'contact' => $contact,
-                'log' => $log
+                'visitstate' => $visitstate
             ]
         );
     }
@@ -130,33 +126,85 @@ class VisitsController extends Controller
         $this->message = 'Visite supprimée !';
         return $this->index();
     }
-    /*
-    public function logbook()
+
+    public function changeFilter(Request $request)
     {
+        // Get states from db (to have descriptions)
+        $filter = DB::table('contractstates')->select('id', 'stateDescription')->get();
+        // patch list with values from post
+        foreach ($filter as $state)
+        {
+            $state->checked = false;
+            foreach ($request->all() as $fname => $fval)
+                if (substr($fname, 0, 5) == 'state')
+                    if ($state->id == intval(substr($fname, 5)))
+                        $state->checked = ($fval == 'on');
+        }
 
-    }*/
+        Cookie::queue('filter', serialize($filter), 3000);
 
-    public function state(Request $request, $id)
+        return $this->filteredInternships($filter);
+    }
+
+    private function filteredInternships($filter)
     {
-        Visit::where('visits.id', '=', $id)
-            ->update(['visitsstates_id' => 3]);
+        // build list of ids to select
+        foreach ($filter as $state)
+            if ($state->checked)
+                $idlist[] = $state->id;
 
-        $this->message = 'Etat de la visite a été modifié !';
-        return $this->index();
+        if (isset($idlist))
+            $iships = DB::table('internships')
+                ->join('companies', 'companies_id', '=', 'companies.id')
+                ->join('persons as admresp', 'admin_id', '=', 'admresp.id')
+                ->join('persons as intresp', 'responsible_id', '=', 'intresp.id')
+                ->join('persons as student', 'intern_id', '=', 'student.id')
+                ->join('contractstates', 'contractstate_id', '=', 'contractstates.id')
+                ->select(
+                    'internships.id',
+                    'beginDate',
+                    'companyName',
+                    'admresp.firstname as arespfirstname',
+                    'admresp.lastname as aresplastname',
+                    'intresp.firstname as irespfirstname',
+                    'intresp.lastname as iresplastname',
+                    'student.firstname as studentfirstname',
+                    'student.lastname as studentlastname',
+                    'contractstate_id',
+                    'stateDescription')
+                ->whereIn('contractstate_id', $idlist)
+                ->get();
+        else
+            $iships = array();
+
+        return view('internships/internships')->with('iships', $iships)->with('statefilter', $filter);
     }
 
     public function update(Request $request, $id)
     {
+        $state = $request->input('state');
         $date = $request->upddate;
         $date .= " ".$request->updtime;
 
-        Visit::where('visits.id', '=', $id)
-        ->update([
-            'visitsstates_id' => 2,
-            'moment' => $date
+        if($state == 1 )
+        {
+            Visit::where('visits.id', '=', $id)
+                ->update([
+                    'visitsstates_id' => $state,
+                    'moment' => $date,
+                    'mailstate' => 0
+                ]);
+        }
 
-        ]);
-
+        else
+        {
+            Visit::where('visits.id', '=', $id)
+                ->update([
+                    'visitsstates_id' => $state,
+                    'moment' => $date,
+                    'mailstate' => 1
+                ]);
+        }
 
         $this->message = 'La visite a été modifiée !';
         return $this->index();
