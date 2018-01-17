@@ -51,12 +51,12 @@
             </tr>
         @foreach ($companies as $company)
                 <tr class="clickable-row" data-href="/entreprise/{{$company->id}}">
-                <td>{{ $company->companyName }}</td>
-                <td>{{ $company->address1 }}</td>
-                <td>{{ $company->address2 }}</td>
-                <td>{{ $company->postalCode }}</td>
-                <td>{{ $company->city }}</td>
-            </tr>
+                    <td>{{ $company->companyName }}</td>
+                    <td>{{ $company->address1 }}</td>
+                    <td>{{ $company->address2 }}</td>
+                    <td>{{ $company->postalCode }}</td>
+                    <td>{{ $company->city }}</td>
+                </tr>
         @endforeach
         </table>
         </div>

@@ -15,8 +15,9 @@
                 {{ csrf_field() }}
 
                 <div class="col-lg-offset-10" id="edit">
-                <button type="button" class="btn btn-primary" onclick="edit()">Modification</button>
-            </div>
+                    <button type="button" class="btn btn-primary" onclick="edit()">Modification</button>
+                    <button type="button" class="btn btn-danger" onclick="remove({{Request::segment(2)}})">Supprimer</button>
+                </div>
             <div class="col-lg-offset-10 hidden" id="save">
                 <button type="button" class="btn btn-primary" onclick="cancel()">Annuler</button>
                 <input type="submit" class="btn btn-primary" onclick="save()" value="Sauvegarder">
@@ -30,6 +31,7 @@
                             <h3>{{$companie->companyName}}</h3>
                         </div>
                         <div class="row content-box">
+                            <div class="row">
                             <div class="col-lg-6 text-right">
                                 Adresse : <br>
                                 {{$companie->address1}}
@@ -40,6 +42,10 @@
                             <div class="col-lg-6 text-left">
                                 Type de contrat : <br>
                                 {{$companie->contractType}}
+                            </div>
+                            </div>
+                            <div class="row">
+                                <img style='width:32px;' src='/images/map.png' OnClick='window.location="http://maps.google.com/?q={{$companie->lat}},{{$companie->lng}}"'>
                             </div>
                         </div>
                     @endforeach
@@ -121,9 +127,9 @@
                             </div>
                             <div class="col-lg-6 text-left">
                                 Type de contrat :
-                                <select name="ctype" required>
-                                    <option value="3">Entreprise</option>
-                                    <option value="4">Etat de Vaud</option>
+                                <select name="ctype">
+                                    <option value="3" @if($companie->contracts_id == 3) selected @endif>Entreprise</option>
+                                    <option value="4" @if($companie->contracts_id == 4) selected @endif>Etat de Vaud</option>
                                 </select>
                             </div>
                         </div>
@@ -179,7 +185,12 @@
                                 @include ('internships.internshipslist',['iships' => $iships])
                                 </div>
                                 <div class="row">
-                                    <button type="button" value="Ajouter" id="remark"></button>
+                                    <div class="" id="remarkBtn">
+                                        <button type="button" value="Ajouter" id="remark" onclick="newRemark()">Nouvelle remarque</button>
+                                    </div>
+                                    <div class="hidden" id="newRemark">
+                                        <input type="text" name="newOne"/><button type="button" value="Ajouter" id="remark" onclick="remarkAdd()">Ajouter</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

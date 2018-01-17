@@ -23,6 +23,18 @@ function save() {
     $("#field").addClass("hidden");
 }
 
+function remove(id) {
+    var r = confirm("Voulez-vous vraiment supprimer cette entreprise ?")
+    if (r == true) {
+        window.location.href = "/entreprise/" + id + "/remove"
+
+    }
+}
+function newRemark() {
+    $('#remarkBtn').addClass("hidden");
+    $('#newRemark').removeClass("hidden");
+}
+
 $.ajaxSetup({
 
     headers: {
