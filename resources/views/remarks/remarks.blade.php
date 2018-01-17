@@ -2,20 +2,9 @@
 
 @section ('content')
     <h1>Remarques</h1>
-    <table class="table table-bordered col-md-10">
-        <tr>
-            <th class="col-md-1">Date</th>
-            <th class="col-md-1">Auteur</th>
-            <th class="col-md-8">Contenu</th>
-        </tr>
-        @foreach($remarks as $remark)
-            <tr class="clickable-row" data-href="/remarks/{{ $remark->id }}/edit">
-                <td class="col-md-1">{{ (new DateTime($remark->remarkDate))->format('d.M.y') }}</td>
-                <td class="col-md-1">{{ $remark->author }}</td>
-                <td class="col-md-8 text-left">{{ $remark->remarkText }}</td>
-            </tr>
-        @endforeach
-    </table>
+    <h3 class="alert-warning">Cette page n'a aucune utilité pratique, mais elle sert de vitrine pour l'ergonomie désirée</h3>
+    <button id="btnTest" class="btn-primary">Test Ajax</button>
+    @include ('remarks.remarkslist',['remarks' => $remarks])
     <table class="table table-borderless col-md-10">
         <tr>
             <td class="col-md-1">&nbsp;</td>
@@ -40,3 +29,6 @@
     </div>
 @stop
 
+@section('page_specific_js')
+    <script src="/js/remarks.js"></script>
+@stop

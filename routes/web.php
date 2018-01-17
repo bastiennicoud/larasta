@@ -17,6 +17,8 @@ Route::post('/', 'InternshipsController@changeFilter');
 
 Route::get('/internships/{iid}/edit','InternshipsController@edit');
 
+Route::get('/admin', 'AdminController@index');
+
 Route::get('/about', function () {
     return view('about');
 });
@@ -26,6 +28,8 @@ Route::get('/remarks', 'RemarksController@index');
 Route::post('/remarks/filter','RemarksController@filter');
 
 Route::post('/remarks/add','RemarksController@create');
+
+Route::post('/remarks/ajax/add','RemarksController@ajaxCreate');
 
 Route::get('/remarks/{rid}/edit','RemarksController@edit');
 
@@ -64,14 +68,37 @@ Route::get('/wishesMatrix', 'WishesMatrixController@index');
 Route::get('/traveltime', 'TravelTimeController@index');
 Route::post('/traveltime/calculate', 'TravelTimeController@calculate');
 
-// Bastien - Grille d'évaluation
-Route::get('/evalgrid/evalgrid', 'EvalController@index');
-Route::get('/evalgrid/neweval/{visit}', 'EvalController@newEval')->where('visit', '[0-9]+'); // Restrict the visit parameter to numbers
-Route::get('/evalgrid/grid/{mode}/{gridID?}', 'EvalController@editEval')->where(['mode' => 'edit|readonly', 'gridID' => '[0-9]+']); // Restrict the visit parameter to numbers
-Route::post('/evalgrid/editcriteriavalue', 'EvalController@editCriteriaValue');
+/**
+ * Bastien - Evaluation grid
+ * 
+ * All the routes to interact with the evaluation Grid (edition)
+ * Grouped by the /evalgrid prefix
+ */
+Route::prefix('evalgrid')->group(function () {
+    /**
+     * Home page of the section (just for dev)
+     */
+    Route::get('evalgrid', 'EvalController@index')->name('evalGridHome');
+    /**
+     * Create a new evaluation linked to a visit
+     * @param visit the visit id
+     */
+    Route::get('neweval/{visit}', 'EvalController@newEval')->where('visit', '[0-9]+')->name('newEvalGrid');
+    /**
+     * Display an evaluation grid for edition or reading
+     * @param mode 'readonly' or 'edit'
+     * @param gridID the id of the grid we want to edit. OPTIONAL parameter (we can also pass the id by the session with the 'activeEditedGrid' key)
+     */
+    Route::get('grid/{mode}/{gridID}', 'EvalController@editEval')->where(['mode' => 'edit|readonly', 'gridID' => '[0-9]+'])->name('editEvalGrid');
+    /**
+     * Edit the values of the grid fields (see the controller method for more infos)
+     */
+    Route::post('grid/save/{gridID}', 'EvalController@saveNewGridDatas')->where(['gridID' => '[0-9]+'])->name('saveNewGridDatas');
+});
 
 // Nicolas - Stages
 Route::get('/reconstages', 'ReconStagesController@index');
+Route::get('/reconstages/reconmade', 'ReconStagesController@displayStages');
 
 // Davide
 Route::get('/listPeople', 'PeopleControlleur@index');
