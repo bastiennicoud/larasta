@@ -122,8 +122,8 @@
                             <div class="col-lg-6 text-right">
                                 Adresse 1 : <input type="text" name="address1" value="{{$companie->address1}}"><br>
                                 Adresse 2 : <input type="text" name="address2" value="{{$companie->address2}}"><br>
-                                Code postal : <input type="number" name="npa" value="{{$companie->postalCode}}"><br>
-                                Ville : <input type="text" name="city" value="{{$companie->city}}">
+                                Code postal : <input type="text<" name="npa" value="{{$companie->postalCode}}"><br>
+                                Ville : <input type="text" name="city" value="{{$companie->city}}"><input value="{{$companie->location_id}}" name="location_id" hidden>
                             </div>
                             <div class="col-lg-6 text-left">
                                 Type de contrat :

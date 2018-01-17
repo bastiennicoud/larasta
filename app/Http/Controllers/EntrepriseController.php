@@ -14,7 +14,7 @@ class EntrepriseController extends Controller
         $company = DB::table('companies')
             ->join('locations', 'location_id', '=', 'locations.id')
             ->join('contracts', 'contracts_id','=', 'contracts.id')
-            ->select('companyName','address1','address2','postalCode','city','contractType', 'contracts_id','lat','lng')
+            ->select('companyName','address1','address2','postalCode','city','contractType', 'contracts_id','lat','lng','location_id')
             ->where('companies.id',$id)
             ->get();
 
@@ -65,8 +65,8 @@ class EntrepriseController extends Controller
             ->update(['contracts_id' => $request->ctype]);
 
         DB::table('locations')
-            ->where('id',$id)
-            ->update(['address1' => $request->address1]); //->update('address2', $request->address2); //, 'postalCode' => $request->npa, 'city' => $request->city]);
+            ->where('id',$request->location_id)
+            ->update(['address1' => $request->address1, 'address2' => $request->address2, 'postalCode' => $request->npa, 'city' => $request->city]);
 
         return $this->index($id);
     }
