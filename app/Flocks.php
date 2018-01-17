@@ -4,9 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Internships extends Model
+class Flocks extends Model
 {
     public $timestamps = false;
-
-    //
 }

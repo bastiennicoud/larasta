@@ -14,29 +14,6 @@
     </div>
     <div class="col-md-10">&nbsp;</div>
     <div class="col-md-10">
-        @if (count($iships) > 0)
-            <table class="table table-bordered text-left">
-                <tr>
-                    <th>Entreprise</th>
-                    <th>Début</th>
-                    <th>Responsable administratif</th>
-                    <th>Responsable</th>
-                    <th>Stagiaire</th>
-                    <th>Etat</th>
-                </tr>
-                @foreach($iships as $iship)
-                    <tr class="clickable-row" data-href="/internships/{{ $iship->id }}/edit">
-                        <td>{{ $iship->companyName }}</td>
-                        <td>{{ strftime("%b %g", strtotime($iship->beginDate)) }}</td>
-                        <td>{{ $iship->arespfirstname }} {{ $iship->aresplastname }}</td>
-                        <td>{{ $iship->irespfirstname }} {{ $iship->iresplastname }}</td>
-                        <td>{{ $iship->studentfirstname }} {{ $iship->studentlastname }}</td>
-                        <td>{{ $iship->stateDescription }}</td>
-                    </tr>
-                @endforeach
-            </table>
-        @else
-            <div class="alert-info">Aucun stage ne correspond à ce filtre</div>
-        @endif
+        @include ('internships.internshipslist',['iships' => $iships])
     </div>
 @stop

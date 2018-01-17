@@ -1,8 +1,8 @@
 @extends ('layout')
 
 @section ('content')
-    <h2 class="text-left">Stage de {{ $iship->studentfirstname }} {{ $iship->studentlastname }} chez {{ $iship->companyName }}</h2> <a href="/contract/{{$iship->id}}"><button>Contrat</button></a>
-    <table class="table text-left">
+    <h2 class="text-left">Stage de {{ $iship->studentfirstname }} {{ $iship->studentlastname }} chez {{ $iship->companyName }}</h2>
+    <table class="table text-left larastable">
         <tr>
             <td class="col-md-2">Du</td>
             <td>{{ strftime("%e %b %g", strtotime($iship->beginDate)) }}</td>
@@ -24,6 +24,10 @@
             <td>{{ $iship->irespfirstname }} {{ $iship->iresplastname }}</td>
         </tr>
         <tr>
+            <td class="col-md-2">Maître de classe</td>
+            <td>{{ $iship->initials }}</td>
+        </tr>
+        <tr>
             <td class="col-md-2">Etat</td>
             <td>{{ $iship->stateDescription }}</td>
         </tr>
@@ -37,4 +41,14 @@
             </tr>
         @endif
     </table>
+    {{-- Action buttons --}}
+    @if(substr($iship->contractGenerated,0,4) == "0000")
+        <a href="/contract/{{ $iship->id }}">
+            <button class="btn-primary">Générer le contrat</button>
+        </a>
+    @else
+        <a href="/contract/{{ $iship->id }}/view">
+            <button class="btn-secondary">Voir le contrat</button>
+        </a>
+    @endif
 @stop

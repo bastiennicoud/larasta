@@ -3,11 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Remark;
+use CPNVEnvironment\Environment;
 use Illuminate\Http\Request;
 
 class RemarksController extends Controller
 {
     private $message; // a message to display - if defined - in views
+
+    /**
+     * addRemark allows to enter a remark on something. The timestamp put on it is the current time and the person is the current user
+     *
+     * @param $type which kind of entity is subject to the remark. Refer to database field comments for exact values
+     * @param $on the id of the record in its table
+     * @param $text the content of the reamrk. No checks are performed, Eloquent does it for us
+     */
+    public static function addRemark($type, $on, $text)
+    {
+        $n = new Remark();
+        $n->remarkType = $type;
+        $n->remarkOn_id = $on;
+        $n->remarkDate = date('Y-m-d H:i:s');
+        $n->remarkText = $text;
+        $n->author = Environment::currentUser()->getInitials();
+        $n->save();
+    }
+
     public function index()
     {
         $remarks = Remark::all();
@@ -28,16 +48,15 @@ class RemarksController extends Controller
         );
     }
 
+    public function ajaxCreate(Request $request) {
+        self::addRemark($request->type,$request->on,$request->text);
+        return 'Remarque ajoutée';
+    }
+
     public function create(Request $request) {
-        $n = new Remark();
-        $n->remarkType = 1;
-        $n->remarkOn_id = 1;
-        $n->remarkDate = date('Y-m-d H:i:s');
-        $n->remarkText = $request->newremtext;
-        $n->author = '???';
-        $n->save();
-        $this->message = 'Remarque ajoutée';
-        return $this->index();
+        self::addRemark(1,1,$request->newremtext);
+        $request->session()->flash('status', 'Remarque ajoutée');
+        return redirect('/remarks');
     }
 
     public function edit (Request $request, $rid) {
@@ -61,7 +80,7 @@ class RemarksController extends Controller
         $remark = Remark::where('id',$request->updid)->first();
         $remark->remarkText = $request->updtext;
         $remark->save();
-        $this->message = 'Remarque modifiée';
-        return $this->index();
+        $request->session()->flash('status', 'Remarque modifiée');
+        return redirect('/remarks');
     }
 }

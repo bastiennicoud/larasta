@@ -9,10 +9,23 @@ class Visit extends Model
     public $timestamps = false;
 
     /**
+     * Eloquent will automaticaly convert this colums of the model in Carbon dates
+     */
+    protected $dates = ['moment'];
+
+    /**
      * Relation with the Evaluation model
      */
-    public function visit()
+    public function evaluation()
     {
-        return $this->hasOne('App\Evaluation');
+        return $this->hasMany('App\Evaluation');
+    }
+
+    /**
+     * Relation with the internships model
+     */
+    public function internship()
+    {
+        return $this->belongsTo('App\Internship', 'internships_id');
     }
 }
