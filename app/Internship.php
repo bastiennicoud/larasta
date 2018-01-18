@@ -9,6 +9,11 @@ class Internship extends Model
     public $timestamps = false;
 
     /**
+     * Eloquent will automaticaly convert this colums of the model in Carbon dates
+     */
+    protected $dates = ['beginDate', 'endDate'];
+
+    /**
      * Relation with the vilit model
      */
     public function visit()
@@ -30,14 +35,6 @@ class Internship extends Model
     public function student()
     {
         return $this->belongsTo('App\Persons', 'intern_id');
-    }
-
-    /**
-     * Relation to retrive the teacher
-     */
-    public function teacher()
-    {
-        return $this->belongsTo('App\Persons', 'responsible_id');
     }
 
     /**
