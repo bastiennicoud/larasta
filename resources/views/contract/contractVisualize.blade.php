@@ -15,7 +15,10 @@
     <script>tinymce.init({ selector:'textarea' });</script>
 
     <br>
-        <?php if(!empty($out)){ echo '<pre style="text-align: left">'; var_dump($out); echo '</pre>';}?>
+        <pre style="text-align: left"><?php
+                //if(!empty($out)){ var_dump($request); }
+                error_log(print_r($request));
+        ?></pre>
     <br>
 
     <form method="post" action="/contract/{{$iid}}/save">

@@ -53,19 +53,22 @@ class ContractController extends Controller
             {
                 if ($request->gender === 'male')
                 {
-                    str_replace($markup, $out[1][$i], $contract[0]->contractText);
+                    $contract[0]->contractText = str_replace($markup, $out[1][$i], $contract[0]->contractText);
                 }
                 else
                 {
-                    str_replace($markup, $out[2][$i], $contract[0]->contractText);
+                    $contract[0]->contractText = str_replace($markup, $out[2][$i], $contract[0]->contractText);
                 }
 
             }
             else // else we must insert data
             {
-                switch ($out){
-                    case 'train_PrenomPersonne':
-                        str_replace($out[0][$i], $out[1][$i], $contract[0]->contractText);
+                /*
+                 *  There's surely someting better to use than a switch case, but what ?
+                 */
+                switch ($out[0][$i]){
+                    case '{train_PrenomPersonne}':
+                        //$contract[0]->contractText = str_replace($out[0][$i], $request[1]->firstname, $contract[0]->contractText);
                         break;
                     // And so on...
                 }
@@ -94,7 +97,7 @@ class ContractController extends Controller
             $contract[0]->contractText
         );*/
 
-        return view('contract/contractVisualize')->with(['iid' => $iid, 'contract' => $contract, 'out' => $out]);
+        return view('contract/contractVisualize')->with(['iid' => $iid, 'contract' => $contract, 'out' => $out, 'request' => $request]);
     }
 
     public function getStageDate($iid)
