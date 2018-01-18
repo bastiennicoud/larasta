@@ -38,7 +38,11 @@ Route::post('/remarks/delete','RemarksController@delete');
 Route::post('/remarks/update','RemarksController@update');
 
 // Antonio - Entreprises list
-Route::get('/entreprises', 'EntreprisesController@getCompanies');
+Route::get('/entreprises', 'EntreprisesController@index');
+Route::post('/entreprises/add', 'EntreprisesController@add');
+Route::get('/entreprise/{id}', 'EntrepriseController@index');
+Route::post('/entreprise/{id}/save', 'EntrepriseController@save');
+Route::get('/entreprise/{id}/remove', 'EntrepriseController@remove');
 
 // Quentin N - Contract generation
 Route::get('/contract/{iid}', 'ContractController@generateContract');
@@ -61,14 +65,13 @@ Route::get('/synchro/delete', 'SynchroController@delete');
 
 // Jean-Yves
 Route::get('/visits','VisitsController@index');
-
+Route::post('/visits', 'VisitsController@changeFilter');
 Route::get('/visits/{rid}/manage','VisitsController@manage');
-
 Route::get('/visits/add', 'VisitsController@add');
-
 Route::post('/visits/create','VisitsController@create');
-
 Route::get('/visits/{id}/mail','VisitsController@mail');
+Route::get('/visits/{id}/delete', 'VisitsController@delete');
+Route::post('/visits/{id}/update', 'VisitsController@update');
 
 // Add by Benjamin Delacombaz 12.12.2017 10:40
 Route::get('/wishesMatrix', 'WishesMatrixController@index');
