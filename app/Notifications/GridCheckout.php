@@ -13,19 +13,23 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\Evaluation;
 
 class GridCheckout extends Notification
 {
     use Queueable;
 
+    protected $grid;
+
     /**
      * Create a new notification instance.
      *
+     * @param Evaluation $grid
      * @return void
      */
-    public function __construct()
+    public function __construct(Evaluation $grid)
     {
-        //
+        $this->grid = $grid;
     }
 
     /**
@@ -48,11 +52,12 @@ class GridCheckout extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+            ->subject('Evaluation de stage validée !')
             ->greeting('Evaluation de stage validée !')
-            ->line("L'évaluation no ... vient d'être validée.")
+            ->line("L'évaluation de la visite du " . $this->grid->visit->moment->format('d-m-Y') . "vien d'être validée")
             ->line("Vous ne pouvez plus editer cette grille, pour la consulter :")
-            ->action('Voir la grille', url('/'))
-            ->line('Merci de ne pas répondre a ce mail.');
+            ->action('Voir la grille', url('/evalgrid/grid/readonly/' . $this->grid->id))
+            ->line('Ce mail est généré automatiquement, merci de ne pas répondre a ce mail.');
     }
 
     /**
