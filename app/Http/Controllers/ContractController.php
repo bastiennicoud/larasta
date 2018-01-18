@@ -43,13 +43,9 @@ class ContractController extends Controller
         // Tracks on which regex match we're working with
         $i = 0;
 
-        /*
-         * TODO: Fill the switch case
-         * TODO: Find out why str_replace doesn't replace anything since $markup come from $contract->contractText
-         */
         foreach ($out[0] as $markup) // For each markup found
         {
-            if (substr($markup,0,2) === '{{') // If we must accord the gender
+            /*if (substr($markup,0,2) === '{{') // If we must accord the gender
             {
                 if ($request->gender === 'male')
                 {
@@ -63,39 +59,80 @@ class ContractController extends Controller
             }
             else // else we must insert data
             {
-                /*
-                 *  There's surely someting better to use than a switch case, but what ?
-                 */
                 switch ($out[0][$i]){
                     case '{train_PrenomPersonne}':
-                        //$contract[0]->contractText = str_replace($out[0][$i], $request[1]->firstname, $contract[0]->contractText);
+                        $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->firstname, $contract[0]->contractText);
+                        error_log($request);
                         break;
-                    // And so on...
+                    case '{train_NomPersonne}':
+                        $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->lastname, $contract[0]->contractText);
+                        error_log($request);
+                        break;
+                    case '{train_Adresse1}':
+                        $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->address1, $contract[0]->contractText);
+                        error_log($request);
+                        break;
+                    case '{train_Adresse2}':
+                        $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->address2, $contract[0]->contractText);
+                        error_log($request);
+                        break;
+                    case '{train_NPA}':
+                        $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->postalCode, $contract[0]->contractText);
+                        error_log($request);
+                        break;
+                    case '{train_Localite}':
+                        $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->city, $contract[0]->contractText);
+                        error_log($request);
+                        break;
+                    case '{corp_NomEntreprise}':
+                        $contract[0]->contractText = str_replace($out[0][$i], $contract[2]->companyName, $contract[0]->contractText);
+                        error_log($request);
+                        break;
+                    case '{corp_Adresse1}':
+                        $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->address1, $contract[0]->contractText);
+                        error_log($request);
+                        break;
+                    case '{corp_Adresse2}':
+                        $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->address2, $contract[0]->contractText);
+                        error_log($request);
+                        break;
+                    case '{corp_NPA}':
+                        $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->postalCode, $contract[0]->contractText);
+                        error_log($request);
+                        break;
+                    case '{corp_Localite}':
+                        $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->city, $contract[0]->contractText);
+                        error_log($request);
+                        break;
+                    case '{Debut}':
+                        $contract[0]->contractText = str_replace($out[0][$i], date('d-m-Y', strtotime($contract[0]->beginDate)), $contract[0]->contractText);
+                        error_log($request);
+                        break;
+                    case '{Fin}':
+                        $contract[0]->contractText = str_replace($out[0][$i], date('d-m-Y', strtotime($contract[0]->endDate)), $contract[0]->contractText);
+                        error_log($request);
+                        break;
+                    case '{resp_PrenomPersonne}':
+                        $contract[0]->contractText = str_replace($out[0][$i], $contract[3]->firstName, $contract[0]->contractText);
+                        error_log($request);
+                        break;
+                    case '{resp_NomPersonne}':
+                        $contract[0]->contractText = str_replace($out[0][$i], $contract[3]->lastName, $contract[0]->contractText);
+                        error_log($request);
+                        break;
+                    case '{SalaireBrut}':
+                        $contract[0]->contractText = str_replace($out[0][$i], $contract[0]->grossSalary, $contract[0]->contractText);
+                        error_log($request);
+                        break;
+                    case '{date}':
+                        $date = Carbon::now();
+                        $contract[0]->contractText = str_replace($out[0][$i], date('d-m-Y', strtotime($date)), $contract[0]->contractText);
+                        error_log($request);
+                        break;
                 }
-            }
+            }*/
             $i++;
         }
-
-        /*
-         * Abandoned because way too complex for this case with my skills, used preg_match_all and str_replace instead
-         *
-        // Search all matches for this regex, then replace them depending on gender and kind of data
-        $contract[0]->contractText = preg_replace_callback(
-            "/{{1,2}([^{}|]+)\s*(?:\|\s*([^{}]+))?}{1,2}/",
-            function ($matches) use ($request){
-                if ($request->gender === 'male')
-                {
-
-                }
-                else
-                {
-                    // female
-                }
-
-                return $matches[1][0];
-            },
-            $contract[0]->contractText
-        );*/
 
         return view('contract/contractVisualize')->with(['iid' => $iid, 'contract' => $contract, 'out' => $out, 'request' => $request]);
     }

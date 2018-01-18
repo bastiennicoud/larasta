@@ -14,17 +14,10 @@
     <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
     <script>tinymce.init({ selector:'textarea' });</script>
 
-    <br>
-        <pre style="text-align: left"><?php
-                //if(!empty($out)){ var_dump($request); }
-                error_log(print_r($request));
-        ?></pre>
-    <br>
-
     <form method="post" action="/contract/{{$iid}}/save">
         {{ csrf_field() }}
         <textarea name="contractText">{{$contract[0]->contractText}}</textarea>
-        <button>Envoie la sauce negro</button> <!-- TO DELETE -->
+        <button>Valider</button>
     </form>
 
 
