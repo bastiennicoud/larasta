@@ -78,6 +78,7 @@ $level
         </table>
 
 
+        
         {{--  ---------------------------------------  --}}
         {{--  List all the sections of the evaluation  --}}
         <form action="/evalgrid/grid/save/{{ $gridID }}" method="POST">

@@ -19,6 +19,7 @@ use App\Criteria;
 use App\CriteriaValue;
 use App\Evaluation;
 use App\EvaluationSection;
+use App\Notifications\GridCheckout;
 
 
 /**
@@ -243,6 +244,11 @@ class EvalController extends Controller
 
             // We pass this evaluation state to 0 (not editable)
             Evaluation::where('id', $gridID)->update(['editable' => 0]);
+
+            // send to the concerned users a mail with the validated grid
+            Notification::route('mail', 'taylor@laravel.com')
+                ->route('nexmo', '5555555555')
+                ->notify(new GridCheckout($invoice));
 
             // We redirect to the readonly version of the grid
             return redirect("/evalgrid/grid/readonly/$gridID")->with('status', "Les informations on correctement étés enregistrées, la grille n'est plus editable !");
