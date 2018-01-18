@@ -13,10 +13,25 @@
 
             <div class="header">
                 <div class="row">
-                    <div class="col-md-1 text-left" id="insert">
-                        <img id='plusicon' style='width:16px' alt='+' src='Images/plus.png' onMouseOver='document.body.style.cursor="pointer"' onMouseOut='document.body.style.cursor="default"' OnClick='addE()'/>
+                    <div class="col-md-1 col-md-offset-11">
+                        <form method="post" id="ctype" action="/entreprises/filter">
+                            {{ csrf_field() }}
+
+                            <select name="type" id="Ctype">
+                                <option value="1">Tous</option>
+                                <option value="3" @if(isset($filtr) and $filtr==3) selected @endif>Entreprise</option>
+                                <option value="4" @if(isset($filtr) and $filtr==4) selected @endif>Etat de Vaud</option>
+                            </select>
+                        </form>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-1 text-left" id="insert">
+                        <i class="fa fa-plus-circle" aria-hidden="true" onMouseOver='document.body.style.cursor="pointer"' onMouseOut='document.body.style.cursor="default"' OnClick='addE()'></i>
+
+                    </div>
+                </div>
+
                 <div class="row">
                     <form method="post" action="/entreprises/add">
                         {{ csrf_field() }}
@@ -67,5 +82,6 @@
 
 @stop
 @section('page_specific_js')
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="/js/entreprises.js"></script>
 @stop

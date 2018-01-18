@@ -59,5 +59,39 @@ class EntreprisesController extends Controller
         return redirect('entreprise/'.$id);
     }
 
+    public function filter(Request $request)
+    {
+
+        switch ($request->type){
+            case 1 :
+                $companies = DB::table('companies')
+                    ->join('locations', 'location_id', '=', 'locations.id')
+                    ->select('companies.id','companyName','address1','address2','postalCode','city')
+                    ->get();
+                break;
+            case 3 :
+                $companies = DB::table('companies')
+                    ->join('locations', 'location_id', '=', 'locations.id')
+                    ->select('companies.id','companyName','address1','address2','postalCode','city')
+                    ->where('contracts_id', 3)
+                    ->get();
+                break;
+            case 4 :
+                $companies = DB::table('companies')
+                    ->join('locations', 'location_id', '=', 'locations.id')
+                    ->select('companies.id','companyName','address1','address2','postalCode','city')
+                    ->where('contracts_id', 4)
+                    ->get();
+                break;
+        }
+        $user = Environment::currentUser();
+
+
+
+        return view('entreprises/entreprises')->with(['companies' => $companies, 'user' => $user, 'filtr' => $request->type]);
+
+
+    }
+
 
 }

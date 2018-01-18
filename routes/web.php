@@ -40,6 +40,8 @@ Route::post('/remarks/update','RemarksController@update');
 // Antonio - Entreprises list
 Route::get('/entreprises', 'EntreprisesController@index');
 Route::post('/entreprises/add', 'EntreprisesController@add');
+Route::post('/entreprises/filter', 'EntreprisesController@filter');
+
 Route::get('/entreprise/{id}', 'EntrepriseController@index');
 Route::post('/entreprise/{id}/save', 'EntrepriseController@save');
 Route::get('/entreprise/{id}/remove', 'EntrepriseController@remove');
