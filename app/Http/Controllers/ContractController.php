@@ -45,7 +45,7 @@ class ContractController extends Controller
 
         foreach ($out[0] as $markup) // For each markup found
         {
-            /*if (substr($markup,0,2) === '{{') // If we must accord the gender
+            if (substr($markup,0,2) === '{{') // If we must accord the gender
             {
                 if ($request->gender === 'male')
                 {
@@ -130,7 +130,7 @@ class ContractController extends Controller
                         error_log($request);
                         break;
                 }
-            }*/
+            }
             $i++;
         }
 
