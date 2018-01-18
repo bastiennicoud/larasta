@@ -4,17 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use CPNVEnvironment\Environment;
 
 /// Author : Kevin Jordil 2018
 
 
 class TravelTimeController extends Controller
 {
-    private $message; // a message to display - if defined - in views
-    private $unknowChar = "0"; // unknow char is when the time is unknow, define this char
+    protected $message; // a message to display - if defined - in views
+    protected $unknowChar = "0"; // unknow char is when the time is unknow, define this char
+    protected $limitElementGoogle = 10; // Maximum d'element requete google
 
     /// Calculate the traveltime for a class and add it to Database
     public function calculate($flockId){
+
+        if(!$this->haveAccess()){
+            return view('traveltime/traveltime')->with(
+                [
+                    "message" => "Accès refusé",
+                    "error" => true
+                ]
+            );
+        }
 
         $companies = $this->getCompaniesDB();
         $persons = $this->getPersonsDB($flockId);
@@ -31,7 +42,7 @@ class TravelTimeController extends Controller
             );
         }
 
-        $times = $this->extractTimes($travelTimes);
+        $times = $this->extractTimes($travelTimes, $companies, $persons);
         $this->addDataDB($times, $companies, $persons);
 
         $colors = $this->colorTimes($times);
@@ -53,6 +64,16 @@ class TravelTimeController extends Controller
 
     /// load data from DB
     public function load($flockId){
+
+        if(!$this->haveAccess()){
+            return view('traveltime/traveltime')->with(
+                [
+                    "message" => "Accès refusé",
+                    "error" => true
+                ]
+            );
+        }
+
         $companies = $this->getCompaniesDB();
         $persons = $this->getPersonsDB($flockId);
         $persons = $this->checkPersons($persons);
@@ -95,59 +116,12 @@ class TravelTimeController extends Controller
     /// Return an array with all JSON from google API Distance matrix
     public function getTravelTime($companies, $persons){
 
-        $nbOfElement=10;
 
-        /////////////////////////////////Extract companies and do array with a fix size/////////////////////////////////
-        $iteration = 0;
-        $res=count($companies)/$nbOfElement;
-        $it=null;
-        if(is_float($res)){$it = intval($res)+1;}
-        else{$it=$res;}
+        $origins = $this->splitArray($companies, $this->limitElementGoogle);
+        $destinations = $this->splitArray($persons, $this->limitElementGoogle);
 
-        $origins = array_fill(0, $it, NULL);
-
-        for($j=0 ; $j<$it ; $j++){
-            for($i=$iteration*$nbOfElement ; $i<$iteration*$nbOfElement+$nbOfElement ; $i++){
-                if($i>count($companies)-1){
-                    break;
-                }
-                else{
-                    $origins[$iteration] .= $companies[$i]->lat.",".$companies[$i]->lng."|";
-                }
-            }
-            $iteration++;
-        }
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-        /////////////////////////////Extract companies and do array with a fix size persons/////////////////////////////
-        $iteration = 0;
-        $res=count($persons)/$nbOfElement;
-        $it=null;
-        if(is_float($res)){$it = intval($res)+1;}
-        else{$it=$res;}
-
-        $destinations = array_fill(0, $it, NULL);
-
-        for($j=0 ; $j<$it ; $j++){
-            for($i=$iteration*$nbOfElement ; $i<$iteration*$nbOfElement+$nbOfElement ; $i++){
-                if($i>count($persons)-1){
-                    break;
-                }
-                else{
-                    if(isset($persons[$i])){
-                        $destinations[$iteration] .= $persons[$i]->lat.",".$persons[$i]->lng."|";
-                    }
-                }
-            }
-            $iteration++;
-        }
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-        $timestamp = $this->getTimestamp();
         // GET Date of tommorow 8 o'clock in seconds
+        $timestamp = $this->getTimestamp();
 
 
         //////////////////////////Do requests at Google API and create an array with all datas///////////////////////////
@@ -156,7 +130,7 @@ class TravelTimeController extends Controller
             foreach ($origins as $origin){
 
 
-                $url="https://maps.googleapis.com/maps/api/distancematrix/json?origins=".$origin."&destinations=".$destination."&mode=transit&arrival_time=".$timestamp."&key=AIzaSyAQwDDboooBL-qqZ2-giZptizjQCW3PAl0"; //.$_ENV['API_GOOGLE_MAP'];
+                $url="https://maps.googleapis.com/maps/api/distancematrix/json?origins=".$origin."&destinations=".$destination."&mode=transit&arrival_time=".$timestamp."&key=".$_ENV['API_GOOGLE_MAP'];
                 $json = file_get_contents($url);
                 $actualTravel = json_decode($json, true);
                 array_push($travelTime, $actualTravel);
@@ -170,9 +144,45 @@ class TravelTimeController extends Controller
 
     }
 
+    /// Split array for Google API limit
+    public function splitArray($array, $nb){
+        $iteration = 0;
+        $res=count($array)/$nb;
+        $it=null;
+        if(is_float($res)){$it = intval($res)+1;}
+        else{$it=$res;}
+
+        $result = array_fill(0, $it, NULL);
+
+        for($j=0 ; $j<$it ; $j++){
+            for($i=$iteration*$nb ; $i<$iteration*$nb+$nb ; $i++){
+                if($i>count($array)-1){
+                    break;
+                }
+                else{
+                    $result[$iteration] .= $array[$i]->lat.",".$array[$i]->lng."|";
+                }
+            }
+            $iteration++;
+        }
+        return $result;
+
+    }
+
     /// Extract times from PHP array and return an array
-    public function extractTimes($travelTimes){
+    public function extractTimes($travelTimes, $companies, $persons){
         $times = array();
+
+        $origins = $this->splitArray($companies, $this->limitElementGoogle);
+        $destinations = $this->splitArray($persons, $this->limitElementGoogle);
+
+
+        $tempCol = collect($travelTimes);
+        $tempCol = $tempCol->sortByDesc('destination_addresses');
+        $travelTimes = $tempCol->sortByDesc('rows')->all();
+
+
+
         foreach($travelTimes as $travelTime){
             foreach ($travelTime["rows"] as $row){
                 foreach ($row["elements"] as $element){
@@ -185,6 +195,30 @@ class TravelTimeController extends Controller
                 }
             }
         }
+
+
+        //dd($sorted);
+
+        /*
+
+        foreach($travelTimes as $travelTime){
+            for($i=0 ; $i<10; $i++){
+                if(isset($travelTime["rows"][$i])) {
+                    foreach ($travelTime["rows"][$i]["elements"] as $element) {
+                        if (isset($element["duration"]["value"])) {
+                            array_push($times, round($element["duration"]["value"] / 60));
+                        } else {
+                            array_push($times, $this->unknowChar);
+                        }
+                    }
+                }
+                else{
+                    array_push($times, $this->unknowChar);
+                }
+            }
+
+        }
+        */
         return $times;
     }
 
@@ -257,6 +291,28 @@ class TravelTimeController extends Controller
         }
         return $colors;
 
+    }
+
+    /// Return the timestamp (time in seconds from 1 january 1970) from the next open day at 8 o'clock
+    public function getTimestamp(){
+        $datetoday = date('Y-m-d', time());
+        $date = date('Y-m-d H:i:s', strtotime($datetoday . ' +1 Weekday +7 hours'));
+        return strtotime($date);
+    }
+
+    /// Check if the actual user have access to this page
+    public function haveAccess(){
+        // !!!!!!!!!!!! Test Value !!!!!!!!!!!!!!!!!!!!!!!!!!
+        $currentUserTest = Environment::currentUser();
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        $currentUser = $this->getCurrentUser($currentUserTest->getId());
+        if ($currentUser->role!=1){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 
     /// Add Data to Database
@@ -352,13 +408,15 @@ class TravelTimeController extends Controller
         return $travelTimes;
     }
 
-
-    /// return the timestamp (time in seconds from 1 january 1970) from the next open day at 8 o'clock
-    public function getTimestamp(){
-        $datetoday = date('Y-m-d', time());
-        $date = date('Y-m-d H:i:s', strtotime($datetoday . ' +1 Weekday +7 hours'));
-        return strtotime($date);
+    /// Get the actual connected user
+    private function getCurrentUser($personId)
+    {
+        $persons = DB::table('persons')
+            ->where('persons.id', $personId)
+            ->whereNotNull('persons.initials')
+            ->select('persons.id','persons.initials', 'persons.flock_id', 'persons.role')
+            ->first();
+        return $persons;
     }
-
 
 }
