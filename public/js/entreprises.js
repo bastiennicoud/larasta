@@ -8,6 +8,8 @@ function addE() {
 
 }
 
-function endModif(){
-    $("entreprises").submit();
-}
+$(document).ready(function(){
+    $("#Ctype").on("change", function(){
+        $("#ctype").submit();
+    });
+});
