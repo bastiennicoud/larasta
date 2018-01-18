@@ -1,4 +1,9 @@
 <?php
+//------------------------------------------------------------
+// Nicolas Henry
+// SI-T1a
+// ReconStagesController.php
+//------------------------------------------------------------
 
 
 namespace App\Http\Controllers;
@@ -6,16 +11,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Params;
+use Faker\Provider\DateTime;
 
 class ReconStagesController extends Controller
 {
     // index, base route
     public function index()
     {
-        $internsiphs = $this->getInternships();
+        $internships = $this->getInternships();
         return view('reconstages/reconstages')->with(
             [
-                "internsiphs" => $internsiphs
+                "internships" => $internships
             ]
         );
     }
@@ -26,8 +32,9 @@ class ReconStagesController extends Controller
     }
 
 
+    //get value from db
     public function getInternships(){
-
+        //get value from table Params to put them in SQL request
         foreach(Params::all() as $param)
         {
             if($param->paramName == "reconductible")
@@ -36,7 +43,7 @@ class ReconStagesController extends Controller
             }
         }
 
-        $internsiphs = DB::table('internships')
+        $internships = DB::table('internships')
         ->join('companies', 'companies_id', '=', 'companies.id')
         ->join('persons as admresp', 'admin_id', '=', 'admresp.id')
         ->join('persons as intresp', 'responsible_id', '=', 'intresp.id')
@@ -59,9 +66,76 @@ class ReconStagesController extends Controller
             'stateDescription')
         ->get();
 
-        return $internsiphs;
+        return $internships;
     }
 
+    //Send value to reconMade page with function displayRecon()
+    public function reconStages(Request $request){
+        $keys = $request->all();
+        $ids = [];
+
+        foreach ($keys as $key => $value) {
+
+            if ($key != '_token') {
+                array_push($ids, $value);
+            }
+        }
+
+        $internships = $this->getInternships();
+        $new = $this->displayRecon($ids, $internships);
+
+
+        
+        return view('reconstages/reconstages')->with(
+            [
+                "internships" => $new
+            ]
+        );
+
+    }
+
+
+    //get values from input in an array
+    public function displayRecon($ids, $internships){
+
+        $newInternships = [];
+        foreach ($internships as $internship) {
+            foreach($ids as $id){
+                if($internship->id==$id){
+                    array_push($newInternships, $internship);
+                }
+            }
+        }
+        
+
+        $insert = [];
+        foreach ($ids as $id) {
+            $insert[] = [
+                'companies_id'              => '112',
+                'beginDate'                 => '2018-02-01 00:00:00',
+                'endDate'                   => '2018-09-01 00:00:00',
+                'responsible_id'            => '191',
+                'admin_id'                  => '79',
+                'intern_id'                 => $id,
+                'contractstate_id'          => '2',
+                'previous_id'               => '390',
+                'internshipDescription'     => 'tutu',
+                'grossSalary'               => '7000',
+                'contractGenerated'         => null,
+            ];
+        }
+
+        DB::table('internships')->insert($insert);
+        
+        return $newInternships;
+
+        
+    }
+
+    //a suivre...
+    public function insertRecon(){
+
+    }
 
 
 }
