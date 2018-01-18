@@ -7,7 +7,9 @@ use CPNVEnvironment\Environment;
 
 class Persons extends Model
 {
-    public $timestamps = false;
+    //use SoftDeletes;
+
+    //protected $dates = ['deleted_at'];
 
     /**
      * Relation to the internship of the student

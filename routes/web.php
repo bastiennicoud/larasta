@@ -38,35 +38,48 @@ Route::post('/remarks/delete','RemarksController@delete');
 Route::post('/remarks/update','RemarksController@update');
 
 // Antonio - Entreprises list
-Route::get('/entreprises', 'EntreprisesController@getCompanies');
+Route::get('/entreprises', 'EntreprisesController@index');
+Route::post('/entreprises/add', 'EntreprisesController@add');
+Route::get('/entreprise/{id}', 'EntrepriseController@index');
+Route::post('/entreprise/{id}/save', 'EntrepriseController@save');
+Route::get('/entreprise/{id}/remove', 'EntrepriseController@remove');
 
 // Quentin N - Contract generation
+Route::get('/contract/{iid}', 'ContractController@generateContract');
+
+Route::post('/contract/{iid}/view', 'ContractController@visualizeContract');
+
+Route::post('/contract/{iid}/save', 'ContractController@saveContract');
+
+Route::get('/contract/{iid}/cancel', 'ContractController@cancelContract');
 Route::get('/contract/{internshipid}', 'ContractController@index');
 Route::get('/contract/{internshipid}/view', 'ContractController@index');
 
 // Steven
 
 Route::get('/synchro', 'SynchroController@index');
+
 Route::get('/synchro/new', 'SynchroController@new');
+
 Route::get('/synchro/delete', 'SynchroController@delete');
 
 // Jean-Yves
 Route::get('/visits','VisitsController@index');
-
+Route::post('/visits', 'VisitsController@changeFilter');
 Route::get('/visits/{rid}/manage','VisitsController@manage');
-
 Route::get('/visits/add', 'VisitsController@add');
-
 Route::post('/visits/create','VisitsController@create');
-
 Route::get('/visits/{id}/mail','VisitsController@mail');
+Route::get('/visits/{id}/delete', 'VisitsController@delete');
+Route::post('/visits/{id}/update', 'VisitsController@update');
 
 // Add by Benjamin Delacombaz 12.12.2017 10:40
 Route::get('/wishesMatrix', 'WishesMatrixController@index');
 
 // Kevin
-Route::get('/traveltime', 'TravelTimeController@index');
-Route::post('/traveltime/calculate', 'TravelTimeController@calculate');
+Route::get('/traveltime/{flockId}/load', 'TravelTimeController@load');
+Route::get('/traveltime/{flockId}/calculate', 'TravelTimeController@calculate');
+
 
 /**
  * Bastien - Evaluation grid
@@ -75,6 +88,7 @@ Route::post('/traveltime/calculate', 'TravelTimeController@calculate');
  * Grouped by the /evalgrid prefix
  */
 Route::prefix('evalgrid')->group(function () {
+
     /**
      * Home page of the section (just for dev)
      */
@@ -100,6 +114,7 @@ Route::prefix('evalgrid')->group(function () {
 Route::get('/reconstages', 'ReconStagesController@index');
 Route::get('/reconstages/reconmade', 'ReconStagesController@displayStages');
 
+
 // Davide
 Route::get('/listPeople', 'PeopleControlleur@index');
 Route::post('/listPeople/category', 'PeopleControlleur@category');
@@ -108,6 +123,6 @@ Route::get('/listPeople/update/{id}','PeopleControlleur@update');
 
 //
 
+
 //Julien - Grille d'évaluation - Modélisation
 Route::get('/editGrid', 'EditGridController@index');
-
