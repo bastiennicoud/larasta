@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use CPNVEnvironment\Environment;
 
 /// Author : Kevin Jordil 2018
 
-
+/// This controller manage all functions needed to display TravelTime
 class TravelTimeController extends Controller
 {
     protected $message; // a message to display - if defined - in views
     protected $unknowChar = "0"; // unknow char is when the time is unknow, define this char
     protected $limitElementGoogle = 10; // Maximum d'element requete google
+    protected $transportMode = "transit"; // transport mode for Google API request (transit, driving, walking or bicycling)
 
     /// Calculate the traveltime for a class and add it to Database
     public function calculate($flockId){
 
+        // Check if the user is a Professeur
+        // if not return access denied
         if(!$this->haveAccess()){
             return view('traveltime/traveltime')->with(
                 [
@@ -27,13 +29,15 @@ class TravelTimeController extends Controller
             );
         }
 
-        $companies = $this->getCompaniesDB();
-        $persons = $this->getPersonsDB($flockId);
-        $persons = $this->checkPersons($persons);
-        $travelTimes = $this->getTravelTime($companies, $persons);
-        $error = $this->checkGoogleAPI($travelTimes);
 
-        if($error != null){
+        $companies = $this->getCompaniesDB(); // Get internships with companies name from DB
+        $persons = $this->getPersonsDB($flockId); // Get persons from DB
+        $persons = $this->checkPersons($persons); // Check if persons have empty locations and delete it
+
+        $travelTimes = $this->getTravelTime($companies, $persons, $this->transportMode); // Get info with Google
+        $error = $this->checkGoogleAPI($travelTimes); // Check if Google result is OK or if get error
+
+        if($error != null){ //if we get error return page with Google message
             return view('traveltime/traveltime')->with(
                 [
                     "message" => $error,
@@ -42,12 +46,12 @@ class TravelTimeController extends Controller
             );
         }
 
-        $times = $this->extractTimes($travelTimes, $companies, $persons);
-        $this->addDataDB($times, $companies, $persons);
+        $times = $this->extractTimes($travelTimes); // extract times from Google result
+        $this->addDataDB($times, $companies, $persons); // add extrated data to DB
 
-        $colors = $this->colorTimes($times);
+        $colors = $this->colorTimes($times); // define class color for times
 
-        $message = "Classe calculée !";
+        $message = "Classe calculée !"; // Define display message
 
         return view('traveltime/traveltime')->with(
             [
@@ -62,9 +66,11 @@ class TravelTimeController extends Controller
         );
     }
 
-    /// load data from DB
+    /// load travelTime data from DB
     public function load($flockId){
 
+        // Check if the user is a Professeur
+        // if not return access denied
         if(!$this->haveAccess()){
             return view('traveltime/traveltime')->with(
                 [
@@ -74,11 +80,13 @@ class TravelTimeController extends Controller
             );
         }
 
-        $companies = $this->getCompaniesDB();
-        $persons = $this->getPersonsDB($flockId);
-        $persons = $this->checkPersons($persons);
-        $times = array();
+        $companies = $this->getCompaniesDB(); // Get internships with companies name from DB
+        $persons = $this->getPersonsDB($flockId); // Get persons from DB
+        $persons = $this->checkPersons($persons); // Check if persons have empty locations and delete it
 
+        $times = array(); // Create empty array for add element in loop
+
+        // Get travelTime from DB and add it t times array
         foreach ($companies as $company){
             foreach( $persons as $person){
 
@@ -114,7 +122,7 @@ class TravelTimeController extends Controller
 
     /// Get Travel by Google API
     /// Return an array with all JSON from google API Distance matrix
-    public function getTravelTime($companies, $persons){
+    public function getTravelTime($companies, $persons, $mode){
 
 
         $origins = $this->splitArray($companies, $this->limitElementGoogle);
@@ -130,7 +138,7 @@ class TravelTimeController extends Controller
             foreach ($origins as $origin){
 
 
-                $url="https://maps.googleapis.com/maps/api/distancematrix/json?origins=".$origin."&destinations=".$destination."&mode=transit&arrival_time=".$timestamp."&key=".$_ENV['API_GOOGLE_MAP'];
+                $url="https://maps.googleapis.com/maps/api/distancematrix/json?origins=".$origin."&destinations=".$destination."&mode=".$mode."&arrival_time=".$timestamp."&key=AIzaSyCYfkY8OVyYfcB4rHGPOl_MaGotRGN6PLs"; //.$_ENV['API_GOOGLE_MAP'];
                 $json = file_get_contents($url);
                 $actualTravel = json_decode($json, true);
                 array_push($travelTime, $actualTravel);
@@ -170,11 +178,8 @@ class TravelTimeController extends Controller
     }
 
     /// Extract times from PHP array and return an array
-    public function extractTimes($travelTimes, $companies, $persons){
+    public function extractTimes($travelTimes){
         $times = array();
-
-        $origins = $this->splitArray($companies, $this->limitElementGoogle);
-        $destinations = $this->splitArray($persons, $this->limitElementGoogle);
 
 
         $tempCol = collect($travelTimes);
@@ -182,43 +187,51 @@ class TravelTimeController extends Controller
         $travelTimes = $tempCol->sortByDesc('rows')->all();
 
 
-
-        foreach($travelTimes as $travelTime){
-            foreach ($travelTime["rows"] as $row){
-                foreach ($row["elements"] as $element){
-                    if (isset($element["duration"]["value"])) {
-                        array_push($times, round($element["duration"]["value"]/60));
+        $alreadyChecked = array();
+        foreach($travelTimes as $key => $travelTime){
+            if(!in_array($key, $alreadyChecked)){
+                if(count($travelTime["origin_addresses"]) < $this->limitElementGoogle){
+                    foreach ($travelTime["rows"] as $row){
+                        foreach ($row["elements"] as $element){
+                            if (isset($element["duration"]["value"])) {
+                                array_push($times, round($element["duration"]["value"]/60));
+                            }
+                            else{
+                                array_push($times, $this->unknowChar);
+                            }
+                        }
                     }
-                    else{
-                        array_push($times, $this->unknowChar);
-                    }
-                }
-            }
-        }
+                    for($i=$key+1;$i<count($travelTimes);$i++){
+                        if(count($travelTimes[$i]["origin_addresses"])==count($travelTime["origin_addresses"])){
+                            array_push($alreadyChecked, $i);
 
-
-        //dd($sorted);
-
-        /*
-
-        foreach($travelTimes as $travelTime){
-            for($i=0 ; $i<10; $i++){
-                if(isset($travelTime["rows"][$i])) {
-                    foreach ($travelTime["rows"][$i]["elements"] as $element) {
-                        if (isset($element["duration"]["value"])) {
-                            array_push($times, round($element["duration"]["value"] / 60));
-                        } else {
-                            array_push($times, $this->unknowChar);
+                            foreach ($travelTimes[$i]["rows"] as $row){
+                                foreach ($row["elements"] as $element){
+                                    if (isset($element["duration"]["value"])) {
+                                        array_push($times, round($element["duration"]["value"]/60));
+                                    }
+                                    else{
+                                        array_push($times, $this->unknowChar);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
                 else{
-                    array_push($times, $this->unknowChar);
+                    foreach ($travelTime["rows"] as $row){
+                        foreach ($row["elements"] as $element){
+                            if (isset($element["duration"]["value"])) {
+                                array_push($times, round($element["duration"]["value"]/60));
+                            }
+                            else{
+                                array_push($times, $this->unknowChar);
+                            }
+                        }
+                    }
                 }
             }
-
         }
-        */
         return $times;
     }
 
@@ -307,11 +320,11 @@ class TravelTimeController extends Controller
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         $currentUser = $this->getCurrentUser($currentUserTest->getId());
-        if ($currentUser->role!=1){
-            return false;
+        if ($currentUser->role!=0){
+            return true;
         }
         else{
-            return true;
+            return false;
         }
     }
 

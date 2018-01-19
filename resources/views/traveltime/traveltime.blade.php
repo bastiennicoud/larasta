@@ -30,7 +30,7 @@ Display an array with all elements
     </form>
     @if ($error)
 
-        <h4>Erreur : {{ $message }}</h4>
+        <div class="alert alert-danger"><h4>Erreur : {{ $message }}</h4></div>
 
     @elseif (isset($persons) & isset($companies) & isset($times))
 
