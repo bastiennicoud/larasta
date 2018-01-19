@@ -45,6 +45,8 @@ Route::post('/entreprises/filter', 'EntreprisesController@filter');
 Route::get('/entreprise/{id}', 'EntrepriseController@index');
 Route::post('/entreprise/{id}/save', 'EntrepriseController@save');
 Route::get('/entreprise/{id}/remove', 'EntrepriseController@remove');
+Route::post('/entreprise/addRemarks', 'EntrepriseController@addRemarks');
+
 
 // Quentin N - Contract generation
 Route::get('/contract/{iid}', 'ContractController@generateContract');

@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Remark;
 use CPNVEnvironment\Environment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\RemarksController;
 
 
 class EntrepriseController extends Controller
@@ -83,5 +85,13 @@ class EntrepriseController extends Controller
         DB::table('companies')
             ->where('id', $id)
             ->delete();
+    }
+
+    public function addRemarks(Request $request)
+    {
+        $type = 1;
+        $on = $request->id;
+        $text = $request->remark;
+        RemarksController::addRemark($type,$on,$text);
     }
 }
