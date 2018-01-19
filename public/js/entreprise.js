@@ -35,13 +35,32 @@ function newRemark() {
     $('#newRemark').removeClass("hidden");
 }
 
-$.ajaxSetup({
 
-    headers: {
 
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+function remarkAdd() {
 
-    }
+    $.ajaxSetup({
 
-});
+        headers: {
+
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+        }
+
+    });
+
+    $.ajax({
+
+        url: '/entreprise/addRemarks',
+        type: 'post',
+        data: { 'remark': $("#remarksText").val(), 'id': $("#id").val()
+        },
+
+
+        success:function(response) {
+            console.log("kiwi");
+
+        }
+    })
+};
 

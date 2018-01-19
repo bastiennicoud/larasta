@@ -3,9 +3,7 @@
  */
 
 function addE() {
-
     $("#input").removeClass("hidden");
-
 }
 
 $(document).ready(function(){
