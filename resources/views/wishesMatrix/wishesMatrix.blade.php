@@ -1,46 +1,71 @@
 <!-- ///////////////////////////////////              -->
 <!-- Benjamin Delacombaz                              -->
 <!-- Wishes Matrix layout                             -->
-<!-- Version 0.3                                      -->
+<!-- Version 0.4                                      -->
 <!-- Created 18.12.2017                               -->
-<!-- Last edit 09.01.2017 by Benjamin Delacombaz      -->
+<!-- Last edit 16.01.2017 by Benjamin Delacombaz      -->
 
 
 @extends ('layout')
-
+@section ('page_specific_css')
+    <link rel="stylesheet" href="/css/wishesMatrix.css" />
+@stop
 @section ('content')
+    <div class="alert-info hidden">
+        <!-- Info if user doesn't have the good right -->
+    </div>
     <h1>Matrice des souhaits</h1>
-    <table id="WishesMatrixTable" class="table-bordered">
-        <tr>
-            <th></th>
-            <!-- Add each persons where initials is ok -->
-            @foreach ($persons as $person)
-                @if ($person->initials!="")
-                    <th value="{{ $person->id }}">{{ $person->initials }}</th>
-                @endif
-            @endforeach
-        </tr>
-        @foreach ($companies as $companie)
+    <div class="col-md-9">
+        <table id="WishesMatrixTable" class="table-bordered col-md-11">
             <tr>
-                <td value="{{ $companie->id }}">{{ $companie->companyName }}</td>
-                <!-- Create the clickable case for each person -->
+                <th></th>
+                <!-- Add each persons where initials is ok -->
                 @foreach ($persons as $person)
                     @if ($person->initials!="")
-                    <!-- !!!!!!!!!!!!!!!!!!!!!!!!!PROBLEM BECAUSE NOT EMPTY BECAUSE LARAVEL ADD SYNTAX IN TD !!!!!!!!!!!!!!!!!!!!!! -->
-                        <td class="clickableCase">
-                            <!-- Add for each persons in the table her wish -->
-                            @foreach ($wishes[$person->id] as $wish)
-                                <!-- if wish company is equal to the current company display the rank -->
-                                @if($wish->id == $companie->id)
-                                    {{ $wish->rank }}
-                                @endif
-                            @endforeach
-                        </td>
+                        <!-- Add access class for authoized to edit a col -->
+                        @if ($person->initials == $currentUser->initials) 
+                            <th class="access" value="{{ $person->id }}">{{ $person->initials }}</th>
+                        @else
+                            <th value="{{ $person->id }}">{{ $person->initials }}</th>   
+                        @endif
                     @endif
                 @endforeach
             </tr>
-        @endforeach
-    </table>
+            @foreach ($companies as $companie)
+                <tr>
+                    <td value="{{ $companie->id }}">{{ $companie->companyName }}</td>
+                    <!-- Create the clickable case for each person -->
+                    @foreach ($persons as $person)
+                        @if ($person->initials!="")
+                        <!-- !!!!!!!!!!!!!!!!!!!!!!!!!PROBLEM BECAUSE NOT EMPTY BECAUSE LARAVEL ADD SYNTAX IN TD !!!!!!!!!!!!!!!!!!!!!! -->
+                            @if ($currentUser->role != 0)
+                                <td class="clickableCase locked teacher">
+                            @else
+                                <td class="clickableCase">
+                            @endif
+                            <!-- Add for each persons in the table her wish -->
+                                @foreach ($wishes[$person->id] as $wish)
+                                    <!-- if wish company is equal to the current company display the rank -->
+                                    @if($wish->id == $companie->id)
+                                        {{ $wish->rank }}
+                                    @endif
+                                @endforeach
+                            </td>
+                        @endif
+                    @endforeach
+                </tr>
+            @endforeach
+        </table>
+        @if ($currentUser->role != 0)
+            <img id="lockTable" src="/images/padlock_32x32.png"/>
+        @endif
+    </div>
+    <!-- Check if current user is not a student -->
+    @if ($currentUser->role != 0)
+        <a href="/traveltime/{{$currentUser->flock_id}}/load" class="col-md-3">Travel time</a>
+        <label>Modifiable jusqu'au</label> <input type="date" name="editDate"/>
+    @endif
+    <input type="button" name="validButton" value="Enregistrer"/>
 @stop
 
 @section ('page_specific_js')
