@@ -13,7 +13,7 @@ namespace App\Http\Controllers;
 use App\IntranetConnection as Connection;
 use Illuminate\Http\Request;
 use App\Persons;
-use App\Flocks;
+use App\Flock;
 
 class SynchroController extends Controller
 {
@@ -22,87 +22,51 @@ class SynchroController extends Controller
     private $newPersons = [];
     private $classesList;
 
-    public function dbObsoleteTest()
+    protected function dbObsoletePersons($personIntranetId)
     {
-        foreach ($this->obsoletePersons as $obsoletePerson)
-        {
-            $person = Persons::where('intranetUserId', $obsoletePerson->intranetUserId)->first();
-            $person->obsolete = 1;
-    
-            $person->save();
-        }
-    }
-
-    public function dbNewTest()
-    {
-        foreach ($this->newPersons as $newPerson)
-        {
-            $person = new Persons;
-
-            $person->firstname = $newPerson['firstname'];
-            $person->lastname = $newPerson['lastname'];
-            $person->upToDateDate = $newPerson['updated_on'];
-            $person->intranetUserId = $newPerson['id'];
-            if ($newPerson['occupation'] == "Elève" || $newPerson['occupation'] == "Eleve")
-            {
-                $person->role = 0;
-            }
-            else
-            {
-                $person->role = 1;
-            }
-    
-            $person->save();
-        }
-
-        foreach ($this->newPersons as $newPerson)
-        {
-            if (Persons::where('intranetUserId', $newPerson['id'])->where('role', 0)->exists())
-            {
-                $person = Persons::where('intranetUserId', $newPerson['id'])->where('role', 0)->first();
-                $dateSplit = explode('-', $newPerson['updated_on']);
-                $flockId = $this->checkFlock($dateSplit[0], $newPerson['current_class']['link']['name']);
-
-                $person->flock_id = $flockId;
-
-                $person->save();
-            }
-        }
-    }
-
-    protected function dbObsoleteFunction($person)
-    {
-        $person = Persons::where('intranetUserId', $obsoletPerson->intranetUserId);
+        $person = Persons::where('intranetUserId', $personIntranetId);
         $person->obsolete = 1;
 
         $person->save();
     }
 
-    protected function dbNewFunction($person)
+    protected function dbNewPersons($personIndex)
     {
         $person = new Persons;
 
-        $person->firstname = $newPerson['firstname'];
-        $person->lastname = $newPerson['lastname'];
-        $person->upToDateDate = $newPerson['updatedOn'];
-        $person->intranetUserId = $newPerson['id'];
-        if ($newPerson['occupation'] == "Elève")
+        $person->firstname = $this->newPersons[$personIndex]['firstname'];
+        $person->lastname = $this->newPersons[$personIndex]['lastname'];
+        $person->upToDateDate = $this->newPersons[$personIndex]['updated_on'];
+        $person->intranetUserId = $this->newPersons[$personIndex]['id'];
+        if ($this->newPersons[$personIndex]['occupation'] == "Elève" || $this->newPersons[$personIndex]['occupation'] == "Eleve")
         {
             $person->role = 0;
-            $dateSplit = explode('-', $newPerson['updatedOn']);
-            $person->flock_id = $this->checkFlock($dateSplit[0], $newPerson['current_class']['link']['name']);
         }
-        else if ($newPerson['occupation'] == "Enseignant")
+        else
         {
             $person->role = 1;
         }
-
+    
         $person->save();
+    }
+
+    protected function dbNewClasses($personIndex)
+    {
+        if (Persons::where('intranetUserId', $this->newPersons[$personIndex]['id'])->where('role', 0)->exists())
+        {
+            $person = Persons::where('intranetUserId', $this->newPersons[$personIndex]['id'])->where('role', 0)->first();
+            $dateSplit = explode('-', $this->newPersons[$personIndex]['updated_on']);
+            $flockId = $this->checkFlock($dateSplit[0], $this->newPersons[$personIndex]['current_class']['link']['name']);
+
+            $person->flock_id = $flockId;
+
+            $person->save();
+        }
     }
 
     public function addFlock($startYear, $className)
     {
-        $flock = new Flocks;
+        $flock = new Flock;
 
         $flock->flockName = $className . $startYear;
         $flock->startYear = $startYear;
@@ -125,7 +89,7 @@ class SynchroController extends Controller
 
     public function checkFlock($startYear, $className)
     {
-        $dateSys = date('Y-M-D');
+        /*$dateSys = date('Y-M-D');
         $classSplit = str_split($className);
         $classYear = intval($classSplit[4]);
 
@@ -136,11 +100,11 @@ class SynchroController extends Controller
         else
         {
             $startYear = $dateSys->format('Y') - $classYear - 1;
-        }
+        }*/
 
-        if (Flocks::where('startYear', $startYear)->exists())
+        if (Flock::where('startYear', $startYear)->exists())
         {
-            $flocks = Flocks::where('startYear', $startYear)->get();
+            $flocks = Flock::where('startYear', $startYear)->get();
             
             foreach ($flocks as $flock)
             {
@@ -159,45 +123,30 @@ class SynchroController extends Controller
 
     }
 
-    public function all()
+    public function modify(Request $request)
     {
-        $this->dbObsoleteFunction();
-        $this->dbNewFunction();
-
-        return redirect('/synchro');
-    }
-
-    public function delete(Request $request)
-    {
-        /*$checkboxes = $request->input('checkbox');
-
-        foreach ($checkboxes as $person)
-        {
-            $this->dbObsoleteFunction($person);
-        }*/
-
         $this->getDatas();
 
-        $this->dbObsoleteTest();
-
-        $request->session()->flash('status', 'Personnes obsolètes supprimées');
-        return redirect('/synchro');
-    }
-
-    public function new(Request $request)
-    {
-        /*$checkboxes = $request->input('checkbox');
-
-        foreach ($checkboxes as $person)
+        if ($request->modify == "add")
         {
-            $this->dbNewFunction($person);
-        }*/
+            foreach ($request->addCheck as $personIndex)
+            {
+                $this->dbNewPersons(intval($personIndex));
+            }
 
-        $this->getDatas();
+            foreach ($request->addCheck as $personIndex)
+            {
+                $this->dbNewClasses(intval($personIndex));
+            }
+        }
+        else if ($request->modify == "delete")
+        {
+            foreach ($request->deleteCheck as $personIntranetId)
+            {
+                $this->dbObsoletePersons($personIntranetId);
+            }
+        }
 
-        $this->dbNewTest();
-
-        $request->session()->flash('status', 'Nouvelles personnes ajoutées');
         return redirect('/synchro');
     }
 
@@ -235,14 +184,13 @@ class SynchroController extends Controller
                 array_push($this->newPersons, $person);
             }
         }
+
+        usort($this->newPersons,function($a,$b) {return strnatcasecmp($a['lastname'],$b['lastname']);});
     }
 
     public function index()
     {
         $this->getDatas();
-
-        usort($this->newPersons,function($a,$b) {return strnatcasecmp($a['lastname'],$b['lastname']);});
-
 
         return view('synchro/index')->with([ 'goodStudents' => $this->goodPersons, 'obsoleteStudents' => $this->obsoletePersons, 'newStudents' => $this->newPersons]);
     }
