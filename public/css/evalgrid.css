@@ -7,7 +7,7 @@
 .evalgrid {
 
   border: none;
-  background-color: rgb(247, 247, 247);
+  background-color: rgb(250, 249, 248);
 
   font-size: 16px;
   
@@ -36,4 +36,32 @@
 .evalgrid:focus {
   outline: none;
   background-color: rgb(224, 224, 224);
+}
+
+.gridform.w12 {
+  width: 12.5%
+}
+
+.gridform.w10 {
+  width: 10%
+}
+
+.gridform.w20{
+  width: 20%;
+}
+
+.gridform.w25 {
+  width: 25%;
+}
+
+.gridform.w26 {
+  width: 26.66%;
+}
+
+.gridform.w40 {
+  width: 40%;
+}
+
+.gridform.w50 {
+  width: 50%;
 }

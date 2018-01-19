@@ -54,10 +54,11 @@ class GridCheckout extends Notification
         return (new MailMessage)
             ->subject('Evaluation de stage validée !')
             ->greeting('Evaluation de stage validée !')
-            ->line("L'évaluation de la visite du " . $this->grid->visit->moment->format('d-m-Y') . "vien d'être validée")
+            ->line("L'évaluation de la visite du " . $this->grid->visit->moment->format('d-m-Y') . " viens d'être validée")
             ->line("Vous ne pouvez plus editer cette grille, pour la consulter :")
             ->action('Voir la grille', url('/evalgrid/grid/readonly/' . $this->grid->id))
             ->line('Ce mail est généré automatiquement, merci de ne pas répondre a ce mail.');
+            //->attach('');
     }
 
     /**
