@@ -154,8 +154,6 @@ class EvalController extends Controller
             return redirect('visits')->with('status', "Cette evaluation n'existe pas !");
         }
 
-        //dd($evaluation->visit->internship->companie->companyName);
-
         // check the user authorisations
         // Only the internship supervisor and the concerned student can acess the evaluation
         // check the forein keys to verifiy the user

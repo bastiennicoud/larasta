@@ -127,7 +127,7 @@ $level
                                     @elseif ($mode == 'edit')
 
                                         {{--  Display the inputs depending the user level  --}}
-                                        @if ($level > 0)
+                                        @if ($level >= 0)
                                             {{--  For each fiels we create a name with the criteria id, and fill the value from the DB or from the old inpuf if the form is reloaded (after a validation fails)  --}}
                                             {{--  The data-max is used by the js to verifiy and display a live average of the grades  --}}
                                             <td>
