@@ -1,10 +1,10 @@
 <?php
 //------------------------------------------------------------
 // Benjamin Delacombaz
-// version 0.4
+// version 0.5
 // WishesMatrixController
 // Created 18.12.2017
-// Last edit 16.01.2017 by Benjamin Delacombaz
+// Last edit 19.01.2017 by Benjamin Delacombaz
 //------------------------------------------------------------
 
 namespace App\Http\Controllers;
@@ -27,13 +27,26 @@ class WishesMatrixController extends Controller
         $companies = $this->getCompaniesWithInternships();
         $persons = $this->getPersons($currentUser->flock_id);
         $wishes = null;
+        $dateEndWishes =  null;
         
         // Get all wishes per person
         foreach ($persons as $person)
         {
             $wishes[$person->id] = $this->getWishesByPerson($person->id);
         }
-        return view('wishesMatrix/wishesMatrix')->with(['companies' => $companies, 'persons' => $persons, 'wishes' => $wishes, 'currentUser' => $currentUser]);
+
+        // Get info for teacher
+        // Test if current user is a teacher
+        if($currentUser->role >= 1)
+        {
+            $param = \App\Params::getParamByName('dateEndWishes');
+            if($param != null)
+            {
+                // Convert the date/time to date only
+                $dateEndWishes = date('Y-m-d', strtotime($param->paramValueDate));   
+            }
+        }
+        return view('wishesMatrix/wishesMatrix')->with(['companies' => $companies, 'persons' => $persons, 'wishes' => $wishes, 'currentUser' => $currentUser, 'dateEndWishes' => $dateEndWishes]);
     }
 
     private function getCompaniesWithInternships()
