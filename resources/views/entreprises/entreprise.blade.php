@@ -37,17 +37,17 @@
                 </div>
                 <div class="row content-box">
                     <div class="row">
-                    <div class="col-lg-6 text-right">
-                        Adresse : <br>
-                        {{$companie->address1}}
-                        {{$companie->address2}}<br>
-                        {{$companie->postalCode}},
-                        {{$companie->city}}
-                    </div>
-                    <div class="col-lg-6 text-left">
-                        Type de contrat : <br>
-                        {{$companie->contractType}}
-                    </div>
+                        <div class="col-lg-6 text-right">
+                            Adresse : <br>
+                            {{$companie->address1}}
+                            {{$companie->address2}}<br>
+                            {{$companie->postalCode}},
+                            {{$companie->city}}
+                        </div>
+                        <div class="col-lg-6 text-left">
+                            Type de contrat : <br>
+                            {{$companie->contractType}}
+                        </div>
                     </div>
                     <div class="row">
                         <img style='width:32px;' src='/images/map.png' OnClick='window.location="http://maps.google.com/?q={{$companie->lat}},{{$companie->lng}}"'>
@@ -127,7 +127,7 @@
                     <div class="col-lg-6 text-right">
                         Adresse 1 : <input type="text" name="address1" value="{{$companie->address1}}"><br>
                         Adresse 2 : <input type="text" name="address2" value="{{$companie->address2}}"><br>
-                        Code postal : <input type="text<" name="npa" value="{{$companie->postalCode}}"><br>
+                        Code postal : <input type="number" name="npa" value="{{$companie->postalCode}}"><br>
                         Ville : <input type="text" name="city" value="{{$companie->city}}"><input value="{{$companie->location_id}}" name="location_id" hidden>
                     </div>
                     <div class="col-lg-6 text-left">
@@ -196,7 +196,11 @@
                                 <button type="button" value="Ajouter" id="remark" onclick="newRemark()">Nouvelle remarque</button>
                             </div>
                             <div class="hidden" id="newRemark">
-                                <input value="{{Request::segment(2)}}" id="id" hidden><input type="text" name="newOne" id="remarksText"/><button type="button" value="Ajouter"  onclick="remarkAdd()">Ajouter</button>
+                                <input value="{{Request::segment(2)}}" id="id" hidden>
+                                <input value="{{$user->getInitials()}}" id="initials" hidden>
+                                <input value="{{(new DateTime(now()))->format('d.M.y')}}" id="date" hidden>
+                                <input type="text" name="newOne" id="remarksText"/>
+                                <button type="button" value="Ajouter"  onclick="remarkAdd()">Ajouter</button>
                             </div>
                         </div>
                     </div>

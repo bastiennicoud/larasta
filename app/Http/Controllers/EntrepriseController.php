@@ -74,6 +74,7 @@ class EntrepriseController extends Controller
     }
 
     public function remove($id){
+        /*
         DB::table('internships')
             ->where('companies_id', $id)
             ->delete();
@@ -85,6 +86,7 @@ class EntrepriseController extends Controller
         DB::table('companies')
             ->where('id', $id)
             ->delete();
+        */
     }
 
     public function addRemarks(Request $request)

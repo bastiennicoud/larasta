@@ -38,7 +38,6 @@ function newRemark() {
 
 
 function remarkAdd() {
-
     $.ajaxSetup({
 
         headers: {
@@ -50,15 +49,14 @@ function remarkAdd() {
     });
 
     $.ajax({
-
         url: '/entreprise/addRemarks',
         type: 'post',
         data: { 'remark': $("#remarksText").val(), 'id': $("#id").val()
         },
 
 
-        success:function(response) {
-            console.log("kiwi");
+        success:function() {
+            $('.remarksTable').find("tbody:last").append("<tr><td>"+$("#date").val()+"</td><td>"+$('#initials').val()+"</td><td>"+ $("#remarksText").val() +"</td></tr>");
 
         }
     })
