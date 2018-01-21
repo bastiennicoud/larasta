@@ -42,6 +42,7 @@ class ReconStagesController extends Controller
                 $selectable[] = $param->paramValueInt;
             }
         }
+        
 
         $internships = DB::table('internships')
         ->join('companies', 'companies_id', '=', 'companies.id')
@@ -63,7 +64,12 @@ class ReconStagesController extends Controller
             "student.id",
             'student.lastname as studentlastname',
             'contractstate_id',
-            'stateDescription')
+            'stateDescription',
+            'companies_id',
+            'responsible_id',
+            'admin_id',
+            'previous_id',
+            'internshipDescription')
         ->get();
 
         return $internships;
@@ -98,43 +104,72 @@ class ReconStagesController extends Controller
     //get values from input in an array
     public function displayRecon($ids, $internships){
 
+        $beginDate = null;
+        $endDate = null;
+        $salary = 0;
+        $paramBeginDate[] = $this->getParamByName('intership1Start')->paramValueDate;
+        $paramBeginDate[] = $this->getParamByName('intership2Start')->paramValueDate;
+        $paramEndDate[] = $this->getParamByName('internship1End')->paramValueDate;
+        $paramEndDate[] = $this->getParamByName('internship2End')->paramValueDate;
         $newInternships = [];
         foreach ($internships as $internship) {
             foreach($ids as $id){
                 if($internship->id==$id){
+                    switch (date('m',strtotime($internship->beginDate))){
+                        // february
+                        case date('m',strtotime($paramBeginDate[0])):
+                            $beginDate =  date('Y',strtotime($internship->beginDate)) . '-' . date('m-d',strtotime($paramBeginDate[1]));
+                            $endDate = date('Y',strtotime($beginDate)) + 1 . '-' . date('m-d',strtotime($paramEndDate[1]));
+                        break;
+
+                        // September
+                        case date('m',strtotime($paramBeginDate[1])):
+                            $beginDate =  date('Y',strtotime($internship->beginDate)) + 1 . '-' . date('m-d',strtotime($paramBeginDate[0]));
+                            $endDate = date('Y',strtotime($beginDate)) . '-' . date('m-d',strtotime($paramEndDate[0]));
+                        break;
+
+                        default:
+                            // do if the internship begin date is different of the 2 other case
+                    }
+                    // Salary
+                    if($internship->companies_id == 26 || $internship->companies_id == 35 )
+                    {
+                        $salary = $internship->grossSalary + 400;
+                    }
+                    else
+                    {
+                        $salary = $internship->grossSalary;
+                    }
+                    // !!!!!!!!!!!! Test !!!!!!!!!!!!!!
                     array_push($newInternships, $internship);
+                    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    $insert[] = [
+                        'companies_id'              => $internship->companies_id,
+                        'beginDate'                 => $beginDate,
+                        'endDate'                   => $endDate,
+                        'responsible_id'            => $internship->responsible_id,
+                        'admin_id'                  => $internship->admin_id,
+                        'intern_id'                 => $id,
+                        'contractstate_id'          => '2',
+                        'previous_id'               => $internship->previous_id,
+                        'internshipDescription'     => $internship->internshipDescription,
+                        'grossSalary'               => $salary,
+                        'contractGenerated'         => null,
+                    ];
+                    DB::table('internships')->insert($insert);
                 }
             }
         }
-        
-
-        $insert = [];
-        foreach ($ids as $id) {
-            $insert[] = [
-                'companies_id'              => '112',
-                'beginDate'                 => '2018-02-01 00:00:00',
-                'endDate'                   => '2018-09-01 00:00:00',
-                'responsible_id'            => '191',
-                'admin_id'                  => '79',
-                'intern_id'                 => $id,
-                'contractstate_id'          => '2',
-                'previous_id'               => '390',
-                'internshipDescription'     => 'tutu',
-                'grossSalary'               => '7000',
-                'contractGenerated'         => null,
-            ];
-        }
-
-        DB::table('internships')->insert($insert);
         
         return $newInternships;
 
         
     }
-
-    //a suivre...
-    public function insertRecon(){
-
+    private function getParamByName($name)
+    {
+        $param = Params::where('paramName', $name)
+        ->first();
+        return $param;
     }
 
 
