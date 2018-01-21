@@ -1,10 +1,10 @@
 <?php
 //------------------------------------------------------------
 // Benjamin Delacombaz
-// version 0.5
+// version 0.6
 // WishesMatrixController
 // Created 18.12.2017
-// Last edit 19.01.2017 by Benjamin Delacombaz
+// Last edit 21.01.2017 by Benjamin Delacombaz
 //------------------------------------------------------------
 
 namespace App\Http\Controllers;
@@ -47,6 +47,11 @@ class WishesMatrixController extends Controller
             }
         }
         return view('wishesMatrix/wishesMatrix')->with(['companies' => $companies, 'persons' => $persons, 'wishes' => $wishes, 'currentUser' => $currentUser, 'dateEndWishes' => $dateEndWishes]);
+    }
+
+    public function save()
+    {
+        echo "Test de ouf";
     }
 
     private function getCompaniesWithInternships()

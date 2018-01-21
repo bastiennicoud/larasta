@@ -1,9 +1,9 @@
 <!-- ///////////////////////////////////              -->
 <!-- Benjamin Delacombaz                              -->
 <!-- Wishes Matrix layout                             -->
-<!-- Version 0.5                                     -->
+<!-- Version 0.6                                      -->
 <!-- Created 18.12.2017                               -->
-<!-- Last edit 19.01.2017 by Benjamin Delacombaz      -->
+<!-- Last edit 21.01.2017 by Benjamin Delacombaz      -->
 
 
 @extends ('layout')
@@ -65,7 +65,7 @@
         <a href="/traveltime/{{$currentUser->flock_id}}/load" class="col-md-3">Travel time</a>
         <label>Modifiable jusqu'au</label> <input type="date" name="editDate" value="{{ $dateEndWishes }}"/>
     @endif
-    <input type="button" name="validButton" value="Enregistrer"/>
+    <button id="save">Enregistrer</button>
 @stop
 
 @section ('page_specific_js')
