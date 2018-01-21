@@ -9,11 +9,18 @@
 
 namespace App\Http\Controllers;
 
+// Requests
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreEvalGridRequest;
 
+// Intranet env
 use CPNVEnvironment\Environment;
 
+// Notifications
+use App\Notifications\GridCheckout;
+use Illuminate\Support\Facades\Notification;
+
+// Models
 use App\Visit;
 use App\Criteria;
 use App\CriteriaValue;
@@ -147,8 +154,6 @@ class EvalController extends Controller
             return redirect('visits')->with('status', "Cette evaluation n'existe pas !");
         }
 
-        //dd($evaluation->visit->internship->companie->companyName);
-
         // check the user authorisations
         // Only the internship supervisor and the concerned student can acess the evaluation
         // check the forein keys to verifiy the user
@@ -242,10 +247,16 @@ class EvalController extends Controller
             }
 
             // We pass this evaluation state to 0 (not editable)
-            Evaluation::where('id', $gridID)->update(['editable' => 0]);
+            $grid = Evaluation::with('visit.internship.student')->find($gridID);
+            $grid->editable = 0;
+            $grid->save();
+
+            // send to the concerned users a mail with the validated grid
+            Notification::route('mail', $grid->visit->internship->student->mail)
+                ->notify(new GridCheckout($grid));
 
             // We redirect to the readonly version of the grid
-            return redirect("/evalgrid/grid/edit/$gridID")->with('status', "Les informations on correctement étés enregistrées, la grille n'est plus editable !");
+            return redirect("/evalgrid/grid/readonly/$gridID")->with('status', "Les informations on correctement étés enregistrées, la grille n'est plus editable !");
 
         } else {
 
@@ -275,11 +286,16 @@ class EvalController extends Controller
     {
         $visit = Visit::find($visitid);
 
+        // No visit
         if ($visit->evaluation->first() == null) {
             return 1;
-        } elseif ($visit->evaluation->first()->editable == 1) {
+        }
+        // Visit editable
+        elseif ($visit->evaluation->first()->editable == 1) {
             return 2;
-        } elseif ($visit->evaluation->first()->editable == 0) {
+        }
+        // Visit validated, no more editable
+        elseif ($visit->evaluation->first()->editable == 0) {
             return 3;
         }
 
