@@ -3,11 +3,35 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use CPNVEnvironment\Environment;
 
 class Persons extends Model
 {
-    public $timestamps = false;
+    //use SoftDeletes;
 
+    //protected $dates = ['deleted_at'];
+
+    /**
+     * Relation to the internship of the student
+     */
+    public function internships()
+    {
+        return $this->hasMany('App\Internship', 'intern_id');
+    }
+
+    /**
+     * Relation to the flock of the student
+     */
+    public function flock()
+    {
+        return $this->belongsTo('App\Flock', 'flock_id');
+    }
+
+    /**
+     * getRoleAttribute
+     * 
+     * @return string eleve|company
+     */
 
     public function getRoleAttribute()
     {
@@ -20,9 +44,21 @@ class Persons extends Model
 
     /**
      * Computed property to recompose full name
+     * 
+     * @return string The full name
      */
     public function getFullNameAttribute()
     {
         return "{$this->firstname} {$this->lastname}";
+    }
+
+    /**
+     * Computed property to recompose full name
+     * 
+     * @return string The email of the user
+     */
+    public function getMailAttribute()
+    {
+        return strtolower("{$this->firstname}.{$this->lastname}@cpnv.ch");
     }
 }
