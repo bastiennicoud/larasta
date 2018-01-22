@@ -102,7 +102,7 @@ class TravelTimeController extends Controller
         }
 
 
-        $colors = $this->colorTimes($times);
+        $colors = $this->colorTimes($times); // define class color for times
         $message = "Chargement réussi";
 
         return view('traveltime/traveltime')->with(
@@ -178,15 +178,18 @@ class TravelTimeController extends Controller
     }
 
     /// Extract times from PHP array and return an array
+    /// Work only when we have 10 persons
     public function extractTimes($travelTimes){
         $times = array();
 
-
+        // Order array
         $tempCol = collect($travelTimes);
         $tempCol = $tempCol->sortByDesc('destination_addresses');
         $travelTimes = $tempCol->sortByDesc('rows')->all();
 
 
+        // Go in the json result take all the times and put it in an array
+        // Try to work with more than 10 persones but not work actually
         $alreadyChecked = array();
         foreach($travelTimes as $key => $travelTime){
             if(!in_array($key, $alreadyChecked)){
@@ -332,6 +335,7 @@ class TravelTimeController extends Controller
     /// By companies and persons, add the good times in DB
     public function addDataDB($times, $companies, $persons){
         $i=0;
+        // Check if an record exist if yes update it otherwise create it
         foreach ($companies as $company){
             foreach ($persons as $person){
 
