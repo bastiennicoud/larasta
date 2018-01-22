@@ -26,6 +26,7 @@ class ReconStagesController extends Controller
         );
     }
 
+    //return to view reconmade
     public function displayStages()
     {
         return view('reconstages/reconmade');
@@ -43,7 +44,7 @@ class ReconStagesController extends Controller
             }
         }
         
-
+        //requete de récuperation des données dans la base de donnée
         $internships = DB::table('internships')
         ->join('companies', 'companies_id', '=', 'companies.id')
         ->join('persons as admresp', 'admin_id', '=', 'admresp.id')
@@ -77,6 +78,8 @@ class ReconStagesController extends Controller
 
     //Send value to reconMade page with function displayRecon()
     public function reconStages(Request $request){
+
+
         $keys = $request->all();
         $ids = [];
 
@@ -87,11 +90,12 @@ class ReconStagesController extends Controller
             }
         }
 
+        
         $internships = $this->getInternships();
         $new = $this->displayRecon($ids, $internships);
 
 
-        
+        //return to the view reconstages
         return view('reconstages/reconstages')->with(
             [
                 "internships" => $new
@@ -103,15 +107,18 @@ class ReconStagesController extends Controller
 
     //get values from input in an array
     public function displayRecon($ids, $internships){
-
+        //define table
         $beginDate = null;
         $endDate = null;
         $salary = 0;
+        //get date from the table param in the function getParamByName()
         $paramBeginDate[] = $this->getParamByName('intership1Start')->paramValueDate;
         $paramBeginDate[] = $this->getParamByName('intership2Start')->paramValueDate;
         $paramEndDate[] = $this->getParamByName('internship1End')->paramValueDate;
         $paramEndDate[] = $this->getParamByName('internship2End')->paramValueDate;
         $newInternships = [];
+
+
         foreach ($internships as $internship) {
             foreach($ids as $id){
                 if($internship->id==$id){
@@ -165,6 +172,8 @@ class ReconStagesController extends Controller
 
         
     }
+
+    //get params by name and show the first
     private function getParamByName($name)
     {
         $param = Params::where('paramName', $name)
