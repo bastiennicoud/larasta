@@ -144,6 +144,19 @@ $(document).ready(function(){
             }     
          });
     }
+    // Event when write something in date inout
+    $('#dateEndChoices').change(function(){
+        var dateNow = new Date();
+        var dateWritted = new Date($('#dateEndChoices').val());
+        if(dateWritted <= dateNow)
+        {
+            // View The toast message
+            $('.alert-info').text("La date se trouve dans le passé.");
+            $('.alert-info').removeClass('hidden');
+            cleanMessage();
+        }
+    });
+
     // Clean message box
     function cleanMessage()
     {

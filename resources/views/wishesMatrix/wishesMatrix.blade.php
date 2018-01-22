@@ -63,7 +63,7 @@
     <!-- Check if current user is not a student -->
     @if ($currentUser->role != 0)
         <a href="/traveltime/{{$currentUser->flock_id}}/load" class="col-md-3">Travel time</a>
-        <label>Modifiable jusqu'au</label> <input type="date" name="editDate" value="{{ $dateEndWishes }}"/>
+        <label>Modifiable jusqu'au</label> <input id="dateEndChoices" placeholder="AAAA-MM-DD" type="date" name="editDate" value="{{ $dateEndWishes }}"/>
     @endif
     <button id="save">Enregistrer</button>
 @stop
