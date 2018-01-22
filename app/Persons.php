@@ -51,4 +51,14 @@ class Persons extends Model
     {
         return "{$this->firstname} {$this->lastname}";
     }
+
+    /**
+     * Computed property to recompose full name
+     * 
+     * @return string The email of the user
+     */
+    public function getMailAttribute()
+    {
+        return strtolower("{$this->firstname}.{$this->lastname}@cpnv.ch");
+    }
 }
