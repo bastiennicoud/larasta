@@ -14,6 +14,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use PDF;
 
 class ContractController extends Controller
 {
@@ -31,6 +32,8 @@ class ContractController extends Controller
 
     public function visualizeContract($iid, Request $request)
     {
+
+
         $contract = $this->getContract($iid);
 
         /*
@@ -204,5 +207,10 @@ class ContractController extends Controller
             ->update(['contractGenerated' => null]);
 
         return $this->generateContract($iid);
+    }
+
+    public function generatePDF($text)
+    {
+        $pdf = 
     }
 }
