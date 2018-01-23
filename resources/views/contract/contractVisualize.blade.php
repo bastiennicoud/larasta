@@ -23,7 +23,8 @@
         <form id="contractEditor" method="post" action="/contract/{{$iid}}/save">
             {{ csrf_field() }}
             <textarea name="contractText">{{$contract[0]->contractText}}</textarea>
-            <br><button>Valider</button>
+            <br> !! To remove !!Remplacer le modèle de contrat <input type="checkbox" name="replace">
+            <button>Valider</button> <button name="pdf" value="pdf">Générer pdf</button>
         </form>
     </div>
 

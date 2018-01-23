@@ -191,11 +191,19 @@ class ContractController extends Controller
             ->where('id', $iid)
             ->update(['contractGenerated' => $date]);
 
-        DB::table('contracts')
-            ->join('companies', 'contracts_id', '=', 'contracts.id')
-            ->join('internships', 'companies_id', '=', 'companies.id')
-            ->where('internships.id', $iid)
-            ->update(['contractText' => $request->contractText]);
+        if ($request->replace)
+        {
+            DB::table('contracts')
+                ->join('companies', 'contracts_id', '=', 'contracts.id')
+                ->join('internships', 'companies_id', '=', 'companies.id')
+                ->where('internships.id', $iid)
+                ->update(['contractText' => $request->contractText]);
+        }
+
+        if ($request->pdf == 'pdf')
+        {
+            $pdf = new PDF(); // replace garryvdh/laravel-dompdf by dompdf/dompdf because garry wants you to transform a view to a pdf...
+        }
 
         return $this->generateContract($iid);
     }
@@ -207,10 +215,5 @@ class ContractController extends Controller
             ->update(['contractGenerated' => null]);
 
         return $this->generateContract($iid);
-    }
-
-    public function generatePDF($text)
-    {
-        $pdf = 
-    }
+    }   
 }
