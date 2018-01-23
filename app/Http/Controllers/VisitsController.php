@@ -14,6 +14,7 @@ namespace App\Http\Controllers;
 
 use App\Visit;
 use Illuminate\Http\Request;
+use CPNVEnvironment\Environment;
 use Illuminate\Support\Facades\DB;
 
 class VisitsController extends Controller
@@ -23,29 +24,39 @@ class VisitsController extends Controller
     /* In main page of visits, return list of visits */
     public function index()
     {
-        // Query
-        $internships = DB::table('visits')
-        ->join('internships', 'visits.internships_id', '=', 'internships.id')
-        ->join('persons', 'internships.intern_id', '=', 'persons.id')
-        ->join('companies', 'internships.companies_id', '=', 'companies.id')
-        ->join('visitsstates', 'visits.visitsstates_id', '=', 'visitsstates.id')
-        ->select('visits.id' ,'persons.firstname', 'persons.lastname', 'companyName', 'stateName', 'beginDate', 'endDate', 'mailstate')
-        ->orderBy('visits.id', 'DESC')
-        ->limit(30)
-        ->get();
+        // Check if the user is a superuser
+        // We grant him access to visits if he has access
+        if (Environment::currentUser()->getLevel() < 5){ // ! ! ! Let the access for developpment, but need to put it at >1
 
-        return view('visits/visits')->with(
-            [
-                'internships' => $internships,
-                'message' => $this->message
-            ]
-        );
+            // Query get visits
+            $internships = Visit::join('internships', 'visits.internships_id', '=', 'internships.id')
+                ->join('persons', 'internships.intern_id', '=', 'persons.id')
+                ->join('companies', 'internships.companies_id', '=', 'companies.id')
+                ->join('visitsstates', 'visits.visitsstates_id', '=', 'visitsstates.id')
+                ->select('visits.id' ,'persons.firstname', 'persons.lastname', 'companyName', 'stateName', 'beginDate', 'endDate', 'mailstate')
+                ->orderBy('visits.id', 'DESC')
+                ->limit(30)
+                ->get();
+
+            return view('visits/visits')->with(
+                [
+                    'internships' => $internships,
+                    'message' => $this->message
+                ]
+            );
+        }
+
+        //If not a superuser, we redirect him to home page
+        else{
+            return redirect('/')->with('status', "You don't have the permission to access this function.");
+        }
     }
 
+    // Function return data from a visit.
     public function manage (Request $request, $rid) {
 
-        $internship = Visit::
-        join('internships', 'visits.internships_id', '=', 'internships.id')
+        // Query get a specify visit
+        $internship = Visit::join('internships', 'visits.internships_id', '=', 'internships.id')
         ->join('persons', 'internships.intern_id', '=', 'persons.id')
         ->join('companies', 'internships.companies_id', '=', 'companies.id')
         ->join('visitsstates', 'visits.visitsstates_id', '=', 'visitsstates.id')
@@ -53,6 +64,7 @@ class VisitsController extends Controller
         ->where('visits.id', $rid)
         ->first();
 
+        //get info from intern's responsible
         $contact = DB::table('internships')
         ->join('persons', 'internships.responsible_id' ,'=', 'persons.id')
         ->join('contactinfos', 'persons.id', '=', 'contactinfos.persons_id')
@@ -61,12 +73,10 @@ class VisitsController extends Controller
         ->where('contacttypes_id', '=', 1)
         ->first();
 
+        //get status of the internship
         $visitstate = DB::table('visitsstates')
         ->where('id', '<=', 2)
         ->get();
-
-        error_log(print_r($visitstate, 1));
-        //dd($rid);
 
         return view('visits/manage')->with(
             [
@@ -76,32 +86,6 @@ class VisitsController extends Controller
             ]
         );
     }
-
-    public function add() {
-
-        $internships = DB::table('visits')->get();
-
-        //error_log(print_r($internships, 1));
-
-        return view('visits/add')->with(
-            [
-                'internships' => $internships
-            ]
-        );
-    }
-
-    public function create(Request $request) {
-        $visit = new Visit();
-        $visit->moment = $request->date;
-        $visit->number = $request->number;
-        $visit->internships_id = $request->internship;
-        $visit->visitsstates_id = 2;
-        $visit->save();
-        $this->message = 'Remarque ajoutée';
-
-        return $this->index();
-    }
-
 
     /* Function redirects user and update states in internships */
     public function mail(Request $request, $id)
@@ -127,6 +111,118 @@ class VisitsController extends Controller
         return $this->index();
     }
 
+    /* Function update schedule */
+    public function update(Request $request, $id)
+    {
+        $state = $request->input('state');
+        $date = $request->upddate;
+        $date .= " ".$request->updtime;
+        $mail = $request->input('selm');
+
+        if($state == 1 )
+        {
+            Visit::where('visits.id', '=', $id)
+                ->update([
+                    'visitsstates_id' => $state,
+                    'moment' => $date,
+                    'mailstate' => $mail,
+                ]);
+        }
+
+        else
+        {
+            Visit::where('visits.id', '=', $id)
+                ->update([
+                    'visitsstates_id' => $state,
+                    'moment' => $date,
+                    'mailstate' => $mail,
+                ]);
+        }
+
+        $this->message = 'La visite a été modifiée !';
+        return $this->index();
+    }
+
+    /**
+     * Build list of internships that match the filter - and display it
+     * @param InternshipFilter $ifilter
+     * @return $this
+     */
+    private function filteredInternships(InternshipFilter $ifilter)
+    {
+        $states = $ifilter->getStateFilter();
+        // build list of ids to select by internship state
+        foreach ($states as $state)
+            if ($state->checked)
+                $idlist[] = $state->id;
+        if (isset($idlist))
+            $iships = DB::table('internships')
+                ->join('companies', 'companies_id', '=', 'companies.id')
+                ->join('persons as admresp', 'admin_id', '=', 'admresp.id')
+                ->join('persons as intresp', 'responsible_id', '=', 'intresp.id')
+                ->join('persons as student', 'intern_id', '=', 'student.id')
+                ->join('contractstates', 'contractstate_id', '=', 'contractstates.id')
+                ->join('flocks', 'student.flock_id', '=', 'flocks.id')
+                ->join('persons as mc', 'classMaster_id', '=', 'mc.id')
+                ->select(
+                    'internships.id',
+                    'beginDate',
+                    'endDate',
+                    'companyName',
+                    'admresp.firstname as arespfirstname',
+                    'admresp.lastname as aresplastname',
+                    'intresp.firstname as irespfirstname',
+                    'intresp.lastname as iresplastname',
+                    'student.firstname as studentfirstname',
+                    'student.lastname as studentlastname',
+                    'mc.intranetUserId as mcid',
+                    'mc.initials as mcini',
+                    'contractstate_id',
+                    'stateDescription')
+                ->whereIn('contractstate_id', $idlist)
+                ->get();
+        else
+            $iships = array();
+        switch ($ifilter->getMine() * 2 + $ifilter->getInProgress())
+        {
+            case 1:
+                $keepOnly = self::getCurrentInternships();
+                break;
+            case 2:
+                $keepOnly = self::getMyInternships();
+                break;
+            case 3:
+                $keepOnly = self::getMyCurrentInternships();
+        }
+        if (isset($keepOnly))
+        {
+            $finallist = array();
+            foreach ($iships as $iship)
+                if (array_search($iship->id, $keepOnly))
+                    $finallist[] = $iship;
+        } else
+            $finallist = $iships;
+        return view('internships/internships')->with('iships', $finallist)->with('filter', $ifilter);
+    }
+
+    /**
+     * Returns a list (array of ids, sorted ascending) of internships where the current user was MC
+     */
+    public static function getMyInternships()
+    {
+        $iships = DB::table('internships')
+            ->join('persons as student', 'intern_id', '=', 'student.id')
+            ->join('flocks', 'student.flock_id', '=', 'flocks.id')
+            ->join('persons as mc', 'classMaster_id', '=', 'mc.id')
+            ->select('internships.id')
+            ->where('mc.intranetUserId', '=', $me = Environment::currentUser()->getId())
+            ->orderBy('internships.id', 'asc')
+            ->get();
+        $res = array();
+        foreach ($iships as $iship) $res[] = $iship->id;
+        return $res;
+    }
+/*
     public function changeFilter(Request $request)
     {
         // Get states from db (to have descriptions)
@@ -178,35 +274,5 @@ class VisitsController extends Controller
             $iships = array();
 
         return view('internships/internships')->with('iships', $iships)->with('statefilter', $filter);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $state = $request->input('state');
-        $date = $request->upddate;
-        $date .= " ".$request->updtime;
-
-        if($state == 1 )
-        {
-            Visit::where('visits.id', '=', $id)
-                ->update([
-                    'visitsstates_id' => $state,
-                    'moment' => $date,
-                    'mailstate' => 0
-                ]);
-        }
-
-        else
-        {
-            Visit::where('visits.id', '=', $id)
-                ->update([
-                    'visitsstates_id' => $state,
-                    'moment' => $date,
-                    'mailstate' => 1
-                ]);
-        }
-
-        $this->message = 'La visite a été modifiée !';
-        return $this->index();
-    }
+    }*/
 }

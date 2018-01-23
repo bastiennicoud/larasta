@@ -2,7 +2,8 @@
 
 @section ('content')
     {{-- Link to intern's profile--}}
-    <h3>Visite de stage n°{{$internship->id}} de <a href="#">{{$internship->lastname}}, {{$internship->firstname}}</a></h3>
+    <h3>
+        <a href="/visits/" class="btn btn-success" style="color:white !important"><span>&lt;</span></a> Visite de stage n°{{$internship->id}} de <a href="#">{{$internship->lastname}}, {{$internship->firstname}}</a></h3>
     <br>
     <form method="post" action="/visits/{{$internship->id}}/update" class="text-left">
         {{ csrf_field() }}
@@ -32,7 +33,6 @@
                                 $last = (new DateTime($internship->endDate))->format('Y-m-d');
                             ?>
                             <input type="date" name="upddate" max="{{$last}}" min="{{$today}}" value="{{ (new DateTime($internship->moment))->format('Y-m-d') }}">
-
                         </div>
                     </fieldset>
                 </td>
@@ -48,10 +48,14 @@
                 <td class="col-md-1">{{ (new DateTime($internship->endDate))->format('d.m.Y') }}</td>
                 <td class="col-md-1">
                     @if($internship->mailstate == 1)
-                        <span class="ok glyphicon glyphicon-ok" style="color:green"></span>&nbsp;envoyé
+                        <span id="ok" class="ok glyphicon glyphicon-ok" style="color:green"></span class="mok">&nbsp;<span id="mok">envoyé</span>
                     @else
-                        <span class="remove glyphicon glyphicon-remove" style="color:red"></span>&nbsp;pas encore envoyé
+                        <span id="remove" class="remove glyphicon glyphicon-remove" style="color:red"></span>&nbsp;<span id="mremove">pas encore envoyé</span>
                     @endif
+                    <select id='selm' name="selm" class="hidden">
+                            <option value="1">envoyé</option>
+                            <option value="0">pas envoyé</option>
+                    </select>
                 </td>
             </tr>
             <tr>
@@ -129,7 +133,7 @@
             <tr>
                 <th class="col-md-6">email du responsable</th>
             </tr>
-            <tr class="clickable-row text-left">
+            <tr class="text-left">
                 <td class="col-md-6"><span class="mailstate">{{$contact->value}}</span></td>
             </tr>
         </table>
