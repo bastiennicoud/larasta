@@ -202,7 +202,7 @@ class ContractController extends Controller
 
         if ($request->pdf == 'pdf')
         {
-            $pdf = new PDF(); // replace garryvdh/laravel-dompdf by dompdf/dompdf because garry wants you to transform a view to a pdf...
+            // generate pdf
         }
 
         return $this->generateContract($iid);
@@ -215,5 +215,5 @@ class ContractController extends Controller
             ->update(['contractGenerated' => null]);
 
         return $this->generateContract($iid);
-    }   
+    }
 }
