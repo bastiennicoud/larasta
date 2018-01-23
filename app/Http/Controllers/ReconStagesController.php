@@ -55,6 +55,7 @@ class ReconStagesController extends Controller
         ->select(
             'internships.id',
             'beginDate',
+            'endDate',
             'grossSalary',
             'companyName',
             'admresp.firstname as arespfirstname',
@@ -95,8 +96,8 @@ class ReconStagesController extends Controller
         $internships = $this->getInternships();
         $new = $this->displayRecon($ids, $internships);
 
-        //return to the view reconstages
-        return view('reconstages/reconstages')->with(
+        //return to the view reconmade
+        return view('reconstages/reconmade')->with(
             [
                 "internships" => $new
             ]
@@ -118,9 +119,13 @@ class ReconStagesController extends Controller
         $paramEndDate[] = $this->getParamByName('internship2End')->paramValueDate;
         $newInternships = [];
 
+        //Get all internships
         foreach ($internships as $internship) {
+            //Get id of internships
             foreach($ids as $id){
+                //check if the ID are correct
                 if($internship->id==$id){
+
                     // Switch for stage begin date
                     switch (date('m',strtotime($internship->beginDate))){
                         // february
@@ -138,21 +143,49 @@ class ReconStagesController extends Controller
                         break;
 
                         default:
-                            // do if the internship begin date is different of the 2 other case
+                        // do if the internship begin date is different of the 2 other case
+                        $monthDiff1 = date('m',strtotime($paramBeginDate[0]))-date('m',strtotime($internship->endDate));  
+                        $monthDiff2 = date('m',strtotime($paramBeginDate[1]))-date('m',strtotime($internship->endDate));
+                        //check the value of the date
+                        if($monthDiff1 < 0)
+                        {
+                            $monthDiff1 += 12;
+                        }
+                        if($monthDiff2 < 0)
+                        {
+                            $monthDiff2 += 12;
+                        }
+                        if($monthDiff1 < $monthDiff2)
+                        {
+                            $beginDate =  date('Y',strtotime($internship->beginDate)) + 1 . '-' . date('m-d',strtotime($paramBeginDate[0]));
+                            $endDate = date('Y',strtotime($beginDate)) . '-' . date('m-d',strtotime($paramEndDate[0]));
+                        }
+                        else
+                        {
+                            $beginDate =  date('Y',strtotime($internship->beginDate)) + 1 . '-' . date('m-d',strtotime($paramBeginDate[1]));
+                            $endDate = date('Y',strtotime($beginDate)) + 1 . '-' . date('m-d',strtotime($paramEndDate[1]));
+                        }
                     }
+
                     // Salary
                     // Test if internship is from etat de vaud
-                    if($internship->contracts_id == 4 )
+                    
+                    $monthBeginDate = date('m',strtotime($internship->beginDate));
+                    if($internship->contracts_id == 4 && $monthBeginDate == date('m',strtotime($paramBeginDate[0])) )
                     {
                         // Add upgrade salary for trainee from Etat de Vaud
-                        $salary = $this->getParamByName('internship2Start')->paramValueInt;
+                        $salary = $this->getParamByName('internship2Salary')->paramValueInt;
+                    }
+                    elseif($internship->contracts_id == 4 && $monthBeginDate == date('m',strtotime($paramBeginDate[1])))
+                    {
+                        $salary = $this->getParamByName('internship1Salary')->paramValueInt;
                     }
                     else
                     {
                         // Keep the previous salary
                         $salary = $internship->grossSalary;
                     }
-                    // display value on reconmade
+                    // display value on reconmade.blade
                     array_push($newInternships, $internship);
 
                     // Insert in dataBase

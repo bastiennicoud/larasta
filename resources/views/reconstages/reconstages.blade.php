@@ -1,11 +1,14 @@
 @extends ('layout')
 
+@section ('page_specific_css')
+    <link rel="stylesheet" type="text/css" href="/css/documents.css"></script>
+@stop
+
 @section ('content')
-    <a href="{{'/documents'}}">Documents du stage</a>
-    <h1>Nicolas Part</h1>
+    <h1>Eleves à reconduire</h1>
     <form method="POST" action="reconstages/reconmade">
         {{ csrf_field() }}
-        <table>
+        <table class="reconduction">
             <tr>
                 <th>Entreprise</th>
                 <th>Début</th>
@@ -31,8 +34,9 @@
         @endforeach
         </table>
         <button id="reconduire" type="submit">Reconduire</button>
+        <div class="checkBox"><input type="checkbox" id="check">Select All</input></div>
     </form>
-    <input type="checkbox" id="check">Select All</input>
+    
 
 @stop
 
