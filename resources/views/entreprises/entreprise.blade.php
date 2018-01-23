@@ -19,16 +19,16 @@
             <form method="post" action="/entreprise/{{Request::segment(2)}}/save">
                 {{ csrf_field() }}
 
-                <div class="col-lg-offset-10" id="edit">
-                    <button type="button" class="btn btn-primary" onclick="edit()">Modification</button>
-                    <button type="button" class="btn btn-danger" onclick="remove({{Request::segment(2)}})">Supprimer</button>
-                </div>
-            <div class="col-lg-offset-10 hidden" id="save">
-                <button type="button" class="btn btn-primary" onclick="cancel()">Annuler</button>
-                <input type="submit" class="btn btn-primary" onclick="save()" value="Sauvegarder">
-                </input>
-            </div>
-            <br>
+                    <div class="col-lg-offset-10" id="edit">
+                        <button type="button" class="btn btn-primary" onclick="edit()">Modification</button>
+                        <button type="button" class="btn btn-danger" onclick="remove({{Request::segment(2)}})">Supprimer</button>
+                    </div>
+                    <div class="col-lg-offset-10 hidden" id="save">
+                        <button type="button" class="btn btn-primary" onclick="cancel()">Annuler</button>
+                        <button type="submit" class="btn btn-success" onclick="save()">Sauvegarder</button>
+                    </div>
+                    <br>
+
         @endif
         <div class="body simple-box" id="view">
             @foreach ($company as $companie)
@@ -37,14 +37,13 @@
                 </div>
                 <div class="row content-box">
                     <div class="row">
-                        <div class="col-lg-6 text-right">
+                        <div class="col-lg-6 col-sm-6 text-right">
                             Adresse : <br>
-                            {{$companie->address1}}
-                            {{$companie->address2}}<br>
+                            {{$companie->address1}}@if(isset($companie->address2)), {{$companie->address2}} @endif <br>
                             {{$companie->postalCode}},
                             {{$companie->city}}
                         </div>
-                        <div class="col-lg-6 text-left">
+                        <div class="col-lg-6 col-sm-6 text-left">
                             Type de contrat : <br>
                             {{$companie->contractType}}
                         </div>
@@ -55,9 +54,9 @@
                 </div>
             @endforeach
             <div class="row content-box">
-                <div class="col-lg-6 col-lg-offset-3">
-                    <div class="tab-content">
-                        <table class="table table-bordered table-hover text-left larastable">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="table-responsive">
+                        <table class="table table-bordered col-md-10 larastable text-left">
                             @if(count($contacts) > 0)
                                 <tr>
                                     <th class="text-center">Personne</th>
@@ -99,20 +98,16 @@
                 </div>
             </div>
             <div class="row content-box text-center">
-                <div class="col-lg-6 col-lg-offset-3">
-                    <div class="container-fluid">
+                <div class="col-lg-8 col-lg-offset-2">
                         <div class="table-responsive">
                             @include ('internships.internshipslist',['iships' => $iships])
                         </div>
-                    </div>
                 </div>
             </div>
             <div class="row content-box text-center">
-                <div class="col-lg-6 col-lg-offset-3">
-                    <div class="container-fluid">
-                        <div class="table-responsive">
-                            @include ('remarks.remarkslist',['remarks' => $remarks])
-                        </div>
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="table-responsive">
+                        @include ('remarks.remarkslist',['remarks' => $remarks])
                     </div>
                 </div>
             </div>
