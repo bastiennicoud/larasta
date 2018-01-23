@@ -116,7 +116,6 @@ Route::post('/reconstages/reconmade', 'ReconStagesController@reconStages');
 // Nicolas - Documents
 Route::get('/documents', 'DocumentsController@index');
 
-
 // Davide
 Route::get('/listPeople', 'PeopleControlleur@index');
 Route::post('/listPeople/category', 'PeopleControlleur@category');
