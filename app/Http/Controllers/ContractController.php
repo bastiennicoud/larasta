@@ -25,7 +25,8 @@ class ContractController extends Controller
     public function generateContract($iid)
     {
         $iDate = $this->getStageDate($iid);
-        return view('contract/contractGenerate')->with(['iDate' => $iDate, 'iid' => $iid]);
+        $contract = $this->getContract($iid);
+        return view('contract/contractGenerate')->with(['iDate' => $iDate, 'iid' => $iid, 'contract' => $contract]);
     }
 
     public function visualizeContract($iid, Request $request)

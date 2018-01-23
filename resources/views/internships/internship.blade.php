@@ -47,7 +47,7 @@
             <button class="btn-primary">Générer le contrat</button>
         </a>
     @else
-        <a href="/contract/{{ $iship->id }}/view">
+        <a href="/contract/{{ $iship->id }}">
             <button class="btn-secondary">Voir le contrat</button>
         </a>
     @endif

@@ -9,16 +9,23 @@
 @extends ('layout')
 
 @section ('content')
-    <h1>View contract</h1>
+    <div class="container-fluid">
+        <h1>Visualisation de contract</h1>
 
-    <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-    <script>tinymce.init({ selector:'textarea' });</script>
+        <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+        <script>
+            tinymce.init({
+                selector:'textarea',
+                height: "600"
+            });
+        </script>
 
-    <form method="post" action="/contract/{{$iid}}/save">
-        {{ csrf_field() }}
-        <textarea name="contractText">{{$contract[0]->contractText}}</textarea>
-        <button>Valider</button>
-    </form>
+        <form id="contractEditor" method="post" action="/contract/{{$iid}}/save">
+            {{ csrf_field() }}
+            <textarea name="contractText">{{$contract[0]->contractText}}</textarea>
+            <br><button>Valider</button>
+        </form>
+    </div>
 
 
 @stop
