@@ -1,6 +1,8 @@
-<!-- *********************************** -->
-<!-- Bastien Nicoud                      -->
-<!-- Evaluation grid home                -->
+{{--
+Bastien Nicoud
+
+This view is only for dev.. Not used in prod, you can easily delete it
+--}}
 
 
 @extends ('layout')

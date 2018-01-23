@@ -2,7 +2,8 @@
 /**
  * MaxGridGrade
  * 
- * This class contains custom validation code for the grade field in the evaluation grid
+ * This class contains custom validation rule for the grade field in the evaluation grid
+ * He check the max value accepted in the field
  * 
  * Bastien Nicoud
  * v1.0.0

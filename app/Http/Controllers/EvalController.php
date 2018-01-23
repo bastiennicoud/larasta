@@ -6,8 +6,13 @@
  * v1.0.0
  * 
  * FIXME:
- * - Spaces inserted on textareas on create or edit ???
- * - Layout error list (display the errors per sections, or per field)
+ * - Multiple spaces inserted on textareas on create or edit ???
+ * 
+ * IMPROVMENTS:
+ * - Display the validation errors in a better way (per sections errors or per field errors)
+ * - Get the errors messages from the lang file
+ * - Use Policies to authorise the actions (to avoid checking authorisation in the controller)
+ * - Move the getEvalState method in the concerned model
  */
 
 
