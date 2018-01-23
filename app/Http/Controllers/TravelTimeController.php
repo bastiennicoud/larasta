@@ -2,19 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
-use CPNVEnvironment\Environment;
+use Illuminate\Support\Facades\DB;      // For Get/insert/update record in DB
+use CPNVEnvironment\Environment;        // For get the information of current user
 
 /// Author : Kevin Jordil 2018
 
 /// This controller manage all functions needed to display TravelTime
-/// Work only for 10 persons max go to checks persons to remove that
+/// Work only for 10 persons max
+/// If you want to see all students go to "checkPersons" function and follow the instructions
 class TravelTimeController extends Controller
 {
     protected $message; // a message to display - if defined - in views
     protected $unknowChar = "0"; // unknow char is when the time is unknow, define this char
     protected $limitElementGoogle = 10; // Maximum d'element requete google
     protected $transportMode = "transit"; // transport mode for Google API request (transit, driving, walking or bicycling)
+
+    // CSS color class
+    protected $cssClass1 = "color1";
+    protected $cssClass2 = "color2";
+    protected $cssClass3 = "color3";
+    protected $cssClass4 = "color4";
+    protected $cssClass5 = "color5";
 
     /// Calculate the traveltime for a class and add it to Database
     public function calculate($flockId){
@@ -35,7 +43,10 @@ class TravelTimeController extends Controller
         $persons = $this->getPersonsDB($flockId); // Get persons from DB
         $persons = $this->checkPersons($persons); // Check if persons have empty locations and delete it
 
-        $travelTimes = $this->getTravelTime($companies, $persons, $this->transportMode); // Get info with Google
+        $origins = $this->splitArray($companies, $this->limitElementGoogle);
+        $destinations = $this->splitArray($persons, $this->limitElementGoogle);
+
+        $travelTimes = $this->getTravelTime($this->transportMode, $origins, $destinations); // Get info with Google
         $error = $this->checkGoogleAPI($travelTimes); // Check if Google result is OK or if get error
 
         if($error != null){ //if we get error return page with Google message
@@ -47,8 +58,8 @@ class TravelTimeController extends Controller
             );
         }
 
-        $times = $this->extractTimes($travelTimes); // extract times from Google result
-        $this->addDataDB($times, $companies, $persons); // add extrated data to DB
+        $times = $this->extractTimes($travelTimes, $origins, $destinations); // extract times from Google result
+        //$this->addDataDB($times, $companies, $persons); // add extrated data to DB
 
         $colors = $this->colorTimes($times); // define class color for times
 
@@ -120,14 +131,10 @@ class TravelTimeController extends Controller
 
     }
 
-
     /// Get Travel by Google API
     /// Return an array with all JSON from google API Distance matrix
-    public function getTravelTime($companies, $persons, $mode){
+    public function getTravelTime($mode, $origins, $destinations){
 
-
-        $origins = $this->splitArray($companies, $this->limitElementGoogle);
-        $destinations = $this->splitArray($persons, $this->limitElementGoogle);
 
         // GET Date of tommorow 8 o'clock in seconds
         $timestamp = $this->getTimestamp();
@@ -139,7 +146,7 @@ class TravelTimeController extends Controller
             foreach ($origins as $origin){
 
 
-                $url="https://maps.googleapis.com/maps/api/distancematrix/json?origins=".$origin."&destinations=".$destination."&mode=".$mode."&arrival_time=".$timestamp."&key=AIzaSyCYfkY8OVyYfcB4rHGPOl_MaGotRGN6PLs"; //.$_ENV['API_GOOGLE_MAP'];
+                $url="https://maps.googleapis.com/maps/api/distancematrix/json?origins=".$origin."&destinations=".$destination."&mode=".$mode."&arrival_time=".$timestamp."&key=".$_ENV['API_GOOGLE_MAP'];
                 $json = file_get_contents($url);
                 $actualTravel = json_decode($json, true);
                 array_push($travelTime, $actualTravel);
@@ -180,33 +187,38 @@ class TravelTimeController extends Controller
 
     /// Extract times from PHP array and return an array
     /// Work only when we have 10 persons
-    public function extractTimes($travelTimes){
+    public function extractTimes($travelTimes, $origins, $destinations){
         $times = array();
+
 
         // Order array
         $tempCol = collect($travelTimes);
-        $tempCol = $tempCol->sortByDesc('destination_addresses');
-        $travelTimes = $tempCol->sortByDesc('rows')->all();
+        $travelTimes = $tempCol->sortByDesc('origin_addresses')->all();
+
+
 
 
         // Go in the json result take all the times and put it in an array
-        // Try to work with more than 10 persones but not work actually
+        // Not work with more than 10 persons
         $alreadyChecked = array();
         foreach($travelTimes as $key => $travelTime){
             if(!in_array($key, $alreadyChecked)){
-                if(count($travelTime["origin_addresses"]) < $this->limitElementGoogle){
-                    foreach ($travelTime["rows"] as $row){
-                        foreach ($row["elements"] as $element){
-                            if (isset($element["duration"]["value"])) {
-                                array_push($times, round($element["duration"]["value"]/60));
-                            }
-                            else{
-                                array_push($times, $this->unknowChar);
-                            }
+
+                foreach ($travelTime["rows"] as $row){
+                    foreach ($row["elements"] as $element){
+                        if (isset($element["duration"]["value"])) {
+                            array_push($times, round($element["duration"]["value"]/60));
+                        }
+                        else{
+                            array_push($times, $this->unknowChar);
                         }
                     }
+                }
+
+                if(count($travelTime["origin_addresses"]) < $this->limitElementGoogle){
+
                     for($i=$key+1;$i<count($travelTimes);$i++){
-                        if(count($travelTimes[$i]["origin_addresses"])==count($travelTime["origin_addresses"])){
+                        if(count($travelTimes[$i]["destination_addresses"])==count($travelTime["origin_addresses"])){
                             array_push($alreadyChecked, $i);
 
                             foreach ($travelTimes[$i]["rows"] as $row){
@@ -222,25 +234,18 @@ class TravelTimeController extends Controller
                         }
                     }
                 }
-                else{
-                    foreach ($travelTime["rows"] as $row){
-                        foreach ($row["elements"] as $element){
-                            if (isset($element["duration"]["value"])) {
-                                array_push($times, round($element["duration"]["value"]/60));
-                            }
-                            else{
-                                array_push($times, $this->unknowChar);
-                            }
-                        }
-                    }
-                }
+
             }
         }
+
         return $times;
     }
 
     /// Control Persons, delete empty lat lng user
     /// ACTUALLY MAX 10 PERSONS
+    ///
+    /// IF YOU WANT MORE PERSONS REMOVE "or $key>8" AND THE PROGRAM TAKE ALL PERSONS
+    ///
     public function checkPersons($persons){
         foreach($persons as $key  => $person) {
             if ($person->lat == null or $person->lng == null or $key>8) {
@@ -286,19 +291,19 @@ class TravelTimeController extends Controller
                         $colors[$key] = "";
                         break;
                     case $time < $range1:
-                        $colors[$key] = "color1";
+                        $colors[$key] = $this->cssClass1;
                         break;
                     case $time < $range2:
-                        $colors[$key] = "color2";
+                        $colors[$key] = $this->cssClass2;
                         break;
                     case $time < $range3:
-                        $colors[$key] = "color3";
+                        $colors[$key] = $this->cssClass3;
                         break;
                     case $time < $range4:
-                        $colors[$key] = "color4";
+                        $colors[$key] = $this->cssClass4;
                         break;
                     case $time <= $range5:
-                        $colors[$key] = "color5";
+                        $colors[$key] = $this->cssClass5;
                         break;
                     default:
                         $colors[$key] = "";
@@ -320,7 +325,7 @@ class TravelTimeController extends Controller
 
     /// Check if the actual user have access to this page
     public function haveAccess(){
-        // !!!!!!!!!!!! Test Value !!!!!!!!!!!!!!!!!!!!!!!!!!
+        // !!!!!!!!!!!! Dev Value !!!!!!!!!!!!!!!!!!!!!!!!!!
         $currentUserTest = Environment::currentUser();
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -347,46 +352,36 @@ class TravelTimeController extends Controller
                     ->first();
 
                 if($times[$i] != $this->unknowChar) {
-                    if(!$exists){
-                        DB::table('wishes')->insert([
-                            ['internships_id' => $company->internships_id,
-                                'persons_id' => $person->id,
-                                'rank' => 0,
-                                'workPlaceDistance' => 0,
-                                'travelTime' => $times[$i],
-                                'application' => 1
-                                ]
-                        ]);
-                    }
-                    else{
-                        DB::table('wishes')
-                            ->where('wishes.persons_id', $person->id)
-                            ->where('wishes.internships_id', $company->internships_id)
-                            ->update(['wishes.travelTime' => $times[$i]]);
-                    }
+                    $this->insertUpdateDB($times[$i], $exists, $company, $person);
                 }
                 else{
-                    if(!$exists){
-                        DB::table('wishes')->insert([
-                            ['internships_id' => $company->internships_id,
-                                'persons_id' => $person->id,
-                                'rank' => 0,
-                                'workPlaceDistance' => 0,
-                                'travelTime' => $this->unknowChar,
-                                'application' => 1
-                            ]
-                        ]);
-                    }
-                    else{
-                        DB::table('wishes')
-                            ->where('wishes.persons_id', $person->id)
-                            ->where('wishes.internships_id', $company->internships_id)
-                            ->update(['wishes.travelTime' => $this->unknowChar]);
-                    }
+                    $this->insertUpdateDB($this->unknowChar, $exists, $company, $person);
                 }
                 $i++;
             }
         }
+    }
+
+    /// Check if record exist if yes update otherwise insert it
+    public function insertUpdateDB($traveltime, $exist, $company, $person){
+        if(!$exist){
+            DB::table('wishes')->insert([
+                ['internships_id' => $company->internships_id,
+                    'persons_id' => $person->id,
+                    'rank' => 0,
+                    'workPlaceDistance' => 0,
+                    'travelTime' => $traveltime,
+                    'application' => 1
+                ]
+            ]);
+        }
+        else{
+            DB::table('wishes')
+                ->where('wishes.persons_id', $person->id)
+                ->where('wishes.internships_id', $company->internships_id)
+                ->update(['wishes.travelTime' => $traveltime]);
+        }
+
     }
 
     /// Get companies infos from Database

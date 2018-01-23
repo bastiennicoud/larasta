@@ -1,11 +1,12 @@
 {{--
 Author : Kevin Jordil
+Last update : 23.01.18 by Kevin Jordil
 
-If this view get
-$persons
-$companies
-$times
-$colors
+If this view get :
+    $persons
+    $companies
+    $times
+    $colors
 
 Display an array with all elements
 --}}
@@ -28,11 +29,11 @@ Display an array with all elements
         {{ csrf_field() }}
         <button type="submit" class="btn">Retour</button>
     </form>
-    @if ($error)
+    @if ($error) {{-- If error is true display the message --}}
 
         <div class="alert alert-danger"><h4>Erreur : {{ $message }}</h4></div>
 
-    @elseif (isset($persons) & isset($companies) & isset($times))
+    @elseif (isset($persons) & isset($companies) & isset($times)) {{-- if persons, companies and times are define, display the table with information --}}
 
         <div class="row">
             <table class="table-bordered col-md-9">
@@ -46,8 +47,8 @@ Display an array with all elements
                 @foreach ($companies as $key => $company)
                     <tr>
                         <td>{{ $company->companyName }}</td>
-                        @for($i = $key*count($persons) ; $i < ($key*count($persons))+count($persons); $i++)
-                            <td class="{{ $colors[$i] }}">{{ $times[$i] }}</td>
+                        @for($i = $key*count($persons) ; $i < ($key*count($persons))+count($persons); $i++) {{-- take the id of actual company multiple by the number of persons to the same number plus the number of persons --}}
+                            <td class="{{ $colors[$i] }}">{{ $times[$i] }}</td> {{-- color have same index of times array --}}
                         @endfor
                     </tr>
                 @endforeach
