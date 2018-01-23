@@ -11,10 +11,10 @@
 
 namespace App\Http\Controllers;
 
+use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use PDF;
 
 class ContractController extends Controller
 {
@@ -202,7 +202,14 @@ class ContractController extends Controller
 
         if ($request->pdf == 'pdf')
         {
-            // generate pdf
+            // erreur lors de l'instanciation de DomPdf
+            // "Call to undefined method Dompdf\Dompdf::isDeferred()"
+            // Personne sur internet ne semble avoir rencontré ce problème...
+
+            $pdf = new Dompdf();
+            //$pdf->loadHtml($request->contractText);
+            //$pdf->render();
+            //$pdf->stream();
         }
 
         return $this->generateContract($iid);
