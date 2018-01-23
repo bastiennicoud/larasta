@@ -8,6 +8,7 @@ use CPNVEnvironment\Environment;
 /// Author : Kevin Jordil 2018
 
 /// This controller manage all functions needed to display TravelTime
+/// Work only for 10 persons max go to checks persons to remove that
 class TravelTimeController extends Controller
 {
     protected $message; // a message to display - if defined - in views
@@ -239,9 +240,10 @@ class TravelTimeController extends Controller
     }
 
     /// Control Persons, delete empty lat lng user
+    /// ACTUALLY MAX 10 PERSONS
     public function checkPersons($persons){
         foreach($persons as $key  => $person) {
-            if ($person->lat == null or $person->lng == null) {
+            if ($person->lat == null or $person->lng == null or $key>8) {
                 unset($persons[$key]);
             }
         }
