@@ -1,11 +1,16 @@
 @extends ('layout') @section ('content')
 
 <div class="row">
-	<div class="col-lg-1 col-lg-offset-4">
+	<div class="">
 		<h1>Synchronisation</h1>
 	</div>
 </div>
-<form method="POST" action="/synchro/modify">
+<div class="row">
+	<div class="alert alert-info messageLoading">
+		<h4>Veuillez patienter</h4>
+	</div>
+</div>
+<form method="POST" action="/synchro/modify" class="formModify">
 	{{ csrf_field() }}
 	<div class="row">
 		<div class="col-lg-1 col-md-2 col-xl-2 col-md-offset-2 col-lg-offset-4 col-offset-xl-2 modify-buttons">

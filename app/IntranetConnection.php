@@ -3,8 +3,8 @@
  * Title : IntranetConnection.php
  * Author : Steven Avelino
  * Creation Date : 20 December 2017
- * Modification Date : 19 January 2018
- * Version : 0.4
+ * Modification Date : 23 January 2018
+ * Version : 1.0
  * Model to get informations from the intranet API
 */
 
@@ -47,52 +47,44 @@ class IntranetConnection
      * When the curl request is done, it puts the returned datas in the right attribute and closes the curl connection.
      * 
      * 
-     * @param $type The type of datas we want to get (ex. students)
      * @return array
      */
-    public function __construct($type)
+    public function __construct()
     {
+        /// Create an associative array with the url and their parameters to create the signature
+        $urlArray = ["http://intranet.cpnv.ch/info/etudiants.json?alter[extra]=current_class&api_key=" => "alter[extra]current_classapi_key",
+                     "http://intranet.cpnv.ch/info/enseignants.json?api_key=" => "api_key",
+                     "http://intranet.cpnv.ch/classes.json?api_key=" => "api_key"];
+
         $connection = curl_init();
 
-        if ($type == "students")
+        foreach ($urlArray as $url => $urlSign)
         {
-            $url = "http://intranet.cpnv.ch/info/etudiants.json?alter[extra]=current_class&api_key=";
-            $urlSign = "alter[extra]current_classapi_key";
-        }
-        else if ($type == "teachers")
-        {
-            $url = "http://intranet.cpnv.ch/info/enseignants.json?api_key=";
-            $urlSign = "api_key";
-        }
-        else if ($type == "classes")
-        {
-            $url = "http://intranet.cpnv.ch/classes.json?api_key=";
-            $urlSign = "api_key";
-        }
+            curl_setopt_array($connection, [
+                CURLOPT_URL => $url . getenv('API_KEY') . "&signature=" . $this->generateSignature($urlSign),
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "GET",
+                CURLOPT_HTTPHEADER => [
+                    "cache-control: no-cache"
+                ],
+            ]);
 
-        curl_setopt_array($connection, [
-            CURLOPT_URL => $url . getenv('API_KEY') . "&signature=" . $this->generateSignature($urlSign),
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => [
-                "cache-control: no-cache"
-            ],
-        ]);
+            $response = curl_exec($connection);
 
-        $response = curl_exec($connection);
-        if ($type == "students")
-        {
-            $this->studentsList = json_decode($response, true);
-        }
-        else if ($type == "teachers")
-        {
-            $this->teachersList = json_decode($response, true);
-        }
-        else if ($type == "classes")
-        {
-            $this->classesList = json_decode($response, true);
+            if (strpos($url, "etudiants") !== false)
+            {
+                $this->studentsList = json_decode($response, true);
+            }
+            else if (strpos($url, "enseignants") !== false)
+            {
+                $this->teachersList = json_decode($response, true);
+            }
+            else if (strpos($url, "classes") !== false)
+            {
+                $this->classesList = json_decode($response, true);
+            }
         }
 
         curl_close($connection);

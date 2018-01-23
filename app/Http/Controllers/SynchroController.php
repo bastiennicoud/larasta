@@ -3,7 +3,7 @@
  * Title : SynchroController.php
  * Author : Steven Avelino
  * Creation Date : 12 December 2017
- * Modification Date : 19 January 2018
+ * Modification Date : 23 January 2018
  * Version : 0.4
  * Controller for the Synchronisation between the intranet API and this application database
 */
@@ -14,13 +14,16 @@ namespace App\Http\Controllers;
  * We use 3 models in this controller
  * IntranetConnection : Model for the connection to the intranet API. We retrieve the students, teachers and classes.
  * Persons : Eloquent model for the table "persons" in the MySQL database.
- * Flock : Eloquent model for the table "flocks" in the MySQL database. 
+ * Flock : Eloquent model for the table "flocks" in the MySQL database.
+ * 
+ * Use of Carbon to handle dates easily
 */
 use App\IntranetConnection as Connection;
 use Illuminate\Http\Request;
 use CPNVEnvironment\Environment;
 use App\Persons;
 use App\Flock;
+use Carbon\Carbon;
 
 class SynchroController extends Controller
 {
@@ -105,7 +108,7 @@ class SynchroController extends Controller
             $person = Persons::where('intranetUserId', $this->newPersons[$personIndex]['id'])->where('role', 0)->first();
             /// Split the string returned by the intranet API for the date the person was updated on to get the starting year
             $dateSplit = explode('-', $this->newPersons[$personIndex]['updated_on']);
-            $flockId = $this->checkFlock($dateSplit[0], $this->newPersons[$personIndex]['current_class']['link']['name']);
+            $flockId = $this->checkFlock($this->newPersons[$personIndex]['current_class']['link']['name']);
 
             $person->flock_id = $flockId;
 
@@ -138,8 +141,15 @@ class SynchroController extends Controller
             if ($classe['name'] == $className)
             {
                 if ($classe['master'] != null) {
-                    $person = Persons::where('intranetUserId', $classe['master']['link']['id'])->first();
-                    $flock->classMaster_id = $person->id;
+                    if (Persons::where('intranetUserId', $classe['master']['link']['id'])->exists())
+                    {
+                        $person = Persons::where('intranetUserId', $classe['master']['link']['id'])->first();
+                        $flock->classMaster_id = $person->id;
+                    }
+                    else
+                    {
+                        $flock->classMaster_id = null;
+                    }
                 }
             }
         }
@@ -156,25 +166,24 @@ class SynchroController extends Controller
      * This method will check if a class for a student exists and will return the id to put in the "flock_id" of the person in the database
      * If the class doesn't exist, it will call the "addFlock" method to create it.
      * 
-     * @param $startYear Year when the class started
      * @param $className Name of the class
      * 
      * @return int
      */
-    public function checkFlock($startYear, $className)
+    public function checkFlock($className)
     {
-        /*$dateSys = date('Y-M-D');
-        $classSplit = str_split($className);
-        $classYear = intval($classSplit[4]);
+        $todayDate = Carbon::today();
 
-        if ($dateSys->format('M') >= 8)
+        $classYear = str_split($className);
+
+        if ($todayDate->month >= 8)
         {
-            $startYear = $dateSys->format('Y') - $classYear;
+            $startYear = $todayDate->year - intval($classYear[4]);
         }
         else
         {
-            $startYear = $dateSys->format('Y') - $classYear - 1;
-        }*/
+            $startYear = $todayDate->year - intval($classYear[4]) - 1;
+        }
 
         if (Flock::where('startYear', $startYear)->exists())
         {
@@ -261,17 +270,15 @@ class SynchroController extends Controller
     {
         $dbStudents = Persons::all();
         $dbStudents = $dbStudents->sortBy('lastname');
-        $intranetStudents = new Connection("students");
-        $intranetTeachers = new Connection("teachers");
-        $intranetClasses = new Connection("classes");
-        $this->classesList = $intranetClasses->getClasses();
-        $studentsList = $intranetStudents->getStudents();
-        $teachersList = $intranetTeachers->getTeachers();
+        $intranetDatas = new Connection();
+        $this->classesList = $intranetDatas->getClasses();
+        $studentsList = $intranetDatas->getStudents();
+        $teachersList = $intranetDatas->getTeachers();
         $personsList = array_merge($studentsList, $teachersList);
 
         foreach($dbStudents as $student)
         {
-            /// We check if the person exists with the unique intranet user id
+            /// Check if the person exists with the unique intranet user id
             if(in_array($student->intranetUserId, array_column($personsList, 'id')))
             {
                 array_push($this->goodPersons, $student);
@@ -293,6 +300,7 @@ class SynchroController extends Controller
             }
         }
 
+        /// Simple function to sort the JSON returned by the API by lastname
         usort($this->newPersons,function($a,$b) {return strnatcasecmp($a['lastname'],$b['lastname']);});
     }
 
