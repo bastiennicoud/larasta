@@ -46,7 +46,7 @@
             <td><a href="/wishesMatrix"><img alt="Places" src="/images/wishes.png">Souhaits</a></td>
         </tr>
         <tr>
-            <td><a href="/about"><img alt="Documents" src="/images/documents.png">Documents</a></td>
+            <td><a href="/documents"><img alt="Documents" src="/images/documents.png">Documents</a></td>
         </tr>
         @if (CPNVEnvironment\Environment::currentUser()->getLevel() > 1)
             <tr>

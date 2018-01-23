@@ -87,8 +87,8 @@ class InternshipsController extends Controller
                 ->join('persons as intresp', 'responsible_id', '=', 'intresp.id')
                 ->join('persons as student', 'intern_id', '=', 'student.id')
                 ->join('contractstates', 'contractstate_id', '=', 'contractstates.id')
-                ->join('flocks','student.flock_id','=','flocks.id')
-                ->join('persons as mc','classMaster_id','=','mc.id')
+                ->join('flocks', 'student.flock_id', '=', 'flocks.id')
+                ->join('persons as mc', 'classMaster_id', '=', 'mc.id')
                 ->select(
                     'internships.id',
                     'beginDate',
@@ -109,25 +109,86 @@ class InternshipsController extends Controller
         else
             $iships = array();
 
-        // Mark unwanteds because not mine
-        if ($ifilter->getMine())
-            for ($i=0; $i < count($iships); $i++)
-                if ($iships[$i]->mcid != Environment::currentUser()->getId())
-                    $iships[$i]->id = -1;
+        switch ($ifilter->getMine() * 2 + $ifilter->getInProgress())
+        {
+            case 1:
+                $keepOnly = self::getCurrentInternships();
+                break;
+            case 2:
+                $keepOnly = self::getMyInternships();
+                break;
+            case 3:
+                $keepOnly = self::getMyCurrentInternships();
+        }
 
-        // Mark unwanteds because not current
-        if ($ifilter->getInProgress())
-            for ($i=0; $i < count($iships); $i++)
-                if ($iships[$i]->beginDate > date('Y-m-d') || $iships[$i]->endDate < date('Y-m-d'))
-                    $iships[$i]->id = -1;
-
-        // Pack result: rebuild array skipping unwanteds
-        $finallist = array();
-        foreach($iships as $iship)
-            if ($iship->id > 0)
-                $finallist[] = $iship;
+        if (isset($keepOnly))
+        {
+            $finallist = array();
+            foreach ($iships as $iship)
+                if (array_search($iship->id, $keepOnly))
+                    $finallist[] = $iship;
+        } else
+            $finallist = $iships;
 
         return view('internships/internships')->with('iships', $finallist)->with('filter', $ifilter);
+    }
+
+    /**
+     * Returns a list (array of ids, sorted ascending) of internships where the current user was MC
+     */
+    public static function getMyInternships()
+    {
+        $iships = DB::table('internships')
+            ->join('persons as student', 'intern_id', '=', 'student.id')
+            ->join('flocks', 'student.flock_id', '=', 'flocks.id')
+            ->join('persons as mc', 'classMaster_id', '=', 'mc.id')
+            ->select('internships.id')
+            ->where('mc.intranetUserId', '=', $me = Environment::currentUser()->getId())
+            ->orderBy('internships.id', 'asc')
+            ->get();
+        $res = array();
+        foreach ($iships as $iship) $res[] = $iship->id;
+        return $res;
+    }
+
+    /**
+     * Returns a list (array of ids, sorted ascending) of internships that are in progress
+     */
+    public static function getCurrentInternships()
+    {
+        $iships = DB::table('internships')
+            ->select('internships.id')
+            ->where([
+                ['beginDate', '<=', date('Y-m-d')],
+                ['endDate', '>=', date('Y-m-d')],
+            ])
+            ->orderBy('internships.id', 'asc')
+            ->get();
+        $res = array();
+        foreach ($iships as $iship) $res[] = $iship->id;
+        return $res;
+    }
+
+    /**
+     * Returns a list (array of ids, sorted ascending) of internships that are in progress and where the current user is MC
+     */
+    public static function getMyCurrentInternships()
+    {
+        $iships = DB::table('internships')
+            ->join('persons as student', 'intern_id', '=', 'student.id')
+            ->join('flocks', 'student.flock_id', '=', 'flocks.id')
+            ->join('persons as mc', 'classMaster_id', '=', 'mc.id')
+            ->select('internships.id')
+            ->where([
+                ['beginDate', '<=', date('Y-m-d')],
+                ['endDate', '>=', date('Y-m-d')],
+                ['mc.intranetUserId', '=', Environment::currentUser()->getId()]
+            ])
+            ->orderBy('internships.id', 'asc')
+            ->get();
+        $res = array();
+        foreach ($iships as $iship) $res[] = $iship->id;
+        return $res;
     }
 
     public function edit($iid)
@@ -158,7 +219,7 @@ class InternshipsController extends Controller
                 'contractstate_id',
                 'contractGenerated',
                 'stateDescription')
-            ->where('internships.id','=', $iid)
+            ->where('internships.id', '=', $iid)
             ->first();
 
         return view('internships/internship')->with('iship', $iship);
