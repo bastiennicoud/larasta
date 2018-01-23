@@ -4,6 +4,21 @@
 * Bastien Nicoud
 */
 
+/* Hide elements on print */
+@media print {
+  #side-menu {
+    display: none !important;
+  }
+}
+
+#evaluation-grid {
+  margin: 40px auto;
+}
+
+.gridtable-bottom {
+  margin-bottom: 100px;
+}
+
 .evalgrid {
 
   border: none;

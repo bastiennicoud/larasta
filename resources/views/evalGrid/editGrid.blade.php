@@ -23,11 +23,9 @@ $level
 
 @section ('content')
 
-<div class="container">
+<div id="evaluation-grid" class="container">
 
-    <h1>Grille d'évaluation</h1>
-
-    <h3>ID de la grille d'evaluation : {{ $gridID }}</h3>
+    <h1>Grille d'évaluation de stage :</h1>
 
     {{--  Contains all the grid  --}}
     <div class="grid">
@@ -97,8 +95,6 @@ $level
                     {{--  SECTION TYPE 1  --}}
                     @if ($evalSection->sectionType == 1)
 
-                        <h4>Section de type 1</h4>
-
                         <thead>
 
                             <tr>
@@ -121,7 +117,7 @@ $level
 
                                     @if ($mode == 'readonly')
 
-                                        <td>{{ $criteria->criteriaValue->points }}</td>
+                                        <td>{{ $criteria->criteriaValue->points }}<small> / {{ $criteria->maxPoints }}</small></td>
                                         <td>{{ $criteria->criteriaValue->managerComments }}</td>
 
                                     @elseif ($mode == 'edit')
@@ -137,6 +133,7 @@ $level
                                                     type="number"
                                                     name="{{ $criteria->criteriaValue->id }}[grade]"
                                                     value="{{ old($criteria->criteriaValue->id . '.grade') ? old($criteria->criteriaValue->id . '.grade') : $criteria->criteriaValue->points }}">
+                                                <p><small> / {{ $criteria->maxPoints }}</small></p>
                                             </td>
                                             <td>
                                                 <textarea class="evalgrid textarea" name="{{ $criteria->criteriaValue->id }}[mComm]">
@@ -144,7 +141,7 @@ $level
                                                 </textarea>
                                             </td>
                                         @else
-                                            <td><p>{{ $criteria->criteriaValue->points }}</p></td>
+                                            <td><p>{{ $criteria->criteriaValue->points }} / {{ $criteria->maxPoints }}</p></td>
                                             <td>{{ $criteria->criteriaValue->managerComments }}</td>
                                         @endif
                                         
@@ -168,8 +165,6 @@ $level
                     {{--  --------------  --}}
                     {{--  SECTION TYPE 2  --}}
                     @elseif ($evalSection->sectionType == 2)
-
-                        <h4>Section de type 2</h4>
 
                         <thead>
 
@@ -238,8 +233,6 @@ $level
                     {{--  --------------  --}}
                     {{--  SECTION TYPE 3  --}}
                     @elseif ($evalSection->sectionType == 3)
-
-                        <h4>Section de type 3</h4>
 
                         <thead>
 
@@ -313,8 +306,8 @@ $level
 
                     {{--  Admin and teacher buttons  --}}
 
-                    <button class="btn btn-info" type="submit" name="submit" value="save">Enregistrer la grille</button>
-                    <button class="btn btn-danger" type="submit" name="submit" value="checkout">Valider définitivement la grille</button>
+                    <button class="btn btn-lg btn-info" type="submit" name="submit" value="save">Enregistrer la grille</button>
+                    <button class="btn btn-lg btn-danger" type="submit" name="submit" value="checkout">Valider définitivement la grille</button>
                 
                 @elseif ($level == 0)
 

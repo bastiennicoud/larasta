@@ -4,6 +4,11 @@
  * 
  * Bastien Nicoud
  * v1.0.0
+ * 
+ * FIXME:
+ * - Spaces inserted on textareas on create or edit ???
+ * - Layout error list
+ * - Layout dispay per field error
  */
 
 
