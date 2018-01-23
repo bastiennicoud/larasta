@@ -7,9 +7,7 @@
  * 
  * FIXME:
  * - Spaces inserted on textareas on create or edit ???
- * - Layout error list
- * - Layout dispay per field error
- * - Float grades are save to integers
+ * - Layout error list (display the errors per sections, or per field)
  */
 
 

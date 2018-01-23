@@ -98,7 +98,7 @@ $level
                         <thead>
 
                             <tr>
-                                <th class="gridform w20"><p data-section="{{ $evalSection->id }}">{{ $evalSection->sectionName }} :</p></th>
+                                <th class="gridform w20"><p>{{ $evalSection->sectionName }} :</p></th>
                                 <th class="gridform w20">Observations attendues</th>
                                 <th class="gridform w10">Points</th>
                                 <th class="gridform w50">Remarques personnalisées</th>
@@ -117,20 +117,32 @@ $level
 
                                     @if ($mode == 'readonly')
 
-                                        <td>{{ $criteria->criteriaValue->points }}<small> / {{ $criteria->maxPoints }}</small></td>
+                                        <td>
+                                            <p
+                                                class="gradeinput"
+                                                data-max-grade="{{ $criteria->maxPoints }}"
+                                                data-section-id="{{ $criteria->evaluationSection_id }}">
+                                                {{ $criteria->criteriaValue->points }}
+                                            </p>
+                                            <small> / {{ $criteria->maxPoints }}</small>
+                                        </td>
                                         <td>{{ $criteria->criteriaValue->managerComments }}</td>
 
                                     @elseif ($mode == 'edit')
 
                                         {{--  Display the inputs depending the user level  --}}
                                         @if ($level >= 0)
+
                                             {{--  For each fiels we create a name with the criteria id, and fill the value from the DB or from the old inpuf if the form is reloaded (after a validation fails)  --}}
                                             {{--  The data-max is used by the js to verifiy and display a live average of the grades  --}}
                                             <td>
                                                 <input
-                                                    class="evalgrid input"
+                                                    class="evalgrid input gradeinput"
                                                     type="number"
                                                     step="0.05"
+                                                    max="{{ $criteria->maxPoints }}"
+                                                    data-max-grade="{{ $criteria->maxPoints }}"
+                                                    data-section-id="{{ $criteria->evaluationSection_id }}"
                                                     name="{{ $criteria->criteriaValue->id }}[grade]"
                                                     value="{{ old($criteria->criteriaValue->id . '.grade') ? old($criteria->criteriaValue->id . '.grade') : $criteria->criteriaValue->points }}">
                                                 <p><small> / {{ $criteria->maxPoints }}</small></p>
@@ -140,9 +152,20 @@ $level
                                                     {{ old($criteria->criteriaValue->id . '.mComm') ? old($criteria->criteriaValue->id . '.mComm') : $criteria->criteriaValue->managerComments }}
                                                 </textarea>
                                             </td>
+
                                         @else
-                                            <td><p>{{ $criteria->criteriaValue->points }} / {{ $criteria->maxPoints }}</p></td>
+
+                                            <td>
+                                                <p
+                                                    class="gradeinput"
+                                                    data-max-grade="{{ $criteria->maxPoints }}"
+                                                    data-section-id="{{ $criteria->evaluationSection_id }}">
+                                                    {{ $criteria->criteriaValue->points }}
+                                                </p>
+                                                <small> / {{ $criteria->maxPoints }}</small>
+                                            </td>
                                             <td>{{ $criteria->criteriaValue->managerComments }}</td>
+
                                         @endif
                                         
                                     @endif
@@ -153,7 +176,7 @@ $level
                             <tr>
                                 <td colspan="2"><strong>Note pour les {{ $evalSection->sectionName }} :</strong></td>
                                 {{--  data-grades is used to transmit to the js the number of grades in the section (to calculate the avg)  --}}
-                                <td><p><strong class="evalgrid-grade" data-grades="{{ $evalSection->criterias->count() }}"></strong></p></td>
+                                <td><p class="evalgrid"><strong class="evalgrid-grade" data-section-id="{{ $evalSection->id }}"></strong><small> / 6</small></p></td>
                                 <td></td>
                             </tr>
 
