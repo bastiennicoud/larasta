@@ -30,7 +30,11 @@ class EntreprisesController extends Controller
             ->select('companies.id','companyName','address1','address2','postalCode','city')
             ->get();
 
-        return view('entreprises/entreprises')->with(['companies' => $companies, 'user' => $user]);
+        $eType = DB::table('contracts')
+            ->select('id', 'contractType')
+            ->get();
+
+        return view('entreprises/entreprises')->with(['companies' => $companies, 'user' => $user, 'contracts' => $eType]);
     }
 
 
@@ -62,6 +66,7 @@ class EntreprisesController extends Controller
     public function filter(Request $request)
     {
 
+
         switch ($request->type){
             case 1 :
                 $companies = DB::table('companies')
@@ -84,11 +89,16 @@ class EntreprisesController extends Controller
                     ->get();
                 break;
         }
+
+        $eType = DB::table('contracts')
+            ->select('id', 'contractType')
+            ->get();
+
         $user = Environment::currentUser();
 
 
 
-        return view('entreprises/entreprises')->with(['companies' => $companies, 'user' => $user, 'filtr' => $request->type]);
+        return view('entreprises/entreprises')->with(['companies' => $companies, 'user' => $user, 'filtr' => $request->type,  'contracts' => $eType]);
 
 
     }

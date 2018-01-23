@@ -49,7 +49,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <img style='width:32px;' src='/images/map.png' OnClick='window.location="http://maps.google.com/?q={{$companie->lat}},{{$companie->lng}}"'>
+                        <img style='width:32px;' src='/images/map.png' onMouseOver='document.body.style.cursor="pointer"' onMouseOut='document.body.style.cursor="default"' OnClick='window.location="http://maps.google.com/?q={{$companie->lat}},{{$companie->lng}}"'>
                     </div>
                 </div>
             @endforeach
@@ -128,8 +128,9 @@
                     <div class="col-lg-6 text-left">
                         Type de contrat :
                         <select name="ctype">
-                            <option value="3" @if($companie->contracts_id == 3) selected @endif>Entreprise</option>
-                            <option value="4" @if($companie->contracts_id == 4) selected @endif>Etat de Vaud</option>
+                            @foreach($contracts as $contract)
+                                <option value="{{$contract->id}}" @if($companie->contracts_id == $contract->id) selected @endif>{{$contract->contractType}}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>

@@ -9,29 +9,13 @@
 
 <div class="container-fluid">
     @if($user->getLevel() >= 2)
-
-
+            <br>
             <div class="header">
                 <div class="row">
-                    <div class="col-md-1 col-md-offset-11">
-                        <form method="post" id="ctype" action="/entreprises/filter">
-                            {{ csrf_field() }}
-
-                            <select name="type" id="Ctype">
-                                <option value="1">Tous</option>
-                                <option value="3" @if(isset($filtr) and $filtr==3) selected @endif>Entreprise</option>
-                                <option value="4" @if(isset($filtr) and $filtr==4) selected @endif>Etat de Vaud</option>
-                            </select>
-                        </form>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-md-1 text-left" id="insert">
-                        <i class="fa fa-plus-circle" aria-hidden="true" onMouseOver='document.body.style.cursor="pointer"' onMouseOut='document.body.style.cursor="default"' OnClick='addE()'></i>
-
+                        <i class="fa fa-plus-square-o" aria-hidden="true" onMouseOver='document.body.style.cursor="pointer"' onMouseOut='document.body.style.cursor="default"' OnClick='addE()'></i>
                     </div>
                 </div>
-
                 <div class="row">
                     <form method="post" action="/entreprises/add">
                         {{ csrf_field() }}
@@ -51,7 +35,20 @@
                     </form>
 
                 </div>
-            </div>
+                <div class="row">
+                    <div class="col-md-1">
+                        <form method="post" id="ctype" action="/entreprises/filter">
+                            {{ csrf_field() }}
+                            <select name="type" id="Ctype">
+                                <option>Tous</option>
+                                @foreach($contracts as $contract)
+                                    <option value="{{$contract->id}}" @if(isset($filtr) and $filtr==$contract->id) selected @endif>{{$contract->contractType}}</option>
+                                @endforeach
+                            </select>
+                        </form>
+                    </div>
+                </div>
+            </div><br>
 
      @endif
     <div class="body">
