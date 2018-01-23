@@ -3,7 +3,7 @@
 @section ('content')
     <a href="{{'/reconstages'}}">Reconduction page</a></br>
     <a href="#">Documents</a>
-    <h1>Nicolas Part</h1>
+    <h1>Reconduction effectuée</h1>
 
     <table>
         <tr>

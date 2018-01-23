@@ -70,7 +70,8 @@ class ReconStagesController extends Controller
             'responsible_id',
             'admin_id',
             'previous_id',
-            'internshipDescription')
+            'internshipDescription',
+            'contracts_id')
         ->get();
 
         return $internships;
@@ -111,8 +112,8 @@ class ReconStagesController extends Controller
         $endDate = null;
         $salary = 0;
         //get date from the table param in the function getParamByName()
-        $paramBeginDate[] = $this->getParamByName('intership1Start')->paramValueDate;
-        $paramBeginDate[] = $this->getParamByName('intership2Start')->paramValueDate;
+        $paramBeginDate[] = $this->getParamByName('internship1Start')->paramValueDate;
+        $paramBeginDate[] = $this->getParamByName('internship2Start')->paramValueDate;
         $paramEndDate[] = $this->getParamByName('internship1End')->paramValueDate;
         $paramEndDate[] = $this->getParamByName('internship2End')->paramValueDate;
         $newInternships = [];
@@ -141,19 +142,18 @@ class ReconStagesController extends Controller
                     }
                     // Salary
                     // Test if internship is from etat de vaud
-                    if($internship->companies_id == 26 || $internship->companies_id == 35 )
+                    if($internship->contracts_id == 4 )
                     {
                         // Add upgrade salary for trainee from Etat de Vaud
-                        $salary = $internship->grossSalary + $this->getParamByName('salaryUp')->paramValueInt;
+                        $salary = $this->getParamByName('internship2Start')->paramValueInt;
                     }
                     else
                     {
                         // Keep the previous salary
                         $salary = $internship->grossSalary;
                     }
-                    // !!!!!!!!!!!! Test !!!!!!!!!!!!!!
+                    // display value on reconmade
                     array_push($newInternships, $internship);
-                    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
                     // Insert in dataBase
                     $insert = [
