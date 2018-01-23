@@ -84,8 +84,8 @@ class ReconStagesController extends Controller
         $ids = [];
 
         foreach ($keys as $key => $value) {
-
             if ($key != '_token') {
+                // Push id user in ids array
                 array_push($ids, $value);
             }
         }
@@ -93,7 +93,6 @@ class ReconStagesController extends Controller
         
         $internships = $this->getInternships();
         $new = $this->displayRecon($ids, $internships);
-
 
         //return to the view reconstages
         return view('reconstages/reconstages')->with(
@@ -118,19 +117,21 @@ class ReconStagesController extends Controller
         $paramEndDate[] = $this->getParamByName('internship2End')->paramValueDate;
         $newInternships = [];
 
-
         foreach ($internships as $internship) {
             foreach($ids as $id){
                 if($internship->id==$id){
+                    // Switch for stage begin date
                     switch (date('m',strtotime($internship->beginDate))){
                         // february
                         case date('m',strtotime($paramBeginDate[0])):
+                        // Construct the date (begin, end) for the reconductible internship
                             $beginDate =  date('Y',strtotime($internship->beginDate)) . '-' . date('m-d',strtotime($paramBeginDate[1]));
                             $endDate = date('Y',strtotime($beginDate)) + 1 . '-' . date('m-d',strtotime($paramEndDate[1]));
                         break;
 
                         // September
                         case date('m',strtotime($paramBeginDate[1])):
+                        // Construct the date (begin, end) for the reconductible internship
                             $beginDate =  date('Y',strtotime($internship->beginDate)) + 1 . '-' . date('m-d',strtotime($paramBeginDate[0]));
                             $endDate = date('Y',strtotime($beginDate)) . '-' . date('m-d',strtotime($paramEndDate[0]));
                         break;
@@ -139,18 +140,23 @@ class ReconStagesController extends Controller
                             // do if the internship begin date is different of the 2 other case
                     }
                     // Salary
+                    // Test if internship is from etat de vaud
                     if($internship->companies_id == 26 || $internship->companies_id == 35 )
                     {
-                        $salary = $internship->grossSalary + 400;
+                        // Add upgrade salary for trainee from Etat de Vaud
+                        $salary = $internship->grossSalary + $this->getParamByName('salaryUp')->paramValueInt;
                     }
                     else
                     {
+                        // Keep the previous salary
                         $salary = $internship->grossSalary;
                     }
                     // !!!!!!!!!!!! Test !!!!!!!!!!!!!!
                     array_push($newInternships, $internship);
                     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    $insert[] = [
+
+                    // Insert in dataBase
+                    $insert = [
                         'companies_id'              => $internship->companies_id,
                         'beginDate'                 => $beginDate,
                         'endDate'                   => $endDate,
