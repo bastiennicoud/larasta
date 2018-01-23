@@ -2,6 +2,11 @@
  * EvalGrid specific js
  * 
  * Bastien Nicoud
+ * 
+ * TODO:
+ * - detect change
+ * - Get all the section criterias
+ * - Calculate the average
  */
 
 $(document).ready(function () {

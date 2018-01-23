@@ -129,8 +129,8 @@ $level
                                             <td>
                                                 <input
                                                     class="evalgrid input"
-                                                    data-max="{{ $criteria->maxPoints }}"
                                                     type="number"
+                                                    step="0.05"
                                                     name="{{ $criteria->criteriaValue->id }}[grade]"
                                                     value="{{ old($criteria->criteriaValue->id . '.grade') ? old($criteria->criteriaValue->id . '.grade') : $criteria->criteriaValue->points }}">
                                                 <p><small> / {{ $criteria->maxPoints }}</small></p>
