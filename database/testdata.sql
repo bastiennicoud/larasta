@@ -180,7 +180,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `params` WRITE;
 /*!40000 ALTER TABLE `params` DISABLE KEYS */;
-INSERT INTO `params` VALUES (1,'',NULL,NULL,NULL);
+INSERT INTO `params` VALUES (1,'reconductible',NULL,8,NULL),(2,'reconductible',NULL,9,NULL),(3,'reconductible',NULL,10,NULL),(4,'reconductible',NULL,12,NULL),(5,'intership1Start',NULL,NULL,'2000-02-01'),(6,'intership2Start',NULL,NULL,'2000-09-01');
 /*!40000 ALTER TABLE `params` ENABLE KEYS */;
 UNLOCK TABLES;
 
