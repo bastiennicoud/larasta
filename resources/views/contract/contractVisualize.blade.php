@@ -2,7 +2,7 @@
 /**
  * Author :         Quentin Neves
  * Created :        12.12.2017
- * Updated :        17.01.2018
+ * Updated :        24.01.2018
  * Description :    Displays the generated contract in a rich text editor
  */
 ?>

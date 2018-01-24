@@ -4,6 +4,7 @@
  * Author :         Quentin Neves
  * Created :        12.12.2017
  * Updated :        24.01.2018
+ * Version :        1.0
  * Description :    This controller is used for generating internship contract using intern informations and gender
  *                  and display it
  */
