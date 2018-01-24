@@ -4,16 +4,32 @@
  * 
  * Bastien Nicoud
  * v1.0.0
+ * 
+ * FIXME:
+ * - Multiple spaces inserted on textareas on create or edit ???
+ * 
+ * IMPROVMENTS:
+ * - Display the validation errors in a better way (per sections errors or per field errors)
+ * - Get the errors messages from the lang file
+ * - Use Policies to authorise the actions (to avoid checking authorisation in the controller)
+ * - Move the getEvalState method in the concerned model
  */
 
 
 namespace App\Http\Controllers;
 
+// Requests
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreEvalGridRequest;
 
+// Intranet env
 use CPNVEnvironment\Environment;
 
+// Notifications
+use App\Notifications\GridCheckout;
+use Illuminate\Support\Facades\Notification;
+
+// Models
 use App\Visit;
 use App\Criteria;
 use App\CriteriaValue;
@@ -147,8 +163,6 @@ class EvalController extends Controller
             return redirect('visits')->with('status', "Cette evaluation n'existe pas !");
         }
 
-        //dd($evaluation->visit->internship->companie->companyName);
-
         // check the user authorisations
         // Only the internship supervisor and the concerned student can acess the evaluation
         // check the forein keys to verifiy the user
@@ -242,7 +256,13 @@ class EvalController extends Controller
             }
 
             // We pass this evaluation state to 0 (not editable)
-            Evaluation::where('id', $gridID)->update(['editable' => 0]);
+            $grid = Evaluation::with('visit.internship.student')->find($gridID);
+            $grid->editable = 0;
+            $grid->save();
+
+            // send to the concerned users a mail with the validated grid
+            Notification::route('mail', $grid->visit->internship->student->mail)
+                ->notify(new GridCheckout($grid));
 
             // We redirect to the readonly version of the grid
             return redirect("/evalgrid/grid/readonly/$gridID")->with('status', "Les informations on correctement étés enregistrées, la grille n'est plus editable !");

@@ -13,6 +13,7 @@
             <li>Stage 2: Cinq mois de début septembre à fin janvier (7<sup>ème</sup> semestre)</li>
         </ol>
         <p>Les deux stages se déroulent de manière similaire:</p>
+        <img src="../images/phasesDocumentsPage.png" alt="deroulement">
         <h2>Phases</h2>
         <table class="table">
             <thead>
@@ -57,7 +58,7 @@
                         <ul>
                             <li><a href="../documentsLink/DS-ES-11.docx">Contrat de stage en entreprise</a></li>
                             <li><a href="../documentsLink/DS-ES-12.docx">Contrat de stage à l'état de Vaud</a></li>
-                            <li><a href="#">Détails sur le le processus de rédaction du contrat (Manque le fichier)</a></li>
+                            <li><a href="../documentsLink/processus.pdf">Détails sur le le processus de rédaction du contrat</a></li>
                         </ul>
                     </td>
                 </tr>
@@ -72,7 +73,7 @@
                     <td>
                         <ul>
                             <li><a href="../documentsLink/Grille.xlsx">Grille d'évaluation</a></li>
-                            <li><a href="#">Modèle de journal de travail (exemple) (Manque le fichier)</a></li>
+                            <li><a href="../documentsLink/journalDeTravail.xlsx">Modèle de journal de travail (exemple)</a></li>
                             <li><a href="../documentsLink/Directives_pour_rapport_de_stage.pdf">Directives de rédaction du rapport de stage</a></li>
                         </ul>
                     </td>
@@ -85,7 +86,7 @@
                     </td>
                     <td>
                         <ul>
-                            <li><a href="#">Stages en entreprise pour apprenti (Manque le fichier)</a></li>
+                            <li><a href="../documentsLink/FormulaireStage.pdf">Stages en entreprise pour apprenti</a></li>
                         </ul>
                     </td>
                 </tr>

@@ -14,7 +14,10 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use CPNVEnvironment\Environment;
 use App\Evaluation;
+
+// custom validation rules
 use App\Rules\MaxGridGrade;
+use App\Rules\MinRequiredLevel;
 
 class StoreEvalGridRequest extends FormRequest
 {
@@ -31,11 +34,12 @@ class StoreEvalGridRequest extends FormRequest
         } elseif (Environment::currentUser()->getLevel() == 0) {
             // If the user is a studend, we check if is this eval
             // Check if this eval belongs to this user
-            if (Evaluation::find($this->route('gridID'))->visit->internship->student == Environment::currentUser()->getId()) {
+            if (Evaluation::find($this->route('gridID'))->visit->internship->intern_id == Environment::currentUser()->getId()) {
                 return true;
             }
         }
 
+        // by default not authored
         return false;
     }
 
@@ -48,15 +52,15 @@ class StoreEvalGridRequest extends FormRequest
     {
         return [
             // Validates all the specification fields
-            '*.specs' => 'nullable|max:500',
+            '*.specs' => ['nullable', 'max:500', new MinRequiredLevel(1)],
             // Validates all the master comment fields
-            '*.mComm' => 'nullable|max:500',
+            '*.mComm' => ['nullable', 'max:500', new MinRequiredLevel(1)],
             // Validates all the student comments
-            '*.sComm' => 'nullable|max:500',
+            '*.sComm' => ['nullable', 'max:500', new MinRequiredLevel(0)],
             // Validates all the grades
-            '*.grade' => ['nullable', 'numeric', new MaxGridGrade],
+            '*.grade' => ['nullable', 'numeric', new MaxGridGrade, new MinRequiredLevel(1)],
             // Check the submit field is present
-            'submit' => 'required'
+            'submit' => ['required', new MinRequiredLevel(1, 'checkout')]
         ];
     }
 }

@@ -52,8 +52,6 @@ Route::post('/contract/{iid}/view', 'ContractController@visualizeContract');
 Route::post('/contract/{iid}/save', 'ContractController@saveContract');
 
 Route::get('/contract/{iid}/cancel', 'ContractController@cancelContract');
-Route::get('/contract/{internshipid}', 'ContractController@index');
-Route::get('/contract/{internshipid}/view', 'ContractController@index');
 
 // Steven
 
@@ -65,14 +63,13 @@ Route::get('/synchro/delete', 'SynchroController@delete');
 
 // Jean-Yves
 Route::get('/visits','VisitsController@index');
-
+Route::post('/visits', 'VisitsController@changeFilter');
 Route::get('/visits/{rid}/manage','VisitsController@manage');
-
 Route::get('/visits/add', 'VisitsController@add');
-
 Route::post('/visits/create','VisitsController@create');
-
 Route::get('/visits/{id}/mail','VisitsController@mail');
+Route::get('/visits/{id}/delete', 'VisitsController@delete');
+Route::post('/visits/{id}/update', 'VisitsController@update');
 
 // Add by Benjamin Delacombaz 12.12.2017 10:40
 Route::get('/wishesMatrix', 'WishesMatrixController@index');
@@ -113,8 +110,9 @@ Route::prefix('evalgrid')->group(function () {
 
 // Nicolas - Stages
 Route::get('/reconstages', 'ReconStagesController@index');
-Route::get('/reconstages/reconmade', 'ReconStagesController@displayStages');
-
+Route::post('/reconstages/reconmade', 'ReconStagesController@reconStages');
+// Nicolas - Documents
+Route::get('/documents', 'DocumentsController@index');
 
 // Davide
 Route::get('/listPeople', 'PeopleControlleur@index');
@@ -127,3 +125,9 @@ Route::get('/listPeople/update/{id}','PeopleControlleur@update');
 
 //Julien - Grille d'évaluation - Modélisation
 Route::get('/editGrid', 'EditGridController@index');
+Route::post('/editGrid/editCriteria', 'EditGridController@editCriteria');
+Route::post('/editGrid/editSection', 'EditGridController@editSection');
+Route::post('/editGrid/removeCriteria', 'EditGridController@removeCriteria');
+Route::post('/editGrid/removeSection', 'EditGridController@removeSection');
+Route::post('/editGrid/addCriteria', 'EditGridController@addCriteria');
+Route::post('/editGrid/addSection', 'EditGridController@addSection');
