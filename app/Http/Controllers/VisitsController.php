@@ -35,7 +35,7 @@ use DateTime;
  * */
 class VisitsController extends Controller
 {
-    /* Initialize variable */
+    /* Initialize global variable(s) */
     private $message = '';
 
     /*
@@ -45,10 +45,9 @@ class VisitsController extends Controller
      * - Return a list of visit from Teacher ID
      * - It just displays his/her visits.
      * */
-
     public function index()
     {
-        /* Initialize id to check user ID in "Query get visits"->line 76 */
+        /* Initialize id to check user ID in "Query get visits"->line 77 */
         $id = Environment::currentUser()->getId();
 
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
@@ -94,6 +93,7 @@ class VisitsController extends Controller
             return redirect('/')->with('status', "You don't have the permission to access this function.");
         }
     }
+
     /*
      * -- manage --
      *
@@ -221,6 +221,8 @@ class VisitsController extends Controller
     }
 
     /*
+     * -- mail --
+     *
      * Updating visit's status and insert a remark that the visit has been updated.
      * */
     public function mail(Request $request, $id)
@@ -237,7 +239,7 @@ class VisitsController extends Controller
                     'mailstate' => 1
                 ]);
 
-            /* Initialize current datetime*/
+            /* Initialize current datetime */
             $date = new DateTime();
 
             /*
@@ -265,12 +267,21 @@ class VisitsController extends Controller
     }
 
 
-    /* Function deletes a visit*/
+    /*
+     * -- delete --
+     *
+     * This method allows the user to delete the visit
+     *
+     * */
     public function delete(Request $request, $id)
     {
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
         // Student = 0; Teacher = 1; Admin = 2
         if (Environment::currentUser()->getLevel() >= 1){
+
+            /*
+             * delete row by visit's current ID
+             * */
             Visit::where('id', '=', $id)
                 ->delete();
 
@@ -284,15 +295,31 @@ class VisitsController extends Controller
         }
     }
 
-    /* Function update schedule */
+    /*
+     * -- update --
+     *
+     * The Method update
+     *
+     * */
     public function update(Request $request, $id)
     {
         if (Environment::currentUser()->getLevel() >= 1){
+
+            /*
+             * Initialize variables to update the visit
+             * 1. State of the visit
+             * 2. Date
+             * 3. Time
+             * 4. State of the mail
+             * */
             $state = $request->input('state');
             $date = $request->upddate;
             $date .= " ".$request->updtime;
             $mail = $request->input('selm');
 
+            /*
+             * Update visit from values above.
+             * */
             Visit::where('visits.id', '=', $id)
                 ->update([
                     'visitsstates_id' => $state,
@@ -300,9 +327,15 @@ class VisitsController extends Controller
                     'mailstate' => $mail,
                 ]);
 
+            /*
+             * capture datetime from input.
+             * */
             $date = date('d M Y', strtotime($request->upddate));
             $hour = date('H:i:s', strtotime($request->updtime));
 
+            /*
+             * Insert new remark row as a log in Remark.
+             * */
             Remark::insert([
                 'remarkType' => 4,
                 'remarkOn_id' => $id,
@@ -311,6 +344,9 @@ class VisitsController extends Controller
                 'remarkText' => "Date fixée: ".$date." à ".$hour
             ]);
 
+            /*
+             * Finally it redirects user to his/her list.
+             * */
             return redirect('/visits')->with('status', 'La visite a été modifiée !');
         }
 
