@@ -23,6 +23,7 @@
 .reconduction
 {
     margin-bottom: 10px;
+    width: 100%;
 }
 
 .checkBox, #reconduire
@@ -34,4 +35,15 @@
 {
     height: 15px;
     width: 15px;
+}
+
+#reconduire
+{
+    display: none;
+    float: left;
+}
+
+.checkBox
+{
+    float: right;
 }

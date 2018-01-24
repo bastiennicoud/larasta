@@ -10,4 +10,30 @@ $(document).ready(function(){
     });
 
 
+    $('input').on('click',function () {
+        if ($('td').is(':checked')) {
+            $('#reconduire').css('display', 'inline-block');
+        } else {
+            $('#reconduire').css('display', 'none');
+        }
+    });
+
+    $('input').on('click',function () {
+        if ($('.checkList').is(':checked')) {
+            $('#reconduire').css('display', 'inline-block');
+        } 
+        else {
+            $('#reconduire').css('display', 'none');
+        }
+    });
+
+    $('.checkBox').on('click',function () {
+        if ($('#check').is(':checked')) {
+            $('#reconduire').css('display', 'inline-block');
+        } 
+        else {
+            $('#reconduire').css('display', 'none');
+        }
+    });
+
  });

@@ -27,10 +27,10 @@ class ReconStagesController extends Controller
     }
 
     //return to view reconmade
-    public function displayStages()
-    {
-        return view('reconstages/reconmade');
-    }
+    //public function displayStages()
+    //{
+    //    return view('reconstages/reconmade/cre');
+    //}
 
 
     //get value from db
@@ -96,7 +96,7 @@ class ReconStagesController extends Controller
         $internships = $this->getInternships();
         $new = $this->displayRecon($ids, $internships);
 
-        //return to the view reconmade
+        //return data to the view reconmade
         return view('reconstages/reconmade')->with(
             [
                 "internships" => $new

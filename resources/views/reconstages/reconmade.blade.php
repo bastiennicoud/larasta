@@ -1,3 +1,8 @@
+<!--
+// Nicolas Henry
+// SI-T1a
+// reconmade.blade.php
+-->
 @extends ('layout')
 
 @section ('page_specific_css')
@@ -36,5 +41,5 @@
         </tr>
     @endforeach
     </table>
-    <a href="{{'/'}}"><button>Retour à la page d'accueil</button></a>
+    <a href="{{'/'}}"><button class="btn btn-primary">Retour à la page d'accueil</button></a>
 @stop
