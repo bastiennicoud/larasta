@@ -15,6 +15,8 @@
         <td class='tile clickable-row' data-href="/reconstages"><h4>Renouvellement des stages en cours</h4></td>
         <td class='invisiblecell'>&nbsp;</td>
         <td class='tile clickable-row' data-href="/about"><h4>Edition de contrat</h4></td>
+        <td class='invisiblecell'>&nbsp;</td>
+        <td class='tile clickable-row' data-href="/editGrid"><h4>Modification Structure Grille Evaluation</h4></td>
     </tr>
     <tr>
         <td class='invisiblecell' width=20px>&nbsp;</td>
