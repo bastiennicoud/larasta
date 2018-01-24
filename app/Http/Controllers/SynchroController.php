@@ -71,12 +71,12 @@ class SynchroController extends Controller
     {
         $person = new Persons;
 
-        $person->firstname = $this->newPersons[$personIndex]['firstname'];
-        $person->lastname = $this->newPersons[$personIndex]['lastname'];
-        $person->upToDateDate = $this->newPersons[$personIndex]['updated_on'];
-        $person->intranetUserId = $this->newPersons[$personIndex]['id'];
+        $person->firstname = $this->getNewPersons()[$personIndex]['firstname'];
+        $person->lastname = $this->getNewPersons()[$personIndex]['lastname'];
+        $person->upToDateDate = $this->getNewPersons()[$personIndex]['updated_on'];
+        $person->intranetUserId = $this->getNewPersons()[$personIndex]['id'];
         /// The intranet sometime returns 2 different values for the occupation field for students so it handles both
-        if ($this->newPersons[$personIndex]['occupation'] == "Elève" || $this->newPersons[$personIndex]['occupation'] == "Eleve")
+        if ($this->getNewPersons()[$personIndex]['occupation'] == "Elève" || $this->getNewPersons()[$personIndex]['occupation'] == "Eleve")
         {
             $person->role = 0;
         }
@@ -102,13 +102,13 @@ class SynchroController extends Controller
      */
     protected function dbNewClasses($personIndex)
     {
-        if (Persons::where('intranetUserId', $this->newPersons[$personIndex]['id'])->where('role', 0)->exists())
+        if (Persons::where('intranetUserId', $this->getNewPersons()[$personIndex]['id'])->where('role', 0)->exists())
         {
             /// Only need to add the flock_id to students, so role = 0
-            $person = Persons::where('intranetUserId', $this->newPersons[$personIndex]['id'])->where('role', 0)->first();
+            $person = Persons::where('intranetUserId', $this->getNewPersons()[$personIndex]['id'])->where('role', 0)->first();
             /// Split the string returned by the intranet API for the date the person was updated on to get the starting year
-            $dateSplit = explode('-', $this->newPersons[$personIndex]['updated_on']);
-            $flockId = $this->checkFlock($this->newPersons[$personIndex]['current_class']['link']['name']);
+            $dateSplit = explode('-', $this->getNewPersons()[$personIndex]['updated_on']);
+            $flockId = $this->checkFlock($this->getNewPersons()[$personIndex]['current_class']['link']['name']);
 
             $person->flock_id = $flockId;
 
@@ -136,7 +136,7 @@ class SynchroController extends Controller
         $flock->flockName = $className . $startYear;
         $flock->startYear = $startYear;
 
-        foreach($this->classesList as $classe)
+        foreach($this->getClasses() as $classe)
         {
             if ($classe['name'] == $className)
             {
@@ -320,7 +320,51 @@ class SynchroController extends Controller
         {
             $this->getDatas();
 
-            return view('synchro/index')->with([ 'goodStudents' => $this->goodPersons, 'obsoleteStudents' => $this->obsoletePersons, 'newStudents' => $this->newPersons]);
+            return view('synchro/index')->with([ 'goodStudents' => $this->getGoodPersons(), 'obsoleteStudents' => $this->getObsoletePersons(), 'newStudents' => $this->getNewPersons()]);
         }
+    }
+
+    /**
+     * getGoodPersons
+     * Getter for the attribute goodPersons
+     * 
+     * @return array
+     */
+    public function getGoodPersons()
+    {
+        return $this->goodPersons;
+    }
+
+    /**
+     * getObsoletePersons
+     * Getter for the attribute obsoletePersons
+     * 
+     * @return array
+     */
+    public function getObsoletePersons()
+    {
+        return $this->obsoletePersons;
+    }
+
+    /**
+     * getNewPersons
+     * Getter for the attribute newPersons
+     * 
+     * @return array
+     */
+    public function getNewPersons()
+    {
+        return $this->newPersons;
+    }
+
+    /**
+     * getClasses
+     * Getter for the attribute classesList
+     * 
+     * @return array
+     */
+    public function getClasses()
+    {
+        return $this->classesList;
     }
 }
