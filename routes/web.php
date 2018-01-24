@@ -126,3 +126,9 @@ Route::get('/listPeople/update/{id}','PeopleControlleur@update');
 
 //Julien - Grille d'évaluation - Modélisation
 Route::get('/editGrid', 'EditGridController@index');
+Route::post('/editGrid/editCriteria', 'EditGridController@editCriteria');
+Route::post('/editGrid/editSection', 'EditGridController@editSection');
+Route::post('/editGrid/removeCriteria', 'EditGridController@removeCriteria');
+Route::post('/editGrid/removeSection', 'EditGridController@removeSection');
+Route::post('/editGrid/addCriteria', 'EditGridController@addCriteria');
+Route::post('/editGrid/addSection', 'EditGridController@addSection');
