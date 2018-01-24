@@ -11,48 +11,33 @@
 @section ('content')
     <link rel="stylesheet" href="/css/people.css" />
 
-    <!-- Header -->
-
     <div id = "people_content">
+
+        <!-------------------->
+        <!-- Header Filters -->
+        <!-------------------->
 
         <div id ="people_header" class="row">
 
             <form class="form-check" action="/listPeople/category" method="post" id="people_form">
-
-                {{ csrf_field() }}
+                    {{ csrf_field() }}
                 <div class="form-check col-lg-3">
-                    @if (isset($filterCategory) && in_array(1, $filterCategory))
-                        <input class="form-check-input people_check" type="checkbox" value="1" name = "filterCategory[]" id="teacher" checked="checked">
-                    @else
-                        <input class="form-check-input" type="checkbox" value="1" name = "filterCategory[]" id="teacher">
-                    @endif
+                    <input class="form-check-input people_check" type="checkbox" value="1" name = "filterCategory[]" id="teacher"  @if (isset($filterCategory) && in_array(1, $filterCategory)) checked="checked" @endif>
                     <label class="form-check-label" for="teacher">Professeur</label>
                 </div>
 
                 <div class="form-check col-lg-3">
-                    @if (isset($filterCategory) && in_array(0, $filterCategory))
-                        <input class="form-check-input people_check" type="checkbox" value="0" name = "filterCategory[]" id="student" checked="checked">
-                    @else
-                        <input class="form-check-input" type="checkbox" value="0" name = "filterCategory[]" id="student">
-                    @endif
+                    <input class="form-check-input people_check" type="checkbox" value="0" name = "filterCategory[]" id="student" @if (isset($filterCategory) && in_array(0, $filterCategory)) checked="checked" @endif>
                     <label class="form-check-label" for="student">Elève</label>
                 </div>
 
                 <div class="form-check col-lg-3">
-                    @if (isset($filterCategory) && in_array(2, $filterCategory))
-                        <input class="form-check-input people_check" type="checkbox" value="2" name = "filterCategory[]" id="company" checked="checked">
-                    @else
-                        <input class="form-check-input" type="checkbox" value="2" name = "filterCategory[]" id="company">
-                    @endif
+                    <input class="form-check-input people_check" type="checkbox" value="2" name = "filterCategory[]" id="company" @if (isset($filterCategory) && in_array(2, $filterCategory)) checked="checked" @endif>
                     <label class="form-check-label" for="company">Company</label>
                 </div>
 
                 <div class="form-check col-lg-3">
-                    @if (isset($filterObsolete))
-                        <input  class="form-check-input people_check" type="checkbox" value="obsolete" name = "filterObsolete" id="obsolete" checked="checked">
-                    @else
-                        <input  class="form-check-input" type="checkbox" value="obosolete" name = "filterObsolete" id="obsolete">
-                    @endif
+                    <input  class="form-check-input people_check" type="checkbox" value="obsolete" name = "filterObsolete" id="obsolete" @if (isset($filterObsolete)) checked="checked" @endif>
                     <label class="form-check-label" for="obsolete">Désactivée</label>
                 </div>
 
@@ -64,11 +49,10 @@
 
                 <div class="form-group col-lg-12">
                     @if (isset($filterName))
-                        <input id ="people_inputName" type="text" class="form-control" aria-describedby="searchHelp" placeholder="{{ $filterName }}" name = "filterName" value="{{ $filterName }}" >
+                        <input id ="people_inputName" type="text" class="form-control" placeholder="{{ $filterName }}" name = "filterName" value="{{ $filterName }}" >
                     @else
-                        <input id ="people_inputName" type="text" class="form-control" aria-describedby="searchHelp" placeholder="Nom / Prenom" name = "filterName">
+                        <input id ="people_inputName" type="text" class="form-control" placeholder="Nom / Prenom" name = "filterName">
                     @endif
-                    <small id="searchHelp" class="form-text text-muted">Saisir le nom ou le prenom à rechercher</small>
                 </div>
 
             </form>
@@ -76,6 +60,10 @@
         </div>
 
         <div class="margin30 row"> </div>
+
+        <!----------------------->
+        <!-- Tables of Peoples -->
+        <!----------------------->
 
         <div id="people_container" class="row">
 
@@ -89,14 +77,16 @@
                 </thead>
 
                 <tbody id = "people_tbody">
-                @foreach($persons as $person)
-                    <tr class="clickable-row" data-href="/listPeople/{{ $person->id }}/info">
-                        <td>{{ $person->firstname }} {{ $person->lastname }}</td>
-                        @if ($person->role == 0) <td> Elève </td> @endif
-                        @if ($person->role == 1) <td> Professeur </td> @endif
-                        @if ($person->role == 2) <td> Company </td> @endif
-                    </tr>
-                @endforeach
+                @if (in_array(-1, $filterCategory))                      <!-- No filters selected -->
+                    <td colspan="2"> Pas des filtres </td>
+                @else
+                    @foreach($persons as $person)                        <!-- View all persons -->
+                        <tr class="clickable-row" data-href="/listPeople/{{ $person->id }}/info">
+                            <td>{{ $person->fullName}}</td>
+                            <td>{{ $person->roles}}</td>
+                        </tr>
+                    @endforeach
+                @endif
                 </tbody>
 
             </table>
@@ -104,6 +94,10 @@
         </div>
 
         <div class="margin30 row"> </div>
+
+        <!----------------------->
+        <!---- Button to Top ---->
+        <!----------------------->
 
         <div class = "row">
             <a href="#" id ="btn-return" class="btn btn-success">Top Page</a>
@@ -113,6 +107,9 @@
 
     </div>
 
+@stop
+
+@section ('page_specific_js')
     <script src="/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="/js/people.js"></script>
 @stop

@@ -28,17 +28,18 @@ class Persons extends Model
     }
 
     /**
-     * getRoleAttribute
+     * Computed property to get role name
+     * Created by Davide Carboni
      * 
-     * @return string eleve|company
+     * @return string Eleve|Professeur|Company
      */
-
-    public function getRoleAttribute()
+    public function getRolesAttribute()
     {
-        if (empty($this->company_id)) {
-            return 'Eleve';
-        } else {
-            return 'Company';
+        switch ($this->role)
+        {
+            case (0): return "Elève"; break;
+            case (1): return "Professeur"; break;
+            case (2): return "Company"; break;
         }
     }
 
@@ -50,5 +51,44 @@ class Persons extends Model
     public function getFullNameAttribute()
     {
         return "{$this->firstname} {$this->lastname}";
+    }
+
+    /**
+     * Scope a query to only include desactivated peoples.
+     * Created by Davide Carboni
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeObsolete($query, $type)
+    {
+        if ($type == null)
+            return $query->where('obsolete', '=', 0);
+        else
+            return $query->where('obsolete', '=', 1);
+    }
+
+    /**
+     * Scope a query to only include a specific role
+     * Created by Davide Carboni
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCategory($query, $filter)
+    {
+        return $query->whereIn('role', $filter);
+    }
+
+    /**
+     * Scope a query to include only a specific name
+     * Created by Davide Carboni
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeName($query, $name)
+    {
+        $query->where('firstname', 'like', '%' . $name . '%')->orWhere('lastname', 'like', '%' . $name . '%');
     }
 }

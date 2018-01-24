@@ -119,7 +119,7 @@ Route::get('/reconstages/reconmade', 'ReconStagesController@displayStages');
 Route::get('/listPeople', 'PeopleControlleur@index');
 Route::post('/listPeople/category', 'PeopleControlleur@category');
 Route::get('/listPeople/{id}/info','PeopleControlleur@info');
-Route::get('/listPeople/update/{id}','PeopleControlleur@update');
+Route::post('/listPeople/update/{id}','PeopleControlleur@update');
 
 //
 
