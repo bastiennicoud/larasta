@@ -9,6 +9,10 @@
     <br>
     <form method="post" action="/visits/{{$internship->id}}/update" class="text-left">
         {{ csrf_field() }}
+        <input type="hidden" name="email" value="{{$mail->value}}">
+        <input type="hidden" name="visit" value="{{$internship->id}}">
+        <input type="hidden" name="firstn" value="{{$internship->firstname}}">
+        <input type="hidden" name="lastn" value="{{$internship->lastname}}">
         <table class="larastable table table-bordered col-md-10">
             <tr>
                 <th class="col-md-1">Prénom de l'élève</th>
@@ -25,11 +29,11 @@
                 <td class="col-md-1">{!! $internship->lastname !!}</td>
                 <td class="col-md-2">{!! $internship->companyName !!}</td>
                 <td class="col-md-1">
-                    <div id="vdate">
+                    <div id="vdate" class="hideb">
                         {{ (new DateTime($internship->moment))->format('d.m.Y') }}
                     </div>
                     <fieldset>
-                        <div id="dateedit" class="hidden">
+                        <div id="dateedit" class="hidden hidea">
                             <?php
                                 $today = date('Y-m-d');
                                 $last = (new DateTime($internship->endDate))->format('Y-m-d');
@@ -39,10 +43,10 @@
                     </fieldset>
                 </td>
                 <td class="col-md-1">
-                    <div id="vhour">
+                    <div id="vhour" class="hideb">
                         {{ (new DateTime($internship->moment))->format('H:i:s') }}
                     </div>
-                    <div id="houredit" class="hidden">
+                    <div id="houredit" class="hidden hidea">
                         <input type="time" name="updtime" value="{{ (new DateTime($internship->moment))->format('H:i') }}">
                     </div>
                 </td>
@@ -50,11 +54,11 @@
                 <td class="col-md-1">{{ (new DateTime($internship->endDate))->format('d.m.Y') }}</td>
                 <td class="col-md-1">
                     @if($internship->mailstate == 1)
-                        <span id="ok" class="ok glyphicon glyphicon-ok tick"></span class="mok">&nbsp;<span id="mok">envoyé</span>
+                        <span id="ok" class="ok hideb glyphicon glyphicon-ok tick"></span class="mok hideb">&nbsp;<span id="mok">envoyé</span>
                     @else
-                        <span id="remove" class="remove glyphicon glyphicon-remove cross"></span>&nbsp;<span id="mremove">pas encore envoyé</span>
+                        <span id="remove" class="remove hideb glyphicon glyphicon-remove cross"></span>&nbsp;<span id="mremove" class="hideb">pas encore envoyé</span>
                     @endif
-                    <select id='selm' name="selm" class="hidden">
+                    <select id='selm' name="selm" class="hidden hidea">
                             <option value="1">envoyé</option>
                             <option value="0">pas envoyé</option>
                     </select>
@@ -63,8 +67,8 @@
             <tr>
                 <th colspan="7" class="text-right">Etat de la visite</th>
                 <td>
-                    <span id="staid">{{ $internship->stateName }}</span>
-                    <select id='sel' name="state" class="hidden">
+                    <span id="staid" class="hideb">{{ $internship->stateName }}</span>
+                    <select id='sel' name="state" class="hidden hidea">
                         @foreach($visitstate as $state)
                             <option value="{{$state->id}}">
                                 {{$state->stateName}}
@@ -75,36 +79,36 @@
             </tr>
         </table>
         <div>
-            <p id="info" class="hidden"><span class="text-danger">Veuillez vérifier les données que vous entrez avant de valider la sélection !</span></p>
-            <button id="up" class="btn-info hidden" type="submit">Enregistrer</button>
-            <a id="cancel_a" class="btn-info hidden">Annuler</a>
+            <p id="info" class="hidden hidea"><span class="text-danger">Veuillez vérifier les données que vous entrez avant de valider la sélection !</span></p>
+            <button id="up" class="btn-info hidden hidea" type="submit">Enregistrer</button>
+            <a id="cancel_a" class="btn-info hidden hidea">Annuler</a>
         </div>
     </form>
 
     @if($internship->visitsstates_id <= 2 || $internship->visitsstates_id == 4)
-        <button id="edit" class="btn-info">Editer</button>
-        <button id="bmail" class="btn-success" onclick="mailto()">Envoyer un e-mail</button>{{-- Link to evaluation--}}
+        <button id="edit" class="btn-info hideb">Editer</button>
+        <button id="bmail" class="btn-success hideb">Envoyer un e-mail</button>{{-- Link to evaluation--}}
         @switch(\App\Http\Controllers\EvalController::getEvalState($internship->id))
             @case(1)
             <a href="/evalgrid/neweval/{{ $internship->id }}">
-                <button class="beval btn-primary">Démarrer l'évaluation</button>
+                <button class="beval btn-primary hideb">Démarrer l'évaluation</button>
             </a>
             @break
             @case(2)
             <a href="/evalgrid/grid/edit/{{ $internship->id }}">
-                <button class="beval btn-warning">Reprendre l'évaluation</button>
+                <button class="beval btn-warning hideb">Reprendre l'évaluation</button>
             </a>
             @break
             @case(3)
             <a href="/evalgrid/grid/readonly/{{ $eval->id }}">
-                <button class="beval btn-secondary">Afficher l'évaluation</button>
+                <button class="beval btn-secondary hideb">Afficher l'évaluation</button>
             </a>
             @break
         @endswitch
     @endif
     <div class="text-left">
-        <p id="pdone" class="hidden done">Supprimer la visite de stage <span class="text-danger">Irréversible !</span></p>
-        <a id="del" class="hidden" href="/visits/{{ $internship->id }}/delete">
+        <p id="pdone" class="hidden done hidea">Supprimer la visite de stage <span class="text-danger">Irréversible !</span></p>
+        <a id="del" class="hidden hidea" href="/visits/{{ $internship->id }}/delete">
             <button class="btn-danger">Supprimer</button>
         </a>
     </div>
@@ -119,21 +123,21 @@
             </tr>
             <tr class="text-left">
                 <td class="col-md-5">
-                    <span class="mailstate">
+                    <span id="mailto">
                         @if(!empty($mail))
                             {{ $mail->value }}
                         @endif
                     </span>
                 </td>
                 <td class="col-md-3">
-                    <span class="mailstate">
+                    <span>
                         @if(!empty($local))
                             {{$local->value}}
                         @endif
                     </span>
                 </td>
                 <td class="col-md-4">
-                    <span class="mailstate">
+                    <span>
                         @if(!empty($mobile))
                             {{$mobile->value}}
                         @endif
@@ -174,26 +178,6 @@
         </table>
     </div>
 @stop
-    <script>
-        //Fonction that open mail app and redirect the user to the main view
-        function mailto()
-        {
-            @if(!empty($mail->value))
-                var email = '{{$mail->value}}';
-            @else
-                var email = '';
-            @endif
-
-            var mailto_link = 'mailto:' + email + '?subject=Stagiaire {{$internship->lastname}}, {{$internship->firstname}}&body=Bonjour,%0D%0DDescription';
-
-            console.log(mailto_link);
-
-            var url = '/visits/'+{{$internship->id}}+'/mail';
-
-            location.href = mailto_link;
-            window.setTimeout(function(){ location.href = url },  1000);
-        }
-    </script>
 @section ('page_specific_js')
     <script src="/js/remark.js"></script>
     <script src="/js/visit.js"></script>

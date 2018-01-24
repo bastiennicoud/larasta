@@ -100,7 +100,7 @@ class VisitsController extends Controller
      * It returns data from a visit that user has selected.
      *
      * */
-    public function manage (Request $request, $rid) {
+    public function manage ($rid) {
 
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
         // Student = 0; Teacher = 1; Admin = 2
@@ -225,7 +225,7 @@ class VisitsController extends Controller
      *
      * Updating visit's status and insert a remark that the visit has been updated.
      * */
-    public function mail(Request $request, $id)
+    public function mail($id)
     {
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
         // Student = 0; Teacher = 1; Admin = 2
@@ -266,14 +266,13 @@ class VisitsController extends Controller
         }
     }
 
-
     /*
      * -- delete --
      *
      * This method allows the user to delete the visit
      *
      * */
-    public function delete(Request $request, $id)
+    public function delete($id)
     {
         // Check if the user is a teacher or superuser. We grant him/her access to visits if he has access
         // Student = 0; Teacher = 1; Admin = 2
