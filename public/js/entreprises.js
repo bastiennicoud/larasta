@@ -10,4 +10,12 @@ $(document).ready(function(){
     $("#Ctype").on("change", function(){
         $("#ctype").submit();
     });
+
+    $("#addCompany").hover(function(){
+        $(this).css('cursor','pointer')
+    })
+
+    $("#addCompany").click(function () {
+        addE();
+    })
 });

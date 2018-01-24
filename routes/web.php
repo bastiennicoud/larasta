@@ -42,9 +42,10 @@ Route::get('/entreprises', 'EntreprisesController@index');
 Route::post('/entreprises/add', 'EntreprisesController@add');
 Route::post('/entreprises/filter', 'EntreprisesController@filter');
 
+// Antonio - Entreprise details
 Route::get('/entreprise/{id}', 'EntrepriseController@index');
-Route::post('/entreprise/{id}/save', 'EntrepriseController@save');
 Route::get('/entreprise/{id}/remove', 'EntrepriseController@remove');
+Route::post('/entreprise/{id}/save', 'EntrepriseController@save');
 Route::post('/entreprise/addRemarks', 'EntrepriseController@addRemarks');
 
 

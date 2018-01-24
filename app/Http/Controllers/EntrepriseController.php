@@ -1,24 +1,31 @@
 <?php
+/**
+ * Created by antonio.giordano
+ * Date: 08.01.2018
+ */
 
 namespace App\Http\Controllers;
-use App\Remark;
 use CPNVEnvironment\Environment;
-use function GuzzleHttp\Psr7\str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\RemarksController;
-
 
 class EntrepriseController extends Controller
 {
 
+    /**
+     * Display the company detail page, get all data needed and pass a message
+     * @param $id
+     * @param null $msg
+     * @return $this
+     */
     public function index($id, $msg=null){
+
         $user = Environment::currentUser();
 
         $company = DB::table('companies')
             ->join('locations', 'location_id', '=', 'locations.id')
             ->join('contracts', 'contracts_id','=', 'contracts.id')
-            ->select('companyName','address1','address2','postalCode','city','contractType', 'contracts_id','lat','lng','location_id')
+            ->select('companyName','address1','address2','postalCode','city','contractType', 'contracts_id','lat','lng','location_id','englishSkills','driverLicence','mptOk','website')
             ->where('companies.id',$id)
             ->get();
 
@@ -74,50 +81,55 @@ class EntrepriseController extends Controller
     }
 
     /**
-     * @param Request $request
+     * Function saving the changes into database
+     * @param Request $request (address1, address2, npa, city, ctype, location_id, engSkils, driverLicence, mptOk, website)
      * @param $id
      * @return $this
      */
-    public function save(Request $request, $id){  // $request data : address1, address2, npa, city, ctype, location_id
+    public function save(Request $request, $id){
 
+        // Save the contract type first
         DB::table('companies')
             ->where('id',$id)
-            ->update(['contracts_id' => $request->ctype]);
+            ->update(['contracts_id' => $request->ctype, 'englishSkills' => $request->engSkils, 'driverLicence' => $request->driverLicence, 'mptOK' => $request->mptOk, 'website'=>$request->website]);
 
+        // Get the actual location for checking if any change occur
         $actualLocation = DB::table('locations')
             ->select('address1','address2', 'postalCode', 'city')
             ->where('id',$request->location_id)
             ->get();
 
-        if ($request->address1 != $actualLocation[0]->address1 || $actualLocation[0]->address2 != $request->address2 || $actualLocation[0]->postalCode != $request->npa || $actualLocation[0]->city != $request->city)
+        // If location change, we need to contact the google API
+        if ($actualLocation[0]->address1 != $request->address1  || $actualLocation[0]->address2 != $request->address2  || $actualLocation[0]->postalCode != $request->npa || $actualLocation[0]->city != $request->city)
         {
-            $ok = $this->updateLocation($request);
-            $error = is_string($ok); //check if an api error occurred
+            $ok = $this->updateLocation($request); // Contact API with new data
+            $error = is_string($ok); // If return a string, is an error message from the API
 
-            if ($error == true) { //return error message from google api
+            if ($error == true) { // Return the error message
                 return $this->index($id,$ok);
             }
-
-            if ($ok){ //If no problem, update location with success message
-                DB::table('locations')
-                    ->where('id', $request->location_id)
-                    ->update(['address1' => $request->address1, 'address2' => $request->address2, 'postalCode' => $request->npa, 'city' => $request->city]);
+            if ($ok){ // If no problem, return success message
                 return $this->index($id,"Adresse retrouvée sur Google Maps, la carte est disponible");
             }
-            else //If have a problem, update location with null
+            else // If have a problem, update location lat lng with null and return error
             {
                 DB::table('locations')
                     ->where('id',$request->location_id)
-                    ->update(['lat' => null, 'lng' => null]);
+                    ->update(['address1' => $request->address1, 'address2' => $request->address2, 'postalCode' => $request->npa, 'city' => $request->city,'lat' => null, 'lng' => null]);
                 return $this->index($id,"Adresse pas retrouvée sur Google Maps");
             }
         }
-        else
+        else // Only contract type change, send success message
         {
             return $this->index($id, "Modifications enregistrées");
         }
     }
 
+    /**
+     * Contact the google maps API for calculate new latitude and longitude from the new address
+     * @param $request (address1, address2, npa, city, ctype, location_id)
+     * @return bool
+     */
     public function updateLocation($request)
     {
         $ok = false;
@@ -129,7 +141,7 @@ class EntrepriseController extends Controller
         $error = $this->checkGoogleAPI($data);
 
 
-        if ($error != null) { //If google api return error
+        if ($error != null) { // If have an error, return the message
             return $error;
         }
 
@@ -138,21 +150,30 @@ class EntrepriseController extends Controller
                 if ($item["types"][0] == "postal_code")
                     $GNPA = $item["long_name"];
 
-        if (isset($GNPA) && ($request->npa == $GNPA)) // on a trouvé quelquechose sur google
+        if (isset($GNPA) && ($request->npa == $GNPA)) // We find something on google
         {
             $lat = $json["results"][0]["geometry"]["location"]["lat"];
             $lng = $json["results"][0]["geometry"]["location"]["lng"];
+
+            // Update location with new data
             DB::table('locations')
                 ->where('id', $request->location_id)
-                ->update(['lat' => $lat, 'lng' => $lng]);
+                ->update(['address1' => $request->address1, 'address2' => $request->address2, 'postalCode' => $request->npa, 'city' => $request->city, 'lat' => $lat, 'lng' => $lng]);
+
             $ok = true;
-        } else error_log("Update location from googleMaps failed.\nRequest: $url\nResponse: $data");
+
+        }
+        else error_log("Update location from googleMaps failed.\nRequest: $url\nResponse: $data");
 
         return $ok;
     }
 
-    /// Check if we have a problem with request
-    /// the most popular message it's daily quota end
+
+    /**
+     * Function for checking if the api return an error message, if yes return it or return null
+     * @param $data (JSON)
+     * @return null
+     */
     public function checkGoogleAPI($data){
         if(isset($data[count($data)-1]["error_message"])) {
             return $data[count($data)-1]["error_message"];
@@ -161,24 +182,18 @@ class EntrepriseController extends Controller
     }
 
     public function remove($id){
-        /*
-        DB::table('internships')
-            ->where('companies_id', $id)
-            ->delete();
-
-        DB::table('locations')
-            ->where('id', $id)
-            ->delete();
-
-        DB::table('companies')
-            ->where('id', $id)
-            ->delete();
-        */
+        // Function for delete companies from the list, need to implement Eloquent for soft deleting
     }
 
+
+    /**
+     * Function called by entreprise.js in ajax
+     * Create a new remark with the text passed by the user
+     * @param Request $request (id, remark)
+     */
     public function addRemarks(Request $request)
     {
-        $type = 1;
+        $type = 1; // Type 1 = company remark
         $on = $request->id;
         $text = $request->remark;
         RemarksController::addRemark($type,$on,$text);
