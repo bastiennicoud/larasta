@@ -47,8 +47,9 @@
             <button class="btn btn-primary">Générer le contrat</button>
         </a>
     @else
-        <a href="/contract/{{ $iship->id }}/view">
-            <button class="btn btn-secondary">Voir le contrat</button>
+        <br> Contrat généré le : {{$iship->contractGenerated}}<br>
+        <a href="/contract/{{$iship->id}}/cancel">
+            <button class="btn btn-danger">Réinitialiser</button>
         </a>
     @endif
 @stop

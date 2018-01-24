@@ -77,72 +77,55 @@ class ContractController extends Controller
                 switch ($out[0][$i]){
                     case '{train_PrenomPersonne}':
                         $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->firstname, $contract[0]->contractText);
-                        error_log($request);
                         break;
                     case '{train_NomPersonne}':
                         $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->lastname, $contract[0]->contractText);
-                        error_log($request);
                         break;
                     case '{train_Adresse1}':
                         $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->address1, $contract[0]->contractText);
-                        error_log($request);
                         break;
                     case '{train_Adresse2}':
                         $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->address2, $contract[0]->contractText);
-                        error_log($request);
                         break;
                     case '{train_NPA}':
                         $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->postalCode, $contract[0]->contractText);
-                        error_log($request);
                         break;
                     case '{train_Localite}':
                         $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->city, $contract[0]->contractText);
-                        error_log($request);
                         break;
                     case '{corp_NomEntreprise}':
                         $contract[0]->contractText = str_replace($out[0][$i], $contract[2]->companyName, $contract[0]->contractText);
-                        error_log($request);
                         break;
                     case '{corp_Adresse1}':
                         $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->address1, $contract[0]->contractText);
-                        error_log($request);
                         break;
                     case '{corp_Adresse2}':
                         $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->address2, $contract[0]->contractText);
-                        error_log($request);
                         break;
                     case '{corp_NPA}':
                         $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->postalCode, $contract[0]->contractText);
-                        error_log($request);
                         break;
                     case '{corp_Localite}':
                         $contract[0]->contractText = str_replace($out[0][$i], $contract[1]->city, $contract[0]->contractText);
-                        error_log($request);
                         break;
                     case '{Debut}':
                         $contract[0]->contractText = str_replace($out[0][$i], date('d F Y', strtotime($contract[0]->beginDate)), $contract[0]->contractText);
-                        error_log($request);
                         break;
                     case '{Fin}':
                         $contract[0]->contractText = str_replace($out[0][$i], date('d F Y', strtotime($contract[0]->endDate)), $contract[0]->contractText);
-                        error_log($request);
                         break;
                     case '{resp_PrenomPersonne}':
                         $contract[0]->contractText = str_replace($out[0][$i], $contract[3]->firstName, $contract[0]->contractText);
-                        error_log($request);
                         break;
                     case '{resp_NomPersonne}':
                         $contract[0]->contractText = str_replace($out[0][$i], $contract[3]->lastName, $contract[0]->contractText);
-                        error_log($request);
                         break;
                     case '{SalaireBrut}':
                         $contract[0]->contractText = str_replace($out[0][$i], $contract[0]->grossSalary, $contract[0]->contractText);
-                        error_log($request);
                         break;
                     case '{date}':
                         $date = Carbon::now();
                         $contract[0]->contractText = str_replace($out[0][$i], date('d F Y', strtotime($date)), $contract[0]->contractText);
-                        error_log($request);
                         break;
                 }
             }
@@ -210,7 +193,6 @@ class ContractController extends Controller
          * Used to update the contract, transforming it from markdown to rich text
          * To use it again, uncomment it and the checkbox "replace" in the contractVisualize view
          */
-        /*
             if ($request->replace)
             {
                 DB::table('contracts')
@@ -219,7 +201,6 @@ class ContractController extends Controller
                     ->where('internships.id', $iid)
                     ->update(['contractText' => $request->contractText]);
             }
-        */
 
         if ($request->pdf == 'pdf')
         {
