@@ -2,6 +2,15 @@
  * Created by antonio.giordano on 15.01.2018.
  */
 
+$(document).ready(function(){
+    $("#maps").hover(function(){
+        $(this).css('cursor','pointer')
+    });
+    $("#remark").click(function () {
+        newRemark();
+    });
+});
+
 function edit() {
     $("#view").addClass("hidden");
     $("#edit").addClass("hidden");
@@ -27,21 +36,29 @@ function remove(id) {
     var r = confirm("Voulez-vous vraiment supprimer cette entreprise ?")
     if (r == true) {
         window.location.href = "/entreprise/" + id + "/remove"
-
     }
 }
+
 function newRemark() {
     $('#remarkBtn').addClass("hidden");
     $('#newRemark').removeClass("hidden");
 }
 
-$.ajaxSetup({
+function remarkAdd() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
-    headers: {
-
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-
-    }
-
-});
+    $.ajax({
+        url: '/entreprise/addRemarks',
+        type: 'post',
+        data: { 'remark': $("#remarksText").val(), 'id': $("#id").val()
+        },
+        success:function() {
+            $('.remarksTable').find("tbody:last").append("<tr><td>"+$("#date").val()+"</td><td>"+$('#initials').val()+"</td><td>"+ $("#remarksText").val() +"</td></tr>");
+        }
+    })
+};
 
