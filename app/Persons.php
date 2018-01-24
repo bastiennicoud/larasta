@@ -94,7 +94,7 @@ class Persons extends Model
     {
         $query->where('firstname', 'like', '%' . $name . '%')->orWhere('lastname', 'like', '%' . $name . '%');
     }
-     * Computed property to recompose full name
+     /** Computed property to recompose full name
      * 
      * @return string The email of the user
      */

@@ -24,6 +24,7 @@ class EntreprisesController extends Controller
         $companies = DB::table('companies')
             ->join('locations', 'location_id', '=', 'locations.id')
             ->select('companies.id','companyName','address1','address2','postalCode','city')
+            ->orderBy('companyName','asc')
             ->get();
 
         $eType = DB::table('contracts') // Get the contracts for filter
