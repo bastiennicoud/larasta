@@ -113,6 +113,7 @@ Route::prefix('evalgrid')->group(function () {
 // Nicolas - Stages
 Route::get('/reconstages', 'ReconStagesController@index');
 Route::post('/reconstages/reconmade', 'ReconStagesController@reconStages');
+// Nicolas - Documents
 Route::get('/documents', 'DocumentsController@index');
 
 // Davide
