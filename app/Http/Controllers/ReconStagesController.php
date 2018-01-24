@@ -29,7 +29,7 @@ class ReconStagesController extends Controller
     //return to view reconmade
     //public function displayStages()
     //{
-    //    return view('reconstages/reconmade/cre');
+    //    return view('reconstages/reconmade');
     //}
 
 
