@@ -14,6 +14,7 @@ $(document).ready(function(){
         $('#bmail').addClass('hidden');
         $('#staid').addClass('hidden');
         $('.beval').addClass('hidden');
+        $('#info').removeClass('hidden');
         $('#ok').addClass('hidden');
         $('#mok').addClass('hidden');
         $('#remove').addClass('hidden');
@@ -35,6 +36,7 @@ $(document).ready(function(){
         $('#bmail').removeClass('hidden');
         $('.beval').removeClass('hidden');
         $('#staid').removeClass('hidden');
+        $('#info').addClass('hidden');
         $('#ok').removeClass('hidden');
         $('#mok').removeClass('hidden');
         $('#remove').removeClass('hidden');
