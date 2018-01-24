@@ -20,7 +20,7 @@
             Rédiger le contrat au : <br>
             <form method="post" action="/contract/{{$iid}}/view">
                 {{ csrf_field() }}
-                <input type="radio" name="gender" value="male">Masculin<br>
+                <input type="radio" name="gender" value="male" checked>Masculin<br>
                 <input type="radio" name="gender" value="female">Féminin<br><br>
                 <button>Générer</button>
             </form>
