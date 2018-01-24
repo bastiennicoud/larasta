@@ -22,8 +22,8 @@
 
         <form id="contractEditor" method="post" action="/contract/{{$iid}}/save">
             {{ csrf_field() }}
-            <textarea name="contractText">{{$contract[0]->contractText}}</textarea>
-            <br> !! To remove !!Remplacer le modèle de contrat <input type="checkbox" name="replace">
+            <textarea name="contractText">{{$contract[0]->contractText}}</textarea><br>
+            <!-- Uncomment this line and the code blocks in saveContract in ContractController to change contract template --><!--Remplacer le modèle de contrat <input type="checkbox" name="replace"> -->
             <button>Valider</button> <button name="pdf" value="pdf">Générer pdf</button>
         </form>
     </div>

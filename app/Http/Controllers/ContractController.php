@@ -3,7 +3,7 @@
 /**
  * Author :         Quentin Neves
  * Created :        12.12.2017
- * Updated :        15.01.2018
+ * Updated :        24.01.2018
  * Description :    This controller is used for generating internship contract using intern informations and gender
  *                  and display it
  */
@@ -19,22 +19,31 @@ use PDF;
 
 class ContractController extends Controller
 {
-    public function index()
-    {
-        //
-    }
-
+    /**
+     * Used to pass data to contractGenerate view, which will decide if we can generate the contract
+     *
+     * @param $iid id of the current internship
+     * @return $this contains the date when the contract has been generated
+     */
     public function generateContract($iid)
     {
-        $iDate = $this->getStageDate($iid);
-        $contract = $this->getContract($iid);
-        return view('contract/contractGenerate')->with(['iDate' => $iDate, 'iid' => $iid, 'contract' => $contract]);
+        $iDate = DB::table('internships')
+            ->select('contractGenerated')
+            ->where('id', $iid)
+            ->first();
+
+        return view('contract/contractGenerate')->with(['iDate' => $iDate, 'iid' => $iid]);
     }
 
+    /**
+     * Replace markups from contract template with corresponding data
+     *
+     * @param $iid
+     * @param Request $request get data in post request
+     * @return $this contains generated contract
+     */
     public function visualizeContract($iid, Request $request)
     {
-
-
         $contract = $this->getContract($iid);
 
         /*
@@ -110,11 +119,11 @@ class ContractController extends Controller
                         error_log($request);
                         break;
                     case '{Debut}':
-                        $contract[0]->contractText = str_replace($out[0][$i], date('d-m-Y', strtotime($contract[0]->beginDate)), $contract[0]->contractText);
+                        $contract[0]->contractText = str_replace($out[0][$i], date('d F Y', strtotime($contract[0]->beginDate)), $contract[0]->contractText);
                         error_log($request);
                         break;
                     case '{Fin}':
-                        $contract[0]->contractText = str_replace($out[0][$i], date('d-m-Y', strtotime($contract[0]->endDate)), $contract[0]->contractText);
+                        $contract[0]->contractText = str_replace($out[0][$i], date('d F Y', strtotime($contract[0]->endDate)), $contract[0]->contractText);
                         error_log($request);
                         break;
                     case '{resp_PrenomPersonne}':
@@ -131,7 +140,7 @@ class ContractController extends Controller
                         break;
                     case '{date}':
                         $date = Carbon::now();
-                        $contract[0]->contractText = str_replace($out[0][$i], date('d-m-Y', strtotime($date)), $contract[0]->contractText);
+                        $contract[0]->contractText = str_replace($out[0][$i], date('d F Y', strtotime($date)), $contract[0]->contractText);
                         error_log($request);
                         break;
                 }
@@ -142,16 +151,12 @@ class ContractController extends Controller
         return view('contract/contractVisualize')->with(['iid' => $iid, 'contract' => $contract, 'out' => $out, 'request' => $request]);
     }
 
-    public function getStageDate($iid)
-    {
-        $iDate = DB::table('internships')
-            ->select('contractGenerated')
-            ->where('id', $iid)
-            ->first();
-
-        return $iDate;
-    }
-
+    /**
+     * Queries to retrive all contract related datas needed to generate it
+     *
+     * @param $iid
+     * @return array
+     */
     public  function getContract($iid)
     {
         $contract = DB::table('contracts')
@@ -184,6 +189,14 @@ class ContractController extends Controller
         return array($contract, $intern, $company, $responsible);
     }
 
+    /**
+     * Updates the data where the contract has been generated or create the pdf file
+     *
+     * @param $iid
+     * @param Request $request contains the generated contract text
+     * @return $pdf->stream() displays the contract in a view form which you can print it or download it
+     * @return ContractController
+     */
     public function saveContract($iid, Request $request)
     {
         $date = Carbon::now();
@@ -192,32 +205,45 @@ class ContractController extends Controller
             ->where('id', $iid)
             ->update(['contractGenerated' => $date]);
 
-        if ($request->replace)
-        {
-            DB::table('contracts')
-                ->join('companies', 'contracts_id', '=', 'contracts.id')
-                ->join('internships', 'companies_id', '=', 'companies.id')
-                ->where('internships.id', $iid)
-                ->update(['contractText' => $request->contractText]);
-        }
+        /*
+         * Used to update the contract, transforming it from markdown to rich text
+         * To use it again, uncomment it and the checkbox "replace" in the contractVisualize view
+         */
+        /*
+            if ($request->replace)
+            {
+                DB::table('contracts')
+                    ->join('companies', 'contracts_id', '=', 'contracts.id')
+                    ->join('internships', 'companies_id', '=', 'companies.id')
+                    ->where('internships.id', $iid)
+                    ->update(['contractText' => $request->contractText]);
+            }
+        */
 
         if ($request->pdf == 'pdf')
         {
-            $pdf = App::make('dompdf.wrapper');
-            $pdf->loadHTML($request->contractText);
-            return $pdf->download('Contract-'.$iid.'.pdf');
-
+            $pdf = App::make('dompdf.wrapper');             // Creates an "empty" pdf file
+            $pdf->loadHTML($request->contractText);         // Inserts text into the file and converts markups into style
+            return $pdf->stream('Contract-'.$iid.'.pdf');   // Finalize pdf file, name it and send to download
         }
 
         return $this->generateContract($iid);
     }
 
+    /**
+     * Deletes the date where the contract has been generated
+     *
+     * @param $iid
+     * @return $this
+     */
     public function cancelContract($iid)
     {
         DB::table('internships')
             ->where('id', $iid)
             ->update(['contractGenerated' => null]);
 
-        return $this->generateContract($iid);
+        // Instantiate the internship controller to get back to the internship view
+        $internshipController = new InternshipsController();
+        return $internshipController->edit($iid);
     }
 }

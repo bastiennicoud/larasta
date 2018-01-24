@@ -42,7 +42,7 @@
         @endif
     </table>
     {{-- Action buttons --}}
-    @if(substr($iship->contractGenerated,0,4) == "0000")
+    @if(substr($iship->contractGenerated,0,4) == "0000" || $iship->contractGenerated == null)
         <a href="/contract/{{ $iship->id }}">
             <button class="btn-primary">Générer le contrat</button>
         </a>

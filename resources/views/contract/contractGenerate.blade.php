@@ -25,13 +25,6 @@
                 <button>Générer</button>
             </form>
         @else
-            <div class="row content-box">
-                <div class="col-lg-6 col-lg-offset-3">
-                    <div class="container-fluid text-justify">
-                        <?php error_log(print_r($contract[0]->contractText)); ?>
-                    </div>
-                </div>
-            </div>
             <br> Contrat généré le : {{$iDate->contractGenerated}}
             <a href="/contract/{{$iid}}/cancel"><button>Annuler</button></a>
         @endif
