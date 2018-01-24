@@ -12,7 +12,7 @@
     <div class="container-fluid">
         <h1>Visualisation de contract</h1>
 
-        <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+        <script src="/node_modules/tinymce/tinymce.min.js"></script>
         <script>
             tinymce.init({
                 selector:'textarea',

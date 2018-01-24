@@ -226,7 +226,6 @@ class ContractController extends Controller
             $pdf->loadHTML($request->contractText);         // Inserts text into the file and converts markups into style
             return $pdf->stream('Contract-'.$iid.'.pdf');   // Finalize pdf file, name it and send to download
         }
-
         return $this->generateContract($iid);
     }
 
