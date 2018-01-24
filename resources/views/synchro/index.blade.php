@@ -1,16 +1,31 @@
 @extends ('layout') @section ('content')
 
 <div class="row">
-	<h1>Synchronisation</h1>
-<div>
-<div class="row">
-	<div class="col-lg-2 col-md-2 col-xl-2 col-md-offset-2 col-lg-offset-5 col-offset-xl-2">
-		<a href="/synchro/delete" class="btn btn-danger" role="button">Delete</a>
-	</div>
-	<div class="col-lg-2 col-md-2 col-xl-2 col-md-offset-2 col-lg-offset-2 col-offset-xl-2">
-			<a href="/synchro/new" class="btn btn-info" role="button">Add</a>
+	<div class="">
+		<h1>Synchronisation</h1>
 	</div>
 </div>
+<div class="row">
+	<div class="alert alert-info messageLoading">
+		<h4>Veuillez patienter</h4>
+	</div>
+</div>
+<form method="POST" action="/synchro/modify" class="formModify">
+	{{ csrf_field() }}
+	<div class="row">
+		<div class="col-lg-1 col-md-2 col-xl-2 col-md-offset-2 col-lg-offset-4 col-offset-xl-2 modify-buttons">
+			<button name="modify" class="btn btn-danger" type="submit" value="delete">Delete</button>
+		</div>
+		<div class="col-lg-1 col-lg-offset-1 modify-buttons">
+			<button class="btn btn-link selectDelete">Uncheck All</button>
+		</div>
+		<div class="col-lg-1 col-md-2 col-xl-2 col-md-offset-2 col-lg-offset-1 col-offset-xl-2 modify-buttons">
+				<button name="modify" class="btn btn-info" type="submit" value="add">Add</button>
+		</div>
+		<div class="col-lg-1 col-lg-offset-1 modify-buttons">
+			<button class="btn btn-link selectAdd">Uncheck All</button>
+		</div>
+	</div>
 		<div class="row">
 			<div class="col-md-2 col-lg-2 col-xl-2 col-md-offset-1 col-lg-offset-1 col-offset-xl-1">
 				<table class="table table-bordered">
@@ -20,7 +35,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						@foreach($goodStudents as $student)
+						@foreach($goodStudents as $key => $student)
 						<tr class="success">
 							<td>{{ $student->lastname . " " . $student->firstname }}</td>
 						</tr>
@@ -34,14 +49,13 @@
 					<thead>
 						<tr>
 							<th class="text-center">Nom</th>
-							<th><button type="button" class="btn btn-link">Check all</button></th>
 						</tr>
 					</thead>
 					<tbody>
-						@foreach($obsoleteStudents as $student)
+						@foreach($obsoleteStudents as $key => $student)
 						<tr class="danger">
 							<td>{{ $student->lastname . " " . $student->firstname }}</td>
-							<td><input type="checkbox" checked></td>
+							<td><input type="checkbox" name="deleteCheck[]" value="{{ $student->intranetUserId }}" checked></td>
 						</tr>
 						@endforeach
 					</tbody>
@@ -53,21 +67,28 @@
 					<thead>
 						<tr>
 							<th class="text-center">Nom</th>
-							<th><button type="button" class="btn btn-link">Check all</button></th>
 						</tr>
 					</thead>
 					<tbody>
-						@foreach($newStudents as $student)
+						@foreach($newStudents as $key => $student)
 						<tr class="info">
 							<td>{{ $student['lastname'] . " " . $student['firstname'] }}</td>
-							<td><input type="checkbox" checked></td>
+							<td><input type="checkbox" name="addCheck[]" value="{{ $key }}" checked></td>
 						</tr>
 						@endforeach
 					</tbody>
 				</table>
 			</div>
 		</div>
+	</form>
 
 
+@stop
 
-		@stop
+@section ('page_specific_js')
+    <script src="/js/synchro.js"></script>
+@stop
+
+@section ('page_specific_css')
+	<link rel="stylesheet" href="/css/synchro.css">
+@stop
