@@ -25,7 +25,7 @@
         {{ session('status') }}
     </div>
 @endif
-<div class="simple-box container-fluid col-md-2 text-center">
+<div id="side-menu" class="simple-box container-fluid col-md-2 text-center">
     <table class="table table-striped text-left larastable">
         <tr>
             <td><a href="/listPeople"><img alt="Personnes" src="/images/contact.png">Personnes</a></td>
@@ -37,13 +37,16 @@
             <td><a href="/"><img alt="Places" src="/images/internships.png">Stages</a></td>
         </tr>
         <tr>
+            <td><a href="/visits"><img alt="Places" src="/images/internships.png">Visites</a></td>
+        </tr>
+        <tr>
             <td><a href="/about"><img alt="News" src="/images/news.png">News</a></td>
         </tr>
         <tr>
             <td><a href="/wishesMatrix"><img alt="Places" src="/images/wishes.png">Souhaits</a></td>
         </tr>
         <tr>
-            <td><a href="/about"><img alt="Documents" src="/images/documents.png">Documents</a></td>
+            <td><a href="/documents"><img alt="Documents" src="/images/documents.png">Documents</a></td>
         </tr>
         @if (CPNVEnvironment\Environment::currentUser()->getLevel() > 1)
             <tr>
