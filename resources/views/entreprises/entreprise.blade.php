@@ -63,9 +63,11 @@
                         @endif
                     </div>
                 </div>
-                <div class="row">
-                    <img style='width:32px;' src='/images/map.png' id="maps" OnClick='window.location="http://maps.google.com/?q={{$companie->lat}},{{$companie->lng}}"'>
-                </div>
+                @if(isset($companie->lat))
+                    <div class="row">
+                        <img style='width:32px;' src='/images/map.png' id="maps" OnClick='window.location="http://maps.google.com/?q={{$companie->lat}},{{$companie->lng}}"'>
+                    </div>
+                @endif
             </div>
         @endforeach
         <div class="row content-box">

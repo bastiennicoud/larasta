@@ -138,7 +138,7 @@ class EntrepriseController extends Controller
         $url = "https://maps.google.com/maps/api/geocode/json?address=$adress1,$request->npa,Suisse&sensor=false&key=" . $_ENV['API_GOOGLE_MAP'];
         $data = file_get_contents($url);
         $json = json_decode($data, true);
-        $error = $this->checkGoogleAPI($data);
+        $error = $this->checkGoogleAPI($json);
 
 
         if ($error != null) { // If have an error, return the message
