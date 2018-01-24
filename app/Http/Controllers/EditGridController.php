@@ -24,9 +24,9 @@ class EditGridController extends Controller
     {
         // Check if the user is a superuser
         // We grant him access to editGrid if he has access (superuser only, level = 2)
-        if (Environment::currentUser()->getLevel() >1 ) { // ! ! ! Let the access for developpment, but have to put it at >1
+        if (Environment::currentUser()->getLevel() > 1 ) {
 
-            // Get the record from the DB and return to the view
+            // Return to the view with record of tables Criteria and EvaluationSection
             $dataCriteria = Criteria::all();
             $dataSection = EvaluationSection::all();
             return view('editGrid/editGrid')->with(
