@@ -54,14 +54,11 @@
                 <td class="col-md-1">{{ (new DateTime($internship->endDate))->format('d.m.Y') }}</td>
                 <td class="col-md-1">
                     @if($internship->mailstate == 1)
-                        <span id="ok" class="ok hideb glyphicon glyphicon-ok tick"></span class="mok hideb">&nbsp;<span id="mok">envoyé</span>
+                        <span id="mok">envoyé</span>
                     @else
-                        <span id="remove" class="remove hideb glyphicon glyphicon-remove cross"></span>&nbsp;<span id="mremove" class="hideb">pas encore envoyé</span>
+                        <span id="mremove">pas encore envoyé</span>
                     @endif
-                    <select id='selm' name="selm" class="hidden hidea">
-                            <option value="1">envoyé</option>
-                            <option value="0">pas envoyé</option>
-                    </select>
+                    <input type="checkbox" class="checkm hidea hidden" name="checkm" @if($internship->mailstate == 1) checked @endif>
                 </td>
             </tr>
             <tr>

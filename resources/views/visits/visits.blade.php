@@ -34,8 +34,6 @@
                         <td class="col-md-1 text-center">
                             @if($iship->mailstate == 1)
                                 <span class="ok glyphicon glyphicon-ok tick"></span>
-                            @else
-
                             @endif
                         </td>
                     </tr>

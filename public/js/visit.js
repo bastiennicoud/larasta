@@ -23,4 +23,8 @@ $(document).ready(function(){
         $('.hidea').addClass('hidden');
         $('.hideb').removeClass('hidden');
     });
+
+    $('#checkm').on('change', function(){
+        $('#checkm').val(this.checked ? 1 : 0);
+    });
 });

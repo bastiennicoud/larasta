@@ -78,10 +78,16 @@ class VisitsController extends Controller
                 ->orderBy('visits.id', 'DESC')
                 ->get();
 
+            /*
+            $state = DB::table('visitsstates')
+                ->get();
+            */
+
             // Returns all details to his/her in visits' main page
             return view('visits/visits')->with(
                 [
                     'internships' => $internships,
+                    //'state' => $state,
                     'message' => $this->message
                 ]
             );
@@ -297,7 +303,7 @@ class VisitsController extends Controller
     /*
      * -- update --
      *
-     * The Method update
+     * The Method update allow the user to update visit
      *
      * */
     public function update(Request $request, $id)
@@ -314,7 +320,7 @@ class VisitsController extends Controller
             $state = $request->input('state');
             $date = $request->upddate;
             $date .= " ".$request->updtime;
-            $mail = $request->input('selm');
+            $mail = $request->has('checkm');
 
             /*
              * Update visit from values above.
@@ -355,11 +361,19 @@ class VisitsController extends Controller
             return redirect('/')->with('status', "You don't have the permission to access this function.");
         }
     }
-/*
+
+    /*
+     * -- changeFilter --
+     *
+     * The Method to filter the list
+     *
+     * */
+    /*
     public function changeFilter(Request $request)
     {
         // Get states from db (to have descriptions)
         $filter = DB::table('contractstates')->select('id', 'stateDescription')->get();
+
         // patch list with values from post
         foreach ($filter as $state)
         {
@@ -407,5 +421,6 @@ class VisitsController extends Controller
             $iships = array();
 
         return view('internships/internships')->with('iships', $iships)->with('statefilter', $filter);
-    }*/
+    }
+    */
 }
