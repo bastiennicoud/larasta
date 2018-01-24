@@ -52,8 +52,6 @@ Route::post('/contract/{iid}/view', 'ContractController@visualizeContract');
 Route::post('/contract/{iid}/save', 'ContractController@saveContract');
 
 Route::get('/contract/{iid}/cancel', 'ContractController@cancelContract');
-Route::get('/contract/{internshipid}', 'ContractController@index');
-Route::get('/contract/{internshipid}/view', 'ContractController@index');
 
 // Steven
 
