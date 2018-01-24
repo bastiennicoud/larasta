@@ -193,7 +193,7 @@ return [
          * PDF Service Providers...
          */
 
-        \Dompdf\Dompdf::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -243,6 +243,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        Barryvdh\DomPDF\Facade::class,
 
     ],
 
