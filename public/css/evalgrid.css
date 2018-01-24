@@ -4,6 +4,23 @@
 * Bastien Nicoud
 */
 
+/* Hide elements on print */
+@media print {
+  #side-menu {
+    display: none !important;
+  }
+
+  .btn {
+    display: none !important;
+  }
+}
+
+/* global margin */
+#evaluation-grid {
+  margin: 40px auto;
+}
+
+/* inputs layouts */
 .evalgrid {
 
   border: none;
@@ -37,6 +54,8 @@
   outline: none;
   background-color: rgb(224, 224, 224);
 }
+
+/* html tables layout */
 
 .gridform.w12 {
   width: 12.5%

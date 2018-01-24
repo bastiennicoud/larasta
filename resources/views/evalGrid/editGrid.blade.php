@@ -23,11 +23,9 @@ $level
 
 @section ('content')
 
-<div class="container">
+<div id="evaluation-grid" class="container">
 
-    <h1>Grille d'évaluation</h1>
-
-    <h3>ID de la grille d'evaluation : {{ $gridID }}</h3>
+    <h1>Grille d'évaluation de stage :</h1>
 
     {{--  Contains all the grid  --}}
     <div class="grid">
@@ -97,12 +95,10 @@ $level
                     {{--  SECTION TYPE 1  --}}
                     @if ($evalSection->sectionType == 1)
 
-                        <h4>Section de type 1</h4>
-
                         <thead>
 
                             <tr>
-                                <th class="gridform w20"><p data-section="{{ $evalSection->id }}">{{ $evalSection->sectionName }} :</p></th>
+                                <th class="gridform w20"><p>{{ $evalSection->sectionName }} :</p></th>
                                 <th class="gridform w20">Observations attendues</th>
                                 <th class="gridform w10">Points</th>
                                 <th class="gridform w50">Remarques personnalisées</th>
@@ -121,31 +117,55 @@ $level
 
                                     @if ($mode == 'readonly')
 
-                                        <td>{{ $criteria->criteriaValue->points }}</td>
+                                        <td>
+                                            <p
+                                                class="gradeinput"
+                                                data-max-grade="{{ $criteria->maxPoints }}"
+                                                data-section-id="{{ $criteria->evaluationSection_id }}">
+                                                {{ $criteria->criteriaValue->points }}
+                                            </p>
+                                            <small> / {{ $criteria->maxPoints }}</small>
+                                        </td>
                                         <td>{{ $criteria->criteriaValue->managerComments }}</td>
 
                                     @elseif ($mode == 'edit')
 
                                         {{--  Display the inputs depending the user level  --}}
                                         @if ($level >= 0)
+
                                             {{--  For each fiels we create a name with the criteria id, and fill the value from the DB or from the old inpuf if the form is reloaded (after a validation fails)  --}}
                                             {{--  The data-max is used by the js to verifiy and display a live average of the grades  --}}
                                             <td>
                                                 <input
-                                                    class="evalgrid input"
-                                                    data-max="{{ $criteria->maxPoints }}"
+                                                    class="evalgrid input gradeinput"
                                                     type="number"
+                                                    step="0.05"
+                                                    max="{{ $criteria->maxPoints }}"
+                                                    data-max-grade="{{ $criteria->maxPoints }}"
+                                                    data-section-id="{{ $criteria->evaluationSection_id }}"
                                                     name="{{ $criteria->criteriaValue->id }}[grade]"
                                                     value="{{ old($criteria->criteriaValue->id . '.grade') ? old($criteria->criteriaValue->id . '.grade') : $criteria->criteriaValue->points }}">
+                                                <p><small> / {{ $criteria->maxPoints }}</small></p>
                                             </td>
                                             <td>
                                                 <textarea class="evalgrid textarea" name="{{ $criteria->criteriaValue->id }}[mComm]">
                                                     {{ old($criteria->criteriaValue->id . '.mComm') ? old($criteria->criteriaValue->id . '.mComm') : $criteria->criteriaValue->managerComments }}
                                                 </textarea>
                                             </td>
+
                                         @else
-                                            <td><p>{{ $criteria->criteriaValue->points }}</p></td>
+
+                                            <td>
+                                                <p
+                                                    class="gradeinput"
+                                                    data-max-grade="{{ $criteria->maxPoints }}"
+                                                    data-section-id="{{ $criteria->evaluationSection_id }}">
+                                                    {{ $criteria->criteriaValue->points }}
+                                                </p>
+                                                <small> / {{ $criteria->maxPoints }}</small>
+                                            </td>
                                             <td>{{ $criteria->criteriaValue->managerComments }}</td>
+
                                         @endif
                                         
                                     @endif
@@ -156,7 +176,7 @@ $level
                             <tr>
                                 <td colspan="2"><strong>Note pour les {{ $evalSection->sectionName }} :</strong></td>
                                 {{--  data-grades is used to transmit to the js the number of grades in the section (to calculate the avg)  --}}
-                                <td><p><strong class="evalgrid-grade" data-grades="{{ $evalSection->criterias->count() }}"></strong></p></td>
+                                <td><p class="evalgrid"><strong class="evalgrid-grade" data-section-id="{{ $evalSection->id }}"></strong><small> / 6</small></p></td>
                                 <td></td>
                             </tr>
 
@@ -168,8 +188,6 @@ $level
                     {{--  --------------  --}}
                     {{--  SECTION TYPE 2  --}}
                     @elseif ($evalSection->sectionType == 2)
-
-                        <h4>Section de type 2</h4>
 
                         <thead>
 
@@ -238,8 +256,6 @@ $level
                     {{--  --------------  --}}
                     {{--  SECTION TYPE 3  --}}
                     @elseif ($evalSection->sectionType == 3)
-
-                        <h4>Section de type 3</h4>
 
                         <thead>
 
@@ -313,8 +329,8 @@ $level
 
                     {{--  Admin and teacher buttons  --}}
 
-                    <button class="btn btn-info" type="submit" name="submit" value="save">Enregistrer la grille</button>
-                    <button class="btn btn-danger" type="submit" name="submit" value="checkout">Valider définitivement la grille</button>
+                    <button class="btn btn-lg btn-info" type="submit" name="submit" value="save">Enregistrer la grille</button>
+                    <button class="btn btn-lg btn-danger" type="submit" name="submit" value="checkout">Valider définitivement la grille</button>
                 
                 @elseif ($level == 0)
 
