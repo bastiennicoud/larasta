@@ -4,13 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use CPNVEnvironment\Environment;
+/**
+ * TODO
+ * Add the SoftDeletes to the model.
+ */
 
 class Persons extends Model
 {
-    //use SoftDeletes;
 
-    //protected $dates = ['deleted_at'];
-
+    public $timestamps = false;
+    
     /**
      * Relation to the internship of the student
      */

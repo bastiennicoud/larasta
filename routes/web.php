@@ -57,9 +57,7 @@ Route::get('/contract/{iid}/cancel', 'ContractController@cancelContract');
 
 Route::get('/synchro', 'SynchroController@index');
 
-Route::get('/synchro/new', 'SynchroController@new');
-
-Route::get('/synchro/delete', 'SynchroController@delete');
+Route::post('/synchro/modify', 'SynchroController@modify');
 
 // Jean-Yves
 Route::get('/visits','VisitsController@index');
