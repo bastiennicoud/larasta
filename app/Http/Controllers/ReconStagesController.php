@@ -197,7 +197,7 @@ class ReconStagesController extends Controller
                         'admin_id'                  => $internship->admin_id,
                         'intern_id'                 => $id,
                         'contractstate_id'          => '2',
-                        'previous_id'               => $internship->previous_id,
+                        'previous_id'               => $internship->id,
                         'internshipDescription'     => $internship->internshipDescription,
                         'grossSalary'               => $salary,
                         'contractGenerated'         => null,

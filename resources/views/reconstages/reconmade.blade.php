@@ -6,11 +6,11 @@
 @extends ('layout')
 
 @section ('page_specific_css')
-    <link rel="stylesheet" type="text/css" href="/css/documents.css"></script>
+    <link rel="stylesheet" type="text/css" href="/css/documents.css">
 @stop
 
 @section ('content')
-    <a href="{{'/reconstages'}}">Reconduction page</a></br>
+    <a href="/reconstages">Reconduction page</a></br>
     <h1>Reconduction effectuée</h1>
 
     <table class="reconduction">
@@ -41,5 +41,9 @@
         </tr>
     @endforeach
     </table>
+<<<<<<< Updated upstream
     <a href="{{'/'}}"><button class="btn btn-primary">Retour à la page d'accueil</button></a>
+=======
+    <a href="/"><button class="btn btn-default">Retour à la page d'accueil</button></a>
+>>>>>>> Stashed changes
 @stop

@@ -6,7 +6,7 @@
 @extends ('layout')
 
 @section ('page_specific_css')
-    <link rel="stylesheet" type="text/css" href="/css/documents.css"></script>
+    <link rel="stylesheet" type="text/css" href="/css/documents.css">
 @stop
 
 @section ('content')
@@ -43,8 +43,13 @@
             </tbody>
         
         </table>
+<<<<<<< Updated upstream
         <button id="reconduire" type="submit" class="btn btn-primary">Reconduire</button>
         <div class="checkBox"><input type="checkbox" id="check" >Select All</input></div>
+=======
+        <button class="btn btn-default" id="reconduire" type="submit">Reconduire</button>
+        <div class="checkBox"><input type="checkbox" id="check">Select All</input></div>
+>>>>>>> Stashed changes
     </form>
     
 
