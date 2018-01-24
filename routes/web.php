@@ -110,8 +110,9 @@ Route::prefix('evalgrid')->group(function () {
 
 // Nicolas - Stages
 Route::get('/reconstages', 'ReconStagesController@index');
-Route::get('/reconstages/reconmade', 'ReconStagesController@displayStages');
-
+Route::post('/reconstages/reconmade', 'ReconStagesController@reconStages');
+// Nicolas - Documents
+Route::get('/documents', 'DocumentsController@index');
 
 // Davide
 Route::get('/listPeople', 'PeopleControlleur@index');
@@ -124,3 +125,9 @@ Route::get('/listPeople/update/{id}','PeopleControlleur@update');
 
 //Julien - Grille d'évaluation - Modélisation
 Route::get('/editGrid', 'EditGridController@index');
+Route::post('/editGrid/editCriteria', 'EditGridController@editCriteria');
+Route::post('/editGrid/editSection', 'EditGridController@editSection');
+Route::post('/editGrid/removeCriteria', 'EditGridController@removeCriteria');
+Route::post('/editGrid/removeSection', 'EditGridController@removeSection');
+Route::post('/editGrid/addCriteria', 'EditGridController@addCriteria');
+Route::post('/editGrid/addSection', 'EditGridController@addSection');

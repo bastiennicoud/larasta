@@ -1,26 +1,39 @@
+//------------------------------------------------------------
+// Nicolas Henry
+// SI-T1a
+// reconstages.js
+//------------------------------------------------------------
+
 $(document).ready(function(){
     $("#check").change(function () {
         $("input:checkbox").prop('checked', $(this).prop("checked"));
     });
 
 
-    var $checkboxes = $('input[type="checkbox"]');
-
-    $checkboxes.change(function(){
-        var countCheckedCheckboxes = $checkboxes.filter(':checked').length;
-        $('#count-checked-checkboxes').text(countCheckedCheckboxes);
-
-        
-        
+    $('input').on('click',function () {
+        if ($('td').is(':checked')) {
+            $('#reconduire').css('display', 'inline-block');
+        } else {
+            $('#reconduire').css('display', 'none');
+        }
     });
 
-    $("td input").click(function(event){
-        tutu = $(this).attr("id")
-        a =[];
+    $('input').on('click',function () {
+        if ($('.checkList').is(':checked')) {
+            $('#reconduire').css('display', 'inline-block');
+        } 
+        else {
+            $('#reconduire').css('display', 'none');
+        }
+    });
 
-            a.push(tutu);
-            console.log(a);
-            alert(tutu);
+    $('.checkBox').on('click',function () {
+        if ($('#check').is(':checked')) {
+            $('#reconduire').css('display', 'inline-block');
+        } 
+        else {
+            $('#reconduire').css('display', 'none');
+        }
     });
 
  });

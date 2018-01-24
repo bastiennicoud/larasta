@@ -63,6 +63,9 @@
             "time": "2017-07-29T19:01:17+00:00"
         },
         {
+    "content-hash": "6663bd7ea44c1653603c87854cb347ff",
+    "packages": [
+        {
             "name": "components/jquery",
             "version": "2.2.4",
             "source": {

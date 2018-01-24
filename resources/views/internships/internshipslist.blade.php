@@ -9,6 +9,7 @@
             <th>Responsable administratif</th>
             <th>Responsable</th>
             <th>Stagiaire</th>
+            <th>MC</th>
             <th>Etat</th>
         </tr>
         </thead>
@@ -20,6 +21,7 @@
                 <td>{{ $iship->arespfirstname }} {{ $iship->aresplastname }}</td>
                 <td>{{ $iship->irespfirstname }} {{ $iship->iresplastname }}</td>
                 <td>{{ $iship->studentfirstname }} {{ $iship->studentlastname }}</td>
+                <td>{{ $iship->mcini }}</td>
                 <td>{{ $iship->stateDescription }}</td>
             </tr>
         @endforeach
