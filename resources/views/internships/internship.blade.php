@@ -42,13 +42,14 @@
         @endif
     </table>
     {{-- Action buttons --}}
-    @if(substr($iship->contractGenerated,0,4) == "0000")
+    @if(substr($iship->contractGenerated,0,4) == "0000" || $iship->contractGenerated == null)
         <a href="/contract/{{ $iship->id }}">
-            <button class="btn-primary">Générer le contrat</button>
+            <button class="btn btn-primary">Générer le contrat</button>
         </a>
     @else
-        <a href="/contract/{{ $iship->id }}/view">
-            <button class="btn-secondary">Voir le contrat</button>
+        <br> Contrat généré le : {{$iship->contractGenerated}}<br>
+        <a href="/contract/{{$iship->id}}/cancel">
+            <button class="btn btn-danger">Réinitialiser</button>
         </a>
     @endif
 @stop

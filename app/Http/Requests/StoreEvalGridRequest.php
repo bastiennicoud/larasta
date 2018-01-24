@@ -14,6 +14,8 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use CPNVEnvironment\Environment;
 use App\Evaluation;
+
+// custom validation rules
 use App\Rules\MaxGridGrade;
 use App\Rules\MinRequiredLevel;
 
@@ -37,6 +39,7 @@ class StoreEvalGridRequest extends FormRequest
             }
         }
 
+        // by default not authored
         return false;
     }
 
