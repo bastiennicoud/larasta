@@ -44,11 +44,11 @@
     {{-- Action buttons --}}
     @if(substr($iship->contractGenerated,0,4) == "0000")
         <a href="/contract/{{ $iship->id }}">
-            <button class="btn-primary">Générer le contrat</button>
+            <button class="btn btn-primary">Générer le contrat</button>
         </a>
     @else
         <a href="/contract/{{ $iship->id }}/view">
-            <button class="btn-secondary">Voir le contrat</button>
+            <button class="btn btn-secondary">Voir le contrat</button>
         </a>
     @endif
 @stop
