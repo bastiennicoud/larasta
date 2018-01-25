@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Flock extends Model
 {
-    
+    public $timestamps = false;   
     /**
      * Relation with the students
      */

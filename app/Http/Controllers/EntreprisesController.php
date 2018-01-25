@@ -1,9 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: antonio.giordano
+ * Created by antonio.giordano
  * Date: 08.01.2018
- * Time: 08:19
  */
 
 namespace App\Http\Controllers;
@@ -14,12 +12,10 @@ use Illuminate\Support\Facades\DB;
 
 class EntreprisesController extends Controller
 {
+
     /**
-     * index
-     *
-     * Display table with all companies
-     *
-     * @return view entreprises/entreprise
+     * Display a list of all company
+     * @return $this
      */
     public function index()
     {
@@ -28,35 +24,61 @@ class EntreprisesController extends Controller
         $companies = DB::table('companies')
             ->join('locations', 'location_id', '=', 'locations.id')
             ->select('companies.id','companyName','address1','address2','postalCode','city')
+            ->orderBy('companyName','asc')
             ->get();
 
-        return view('entreprises/entreprises')->with(['companies' => $companies, 'user' => $user]);
+        $eType = DB::table('contracts') // Get the contracts for filter
+            ->select('id', 'contractType')
+            ->get();
+
+        return view('entreprises/entreprises')->with(['companies' => $companies, 'user' => $user, 'contracts' => $eType]);
     }
 
 
-
     /**
-     * newEval
-     *
-     * This method register a new company
-     * 1. Get the company name
-     * 2. Save it into database
-     * 3. Get the last insert id
-     *
-     * @param Request $request
-     *
-     * @return redirect entreprise/$id
+     * Create a new company
+     * @param Request $request (nameE)
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function add(Request $request){
+        $id = DB::table('locations')->insertGetId(['address1'=>null]); // Create row for location
 
-        $id = DB::table('locations')->insertGetId(['address1'=>null]);
-
-        $id = DB::table('companies')->insertGetId(
+        $id = DB::table('companies')->insertGetId( // Create new company
             ['companyName' => $request->nameE, 'contracts_id' => 3,'location_id'=>$id]
         );
+        return redirect('entreprise/'.$id); // Go on details page of the new company created
+    }
 
+    /**
+     * Get the filter and display
+     * @param Request $request (type)
+     * @return $this
+     */
+    public function filter(Request $request)
+    {
+        if ($request->type == 0) // When type = 0, show all company
+        {
+            $companies = DB::table('companies')
+                ->join('locations', 'location_id', '=', 'locations.id')
+                ->select('companies.id','companyName','address1','address2','postalCode','city')
+                ->get();
+        }
+        else // Show only company when contracts_id = type
+        {
+            $companies = DB::table('companies')
+                ->join('locations', 'location_id', '=', 'locations.id')
+                ->select('companies.id','companyName','address1','address2','postalCode','city')
+                ->where('contracts_id', $request->type)
+                ->get();
+        }
 
-        return redirect('entreprise/'.$id);
+        $eType = DB::table('contracts')
+            ->select('id', 'contractType')
+            ->get();
+
+        $user = Environment::currentUser();
+
+        return view('entreprises/entreprises')->with(['companies' => $companies, 'user' => $user, 'filtr' => $request->type,  'contracts' => $eType]);
     }
 
 

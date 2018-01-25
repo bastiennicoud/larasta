@@ -40,9 +40,14 @@ Route::post('/remarks/update','RemarksController@update');
 // Antonio - Entreprises list
 Route::get('/entreprises', 'EntreprisesController@index');
 Route::post('/entreprises/add', 'EntreprisesController@add');
+Route::post('/entreprises/filter', 'EntreprisesController@filter');
+
+// Antonio - Entreprise details
 Route::get('/entreprise/{id}', 'EntrepriseController@index');
-Route::post('/entreprise/{id}/save', 'EntrepriseController@save');
 Route::get('/entreprise/{id}/remove', 'EntrepriseController@remove');
+Route::post('/entreprise/{id}/save', 'EntrepriseController@save');
+Route::post('/entreprise/addRemarks', 'EntrepriseController@addRemarks');
+
 
 // Quentin N - Contract generation
 Route::get('/contract/{iid}', 'ContractController@generateContract');
@@ -57,15 +62,12 @@ Route::get('/contract/{iid}/cancel', 'ContractController@cancelContract');
 
 Route::get('/synchro', 'SynchroController@index');
 
-Route::get('/synchro/new', 'SynchroController@new');
-
-Route::get('/synchro/delete', 'SynchroController@delete');
+Route::post('/synchro/modify', 'SynchroController@modify');
 
 // Jean-Yves
 Route::get('/visits','VisitsController@index');
 Route::post('/visits', 'VisitsController@changeFilter');
 Route::get('/visits/{rid}/manage','VisitsController@manage');
-Route::get('/visits/add', 'VisitsController@add');
 Route::post('/visits/create','VisitsController@create');
 Route::get('/visits/{id}/mail','VisitsController@mail');
 Route::get('/visits/{id}/delete', 'VisitsController@delete');
@@ -73,6 +75,8 @@ Route::post('/visits/{id}/update', 'VisitsController@update');
 
 // Add by Benjamin Delacombaz 12.12.2017 10:40
 Route::get('/wishesMatrix', 'WishesMatrixController@index');
+// Add by Benjamin Delacombaz 21.01.2018
+Route::post('/wishesMatrix', 'WishesMatrixController@save');
 
 // Kevin
 Route::get('/traveltime/{flockId}/load', 'TravelTimeController@load');
@@ -118,7 +122,7 @@ Route::get('/documents', 'DocumentsController@index');
 Route::get('/listPeople', 'PeopleControlleur@index');
 Route::post('/listPeople/category', 'PeopleControlleur@category');
 Route::get('/listPeople/{id}/info','PeopleControlleur@info');
-Route::get('/listPeople/update/{id}','PeopleControlleur@update');
+Route::post('/listPeople/update/{id}','PeopleControlleur@update');
 
 //
 

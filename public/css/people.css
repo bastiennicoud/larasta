@@ -41,7 +41,6 @@
 }
 
 #people_container td:first-child:hover{
-    background: lightskyblue;
     cursor: pointer;
 }
 
@@ -58,7 +57,7 @@
     color: white;
 }
 
-/* Varius */
+/* Personale elements */
 
 .margin10
 {
@@ -91,6 +90,10 @@
     padding-left: 10px;
 }
 
+.modal-row{
+    padding: 5px;
+}
+
 /* People Info */
 
 #people_Info span:first-child{
@@ -105,15 +108,39 @@
     margin-right: 10px;
 }
 
-#people-btn_desactive{
+.people-btn_desactive{
     font-size: 9px ;
 }
 
-#people-btn_desactive{
+.people-btn_desactive{
     height: 20px;
     padding: 5px;
     padding-top: 3px;
     margin-top: -4px;
+}
+
+#people-desactivate-Title{
+    position: absolute;
+    right: 50px;
+    margin-top: 2px;
+    padding: 0px;
+}
+
+/* Modal */
+
+#peopleModal .modal-body {
+    padding-bottom: 20px;
+}
+
+#peopleModal .page-header {
+    margin: 0px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.modal-row div:first-child{
+    padding-top: 7px;
 }
 
 

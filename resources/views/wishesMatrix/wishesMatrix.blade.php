@@ -1,9 +1,9 @@
 <!-- ///////////////////////////////////              -->
 <!-- Benjamin Delacombaz                              -->
 <!-- Wishes Matrix layout                             -->
-<!-- Version 0.4                                      -->
+<!-- Version 0.7                                      -->
 <!-- Created 18.12.2017                               -->
-<!-- Last edit 16.01.2017 by Benjamin Delacombaz      -->
+<!-- Last edit 23.01.2017 by Benjamin Delacombaz      -->
 
 
 @extends ('layout')
@@ -23,7 +23,7 @@
                 @foreach ($persons as $person)
                     @if ($person->initials!="")
                         <!-- Add access class for authoized to edit a col -->
-                        @if ($person->initials == $currentUser->initials) 
+                        @if ($person->initials == $currentUser->getInitials()) 
                             <th class="access" value="{{ $person->id }}">{{ $person->initials }}</th>
                         @else
                             <th value="{{ $person->id }}">{{ $person->initials }}</th>   
@@ -38,7 +38,7 @@
                     @foreach ($persons as $person)
                         @if ($person->initials!="")
                         <!-- !!!!!!!!!!!!!!!!!!!!!!!!!PROBLEM BECAUSE NOT EMPTY BECAUSE LARAVEL ADD SYNTAX IN TD !!!!!!!!!!!!!!!!!!!!!! -->
-                            @if ($currentUser->role != 0)
+                            @if ($currentUser->getLevel() != 0)
                                 <td class="clickableCase locked teacher">
                             @else
                                 <td class="clickableCase">
@@ -56,16 +56,16 @@
                 </tr>
             @endforeach
         </table>
-        @if ($currentUser->role != 0)
+        @if ($currentUser->getLevel() != 0)
             <img id="lockTable" src="/images/padlock_32x32.png"/>
         @endif
     </div>
     <!-- Check if current user is not a student -->
-    @if ($currentUser->role != 0)
-        <a href="/traveltime/{{$currentUser->flock_id}}/load" class="col-md-3">Travel time</a>
-        <label>Modifiable jusqu'au</label> <input type="date" name="editDate"/>
+    @if ($currentUser->getLevel() != 0)
+        <a href="/traveltime/{{$currentUserFlockId}}/load" class="col-md-3">Travel time</a>
+        <label>Modifiable jusqu'au</label> <input id="dateEndChoices" placeholder="AAAA-MM-DD" type="date" name="editDate" value="{{ $dateEndWishes }}"/>
     @endif
-    <input type="button" name="validButton" value="Enregistrer"/>
+    <button id="save">Enregistrer</button>
 @stop
 
 @section ('page_specific_js')

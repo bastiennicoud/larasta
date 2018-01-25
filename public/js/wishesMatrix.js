@@ -1,9 +1,9 @@
 //------------------------------------------------------------
 // Benjamin Delacombaz
-// version 0.4
+// version 0.6
 // WishesMatrixController
 // Created 18.12.2017
-// Last edit 16.01.2017 by Benjamin Delacombaz
+// Last edit 23.01.2017 by Benjamin Delacombaz
 //------------------------------------------------------------
 
 $(document).ready(function(){
@@ -144,6 +144,41 @@ $(document).ready(function(){
             }     
          });
     }
+    // Event when change on date picker
+    $('#dateEndChoices').change(function(){
+        var dateNow = new Date();
+        var dateWritted = new Date($('#dateEndChoices').val());
+        if(dateWritted <= dateNow)
+        {
+            // View The toast message
+            $('.alert-info').text("La date se trouve dans le passé.");
+            $('.alert-info').removeClass('hidden');
+            cleanMessage();
+        }
+    });
+
+    // Event when click on save button
+    $('#save').click(function(){
+        // Construct object to send
+        var data = {date: $('#dateEndChoices').val()}
+        console.log(data);
+        $.ajax({
+            url: '/wishesMatrix',
+            method: 'post',
+            data: data,
+            dataType: 'json',
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            success : function(code_html, statut){ // code_html contient le HTML renvoyé
+                alert('La modification a été effectuée avec succès')
+            },
+            error : function(result, statut, error){
+                console.log(result)
+                console.log(statut)
+                console.log(error)
+            }
+        });
+    });
+
     // Clean message box
     function cleanMessage()
     {

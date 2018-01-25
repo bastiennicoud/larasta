@@ -3,11 +3,19 @@
  */
 
 function addE() {
-
     $("#input").removeClass("hidden");
-
 }
 
-function endModif(){
-    $("entreprises").submit();
-}
+$(document).ready(function(){
+    $("#Ctype").on("change", function(){
+        $("#ctype").submit();
+    });
+
+    $("#addCompany").hover(function(){
+        $(this).css('cursor','pointer')
+    })
+
+    $("#addCompany").click(function () {
+        addE();
+    })
+});
